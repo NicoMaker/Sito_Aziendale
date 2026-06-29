@@ -18,9 +18,7 @@ import {
 (async function () {
   "use strict";
 
-  // --- Inizializzazioni generali ---
-  initNav();
-  const revealIO = initReveal();
+  // --- Inizializzazioni che non dipendono dal DOM dei contenuti ---
   initParticles();
   initTypewriter();
   initParallax();
@@ -41,11 +39,17 @@ import {
     });
     initCounter();
 
-    // --- Render dei contenuti ---
+    // --- Inizializzo l'Observer per le animazioni di comparsa ---
+    const revealIO = initReveal();
+
+    // --- Render dei contenuti (popola le sezioni) ---
     renderProgetti(progettiData, revealIO);
     renderServizi(serviziData, revealIO);
     renderContatti(siteData, revealIO);
     renderFooterSocial(siteData);
+
+    // --- 🔥 NAVIGAZIONE: ora che il DOM è completo, attivo il nav ---
+    initNav();
 
     // --- Popolamento dropdown categorie ---
     const dropdownMenu = document.querySelector(".nav-dropdown-menu");
@@ -66,28 +70,18 @@ import {
         dropdownMenu.appendChild(li);
       });
 
-      // -------------------------------
-      // DELEGAZIONE EVENTI: ascolto i click su tutto il dropdown
-      // -------------------------------
+      // Delegazione eventi per il dropdown
       dropdownMenu.addEventListener("click", (e) => {
         const link = e.target.closest("a");
-        if (!link) return;
-        // Verifico che sia un link interno al dropdown (con dataset.cat)
-        if (!link.dataset.cat) return;
-
-        e.preventDefault(); // Blocca il comportamento predefinito dell'ancora
+        if (!link || !link.dataset.cat) return;
+        e.preventDefault();
 
         const categoria = link.dataset.cat;
-
-        // Scroll alla sezione progetti (con fallback se non esiste)
         const progettiSection = document.getElementById("progetti");
         if (progettiSection) {
           progettiSection.scrollIntoView({ behavior: "smooth" });
-        } else {
-          console.warn("Sezione #progetti non trovata");
         }
 
-        // Imposta il select e attiva il filtro
         const select = document.getElementById("categoria-select");
         if (select) {
           select.value = categoria;
@@ -96,34 +90,42 @@ import {
       });
     }
 
-    // -------------------------------
-    // SCROLL AUTOMATICO ALL'AVVIO CON HASH #progetti
-    // -------------------------------
-    if (window.location.hash === "#progetti") {
-      // Attendere il completamento del rendering (layout) prima di scrollare
-      // Uso un setTimeout per dare tempo ai contenuti di essere renderizzati
-      setTimeout(() => {
-        const progettiSection = document.getElementById("progetti");
-        if (progettiSection) {
-          progettiSection.scrollIntoView({ behavior: "smooth" });
-        } else {
-          console.warn("Sezione #progetti non trovata per lo scroll iniziale");
-        }
-      }, 600); // 600 ms è un buon compromesso
+    // --- 🔥 SCROLL AUTOMATICO PER QUALSIASI HASH ALL'AVVIO ---
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+      const targetId = hash.substring(1); // rimuovi il #
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        // Attendere che il layout sia stabile
+        setTimeout(() => {
+          targetElement.scrollIntoView({ behavior: "smooth" });
+        }, 500);
+      }
     }
 
-    // -------------------------------
-    // LISTENER DI FILTRO (se non già presente in render.js)
-    // -------------------------------
+    // --- 🔥 FORZO L'AGGIORNAMENTO DELLA CLASSE ACTIVE SUI LINK DI NAV ---
+    // (in caso initNav() non abbia impostato quella corretta all'avvio)
+    setTimeout(() => {
+      const currentHash = window.location.hash || "#home";
+      const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+      navLinks.forEach((a) => {
+        a.classList.toggle("active", a.getAttribute("href") === currentHash);
+      });
+      // Aggiorno anche il mobile nav
+      const mobileLinks = document.querySelectorAll('.nav-mobile a[href^="#"]');
+      mobileLinks.forEach((a) => {
+        a.classList.toggle("active", a.getAttribute("href") === currentHash);
+      });
+    }, 600);
+
+    // --- Listener di filtro per il select ---
     const select = document.getElementById("categoria-select");
     if (select) {
-      // Rimuovo eventuali listener precedenti (per evitare duplicati)
-      // Nota: se render.js ha già un listener, questo si aggiunge e coesiste.
       select.addEventListener("change", function () {
         const categoria = this.value;
         const cards = document.querySelectorAll("#progetti-grid .project-card");
         cards.forEach((card) => {
-          const cardCat = card.dataset.categoria;
+          const cardCat = card.dataset.cat;
           if (categoria === "Tutti" || cardCat === categoria) {
             card.style.display = "";
           } else {
@@ -132,12 +134,29 @@ import {
         });
       });
     }
+
+    // --- 🔥 PROTEZIONE PER I LINK DEI CONTATTI ---
+    document.querySelectorAll(".contatto-card").forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href || href === "#" || href === "#progetti" || href === "") {
+        link.style.pointerEvents = "none";
+        link.style.opacity = "0.5";
+        link.title = "Link non valido (controlla i dati)";
+        console.warn(
+          "⚠️ Link contatto non valido:",
+          link,
+          "href =",
+          href,
+          "\nControlla il file site.json per questo contatto."
+        );
+      }
+    });
   } catch (err) {
     console.error("Errore caricamento dati:", err);
   }
 })();
 
-// --- Gestione anno nel footer (invariata) ---
+// --- Gestione anno nel footer ---
 document.getElementById("current-year").textContent = new Date().getFullYear();
 
 function updateYear() {
