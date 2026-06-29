@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- ===== PARTICLES CANVAS (sfondo animato) ===== -->
+    <!-- ===== PARTICLES CANVAS ===== -->
     <canvas id="particles-canvas"></canvas>
 
     <!-- ========== NAVBAR ========== -->
@@ -120,13 +120,12 @@
           <p class="section-sub" id="progetti-count">Caricamento progetti…</p>
         </div>
 
-        <div
-          class="filter-bar reveal"
-          id="filter-bar"
-          role="group"
-          aria-label="Filtra per categoria"
-        >
-          <!-- I bottoni e il campo di ricerca verranno generati da JS -->
+        <div class="filter-bar reveal" id="filter-bar">
+          <!-- Select per categoria -->
+          <select id="categoria-select" aria-label="Filtra per categoria">
+            <!-- le opzioni verranno generate da JS -->
+          </select>
+          <!-- Campo di ricerca testuale -->
           <div class="search-wrapper">
             <input
               type="text"

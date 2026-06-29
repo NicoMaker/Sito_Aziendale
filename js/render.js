@@ -9,7 +9,8 @@ export function renderProgetti(progettiData, revealObserver) {
   const grid = document.querySelector("#progetti-grid");
   const filterBar = document.querySelector("#filter-bar");
   const searchInput = document.getElementById("search-progetti");
-  if (!grid || !progettiData) return;
+  const select = document.getElementById("categoria-select");
+  if (!grid || !progettiData || !select) return;
   const progetti = progettiData.progetti;
 
   const total = progetti.length;
@@ -18,21 +19,15 @@ export function renderProgetti(progettiData, revealObserver) {
     countEl.textContent = `${total} progetti realizzati su misura per ogni esigenza.`;
   }
 
-  const categorie = ["Tutti", ...new Set(progetti.map((p) => p.categoria))];
+  // Estraggo le categorie uniche, mantenendo l'ordine di comparsa
+  const categorieSet = new Set(progetti.map((p) => p.categoria));
+  const categorie = ["Tutti", ...Array.from(categorieSet)];
 
-  // Pulisco la filter-bar mantenendo il campo di ricerca
-  const searchWrapper = filterBar.querySelector(".search-wrapper");
-  filterBar.innerHTML = "";
-  // Ricreo i bottoni
-  categorie.forEach((cat) => {
-    const btn = document.createElement("button");
-    btn.className = `filter-btn${cat === "Tutti" ? " active" : ""}`;
-    btn.dataset.cat = cat;
-    btn.textContent = cat;
-    filterBar.appendChild(btn);
-  });
-  // Reinserisco il wrapper di ricerca
-  if (searchWrapper) filterBar.appendChild(searchWrapper);
+  // Popolo il select
+  select.innerHTML = categorie
+    .map((cat) => `<option value="${cat}">${cat}</option>`)
+    .join("");
+  select.value = "Tutti";
 
   // Genero le card
   grid.innerHTML = progetti
@@ -58,36 +53,28 @@ export function renderProgetti(progettiData, revealObserver) {
     )
     .join("");
 
-  // Riferimenti a card e bottoni
   const cards = grid.querySelectorAll(".project-card");
-  const filterBtns = filterBar.querySelectorAll(".filter-btn");
 
   // Funzione di filtro combinato
   function filterProjects() {
-    const activeCat = filterBar.querySelector(".filter-btn.active")?.dataset.cat || "Tutti";
+    const categoria = select.value;
     const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
 
     cards.forEach((card) => {
       const cardCat = card.dataset.cat;
       const searchData = card.dataset.search.toLowerCase();
-      const matchCat = activeCat === "Tutti" || cardCat === activeCat;
+      const matchCat = categoria === "Tutti" || cardCat === categoria;
       const matchSearch = query === "" || searchData.includes(query);
       const visible = matchCat && matchSearch;
       card.classList.toggle("hidden", !visible);
       // Nascondo il tag categoria se non siamo in "Tutti"
       const badge = card.querySelector(".project-tag");
-      if (badge) badge.style.display = activeCat === "Tutti" ? "" : "none";
+      if (badge) badge.style.display = categoria === "Tutti" ? "" : "none";
     });
   }
 
-  // Event listener per i bottoni filtro
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.toggle("active", b === btn));
-      filterProjects();
-    });
-  });
-
+  // Event listener per il select
+  select.addEventListener("change", filterProjects);
   // Event listener per la ricerca
   if (searchInput) {
     searchInput.addEventListener("input", filterProjects);
