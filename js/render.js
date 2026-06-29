@@ -8,6 +8,7 @@ const SVG_BE = `<svg viewBox="0 0 24 24"><path d="M22 7h-7v-2h7v2zm1.726 10c-.44
 export function renderProgetti(progettiData, revealObserver) {
   const grid = document.querySelector("#progetti-grid");
   const filterBar = document.querySelector("#filter-bar");
+  const searchInput = document.getElementById("search-progetti");
   if (!grid || !progettiData) return;
   const progetti = progettiData.progetti;
 
@@ -19,18 +20,25 @@ export function renderProgetti(progettiData, revealObserver) {
 
   const categorie = ["Tutti", ...new Set(progetti.map((p) => p.categoria))];
 
-  filterBar.innerHTML = categorie
-    .map(
-      (cat) => `
-    <button class="filter-btn${cat === "Tutti" ? " active" : ""}" data-cat="${cat}">${cat}</button>
-  `,
-    )
-    .join("");
+  // Pulisco la filter-bar mantenendo il campo di ricerca
+  const searchWrapper = filterBar.querySelector(".search-wrapper");
+  filterBar.innerHTML = "";
+  // Ricreo i bottoni
+  categorie.forEach((cat) => {
+    const btn = document.createElement("button");
+    btn.className = `filter-btn${cat === "Tutti" ? " active" : ""}`;
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    filterBar.appendChild(btn);
+  });
+  // Reinserisco il wrapper di ricerca
+  if (searchWrapper) filterBar.appendChild(searchWrapper);
 
+  // Genero le card
   grid.innerHTML = progetti
     .map(
       (p) => `
-    <div class="project-card reveal" data-cat="${p.categoria}">
+    <div class="project-card reveal" data-cat="${p.categoria}" data-search="${p.titolo} ${p.descrizione} ${p.tecnologie.join(' ')}">
       <div class="project-img-wrap">
         <img src="${p.immagine_placeholder}" alt="${p.titolo}" loading="lazy">
         <div class="project-overlay"></div>
@@ -50,27 +58,48 @@ export function renderProgetti(progettiData, revealObserver) {
     )
     .join("");
 
-  let current = "Tutti";
-  filterBar.addEventListener("click", (e) => {
-    const btn = e.target.closest(".filter-btn");
-    if (!btn) return;
-    current = btn.dataset.cat;
-    filterBar
-      .querySelectorAll(".filter-btn")
-      .forEach((b) => b.classList.toggle("active", b.dataset.cat === current));
-    grid.querySelectorAll(".project-card").forEach((card) => {
-      const match = current === "Tutti" || card.dataset.cat === current;
-      card.classList.toggle("hidden", !match);
+  // Riferimenti a card e bottoni
+  const cards = grid.querySelectorAll(".project-card");
+  const filterBtns = filterBar.querySelectorAll(".filter-btn");
+
+  // Funzione di filtro combinato
+  function filterProjects() {
+    const activeCat = filterBar.querySelector(".filter-btn.active")?.dataset.cat || "Tutti";
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+    cards.forEach((card) => {
+      const cardCat = card.dataset.cat;
+      const searchData = card.dataset.search.toLowerCase();
+      const matchCat = activeCat === "Tutti" || cardCat === activeCat;
+      const matchSearch = query === "" || searchData.includes(query);
+      const visible = matchCat && matchSearch;
+      card.classList.toggle("hidden", !visible);
+      // Nascondo il tag categoria se non siamo in "Tutti"
       const badge = card.querySelector(".project-tag");
-      if (badge) badge.style.display = current === "Tutti" ? "" : "none";
+      if (badge) badge.style.display = activeCat === "Tutti" ? "" : "none";
+    });
+  }
+
+  // Event listener per i bottoni filtro
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.toggle("active", b === btn));
+      filterProjects();
     });
   });
 
-  if (revealObserver) {
-    grid
-      .querySelectorAll(".reveal")
-      .forEach((el) => revealObserver.observe(el));
+  // Event listener per la ricerca
+  if (searchInput) {
+    searchInput.addEventListener("input", filterProjects);
   }
+
+  // Osserviamo le card per le animazioni
+  if (revealObserver) {
+    cards.forEach((el) => revealObserver.observe(el));
+  }
+
+  // Eseguo il primo filtro (stato iniziale)
+  filterProjects();
 }
 
 export function renderServizi(serviziData, revealObserver) {

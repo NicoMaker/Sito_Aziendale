@@ -670,13 +670,51 @@ img {
   display: none;
 }
 
-/* ---------- FILTER BAR ---------- */
-.filter-bar {
+/* ---------- FILTER BAR STICKY ---------- */
+#progetti .filter-bar {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 5;
+  background: var(--blu-dark);
+  padding: 16px 0 12px 0;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 40px;
+  align-items: center;
+  gap: 12px;
 }
+
+.search-wrapper {
+  flex: 1 1 200px;
+  min-width: 150px;
+}
+
+#search-progetti {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  color: var(--bianco);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  transition: var(--transition);
+  outline: none;
+}
+
+#search-progetti::placeholder {
+  color: var(--grigio);
+}
+
+#search-progetti:focus {
+  border-color: var(--blu-accent);
+  box-shadow: 0 0 0 3px rgba(26, 108, 255, 0.2);
+}
+
+/* ---------- FILTER BUTTONS ---------- */
 .filter-btn {
   font-family: var(--font-display);
   font-size: 0.82rem;
@@ -1055,6 +1093,15 @@ img {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+  }
+  /* Sticky filter bar adattata su mobile */
+  #progetti .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .search-wrapper {
+    flex: unset;
   }
 }
 

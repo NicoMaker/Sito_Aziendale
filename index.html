@@ -26,7 +26,6 @@
     <nav id="navbar" role="navigation" aria-label="Navigazione principale">
       <div class="container nav-inner">
         <a href="#home" class="nav-logo" aria-label="Nooo Agency - Home">
-          <!-- LOGO come immagine (modifica il percorso) -->
           <img class="nav-logo-icon" src="img/logo.png" alt="Nooo Agency" />
           <span class="nav-logo-text"
             >Nooo<span class="nav-logo-dot">.</span></span
@@ -89,7 +88,6 @@
             <a href="#contatti" class="btn btn-outline">Scrivici ora</a>
           </div>
           <div class="hero-stats">
-            <!-- data-count verrà sovrascritto dinamicamente dal numero di progetti -->
             <div class="stat-item" data-count="0" data-suffix="+">
               <div class="number">
                 <span class="counter">0</span><span class="suffix">+</span>
@@ -127,7 +125,17 @@
           id="filter-bar"
           role="group"
           aria-label="Filtra per categoria"
-        ></div>
+        >
+          <!-- I bottoni e il campo di ricerca verranno generati da JS -->
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="search-progetti"
+              placeholder="Cerca progetti…"
+              aria-label="Cerca nei progetti"
+            />
+          </div>
+        </div>
         <div class="progetti-grid" id="progetti-grid"></div>
       </div>
     </section>
