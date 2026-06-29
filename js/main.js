@@ -94,3 +94,29 @@ import {
 })();
 
 document.getElementById("current-year").textContent = new Date().getFullYear();
+
+function updateYear() {
+  const yearEl = document.getElementById("current-year");
+  if (!yearEl) return;
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  if (yearEl.textContent !== currentYear.toString()) {
+    yearEl.textContent = currentYear;
+  }
+  const nextYear = currentYear + 1;
+  const nextJan1 = new Date(nextYear, 0, 1, 0, 0, 0, 0);
+  const msUntilMidnight = nextJan1 - now;
+  // se siamo a meno di 1 giorno, schedulo al millisecondo esatto
+  if (msUntilMidnight > 0 && msUntilMidnight < 86400000) {
+    clearTimeout(window._yearTimer);
+    window._yearTimer = setTimeout(() => {
+      updateYear();
+      // poi riavvio il controllo ogni secondo
+      setInterval(updateYear, 1000);
+    }, msUntilMidnight + 10);
+  }
+}
+
+updateYear();
+// fallback ogni secondo se il timer non parte
+setInterval(updateYear, 1000);
