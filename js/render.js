@@ -50,7 +50,7 @@ export function renderProgetti(progettiData, revealObserver) {
           </div>
           ${p.link ? `
             <a href="${p.link}" class="project-link-btn" target="_blank" rel="noopener" aria-label="Apri ${p.titolo}">
-              Apri ${SVG_EXTERNAL}
+              Apri Sito Web ${SVG_EXTERNAL}
             </a>
           ` : ''}
         </div>
