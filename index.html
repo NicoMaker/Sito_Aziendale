@@ -1,233 +1,321 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Nooo Agency – Informatica & Grafica per il tuo business. Siti web, brand identity, app e marketing digitale." />
-  <meta name="robots" content="index, follow" />
-  <title>Nooo Agency – Informatica & Grafica</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Nooo Agency – Informatica & Grafica per il tuo business. Siti web, brand identity, app e marketing digitale."
+    />
+    <meta name="robots" content="index, follow" />
+    <title>Nooo Agency – Informatica & Grafica</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- ===== PARTICLES CANVAS (sfondo animato) ===== -->
+    <canvas id="particles-canvas"></canvas>
 
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
+    <!-- ========== NAVBAR ========== -->
+    <nav id="navbar" role="navigation" aria-label="Navigazione principale">
+      <div class="container nav-inner">
+        <a href="#home" class="nav-logo" aria-label="Nooo Agency - Home">
+          <svg
+            class="nav-logo-icon"
+            viewBox="0 0 38 38"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect
+              x="1"
+              y="1"
+              width="36"
+              height="36"
+              rx="8"
+              fill="rgba(26,108,255,0.12)"
+              stroke="rgba(26,108,255,0.35)"
+              stroke-width="1.2"
+            />
+            <path
+              d="M9 28V10L19 26V10M19 26V10L29 28"
+              stroke="#e6f1ff"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="32" cy="32" r="3" fill="#1a6cff" />
+          </svg>
+          <span class="nav-logo-text"
+            >Nooo<span class="nav-logo-dot">.</span></span
+          >
+        </a>
 
-  <!-- ========== NAVBAR ========== -->
-  <nav id="navbar" role="navigation" aria-label="Navigazione principale">
-    <div class="container nav-inner">
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#progetti">Progetti</a></li>
+          <li><a href="#servizi">Servizi</a></li>
+          <li><a href="#contatti" class="nav-cta">Contatti</a></li>
+        </ul>
 
-      <!-- LOGO (al posto di "Nooo.") -->
-      <a href="#home" class="nav-logo" aria-label="Nooo Agency - Home">
-        <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <!-- N stilizzata -->
-          <rect x="1" y="1" width="36" height="36" rx="8" fill="rgba(26,108,255,0.12)" stroke="rgba(26,108,255,0.35)" stroke-width="1.2"/>
-          <path d="M9 28V10L19 26V10M19 26V10L29 28" stroke="#e6f1ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="32" cy="32" r="3" fill="#1a6cff"/>
-        </svg>
-        <span class="nav-logo-text">Nooo<span class="nav-logo-dot">.</span></span>
-      </a>
+        <button class="hamburger" aria-label="Apri menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
 
-      <ul class="nav-links">
+    <!-- Mobile Nav -->
+    <div
+      class="nav-mobile"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu mobile"
+    >
+      <div class="nav-mobile-header">
+        <a href="#home" class="nav-logo" aria-label="Nooo Agency - Home">
+          <svg
+            class="nav-logo-icon"
+            viewBox="0 0 38 38"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect
+              x="1"
+              y="1"
+              width="36"
+              height="36"
+              rx="8"
+              fill="rgba(26,108,255,0.12)"
+              stroke="rgba(26,108,255,0.35)"
+              stroke-width="1.2"
+            />
+            <path
+              d="M9 28V10L19 26V10M19 26V10L29 28"
+              stroke="#e6f1ff"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="32" cy="32" r="3" fill="#1a6cff" />
+          </svg>
+          <span class="nav-logo-text"
+            >Nooo<span class="nav-logo-dot">.</span></span
+          >
+        </a>
+      </div>
+      <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#progetti">Progetti</a></li>
         <li><a href="#servizi">Servizi</a></li>
-        <li><a href="#contatti" class="nav-cta">Contatti</a></li>
+        <li><a href="#contatti">Contatti</a></li>
       </ul>
-
-      <button class="hamburger" aria-label="Apri menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
-  </nav>
 
-  <!-- Mobile Nav — stile Da Prat: full-screen, link in lista con bordi -->
-  <div class="nav-mobile" role="dialog" aria-modal="true" aria-label="Menu mobile">
-    <!-- Logo in alto nel menu mobile -->
-    <div class="nav-mobile-header">
-      <a href="#home" class="nav-logo" aria-label="Nooo Agency - Home">
-        <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="1" y="1" width="36" height="36" rx="8" fill="rgba(26,108,255,0.12)" stroke="rgba(26,108,255,0.35)" stroke-width="1.2"/>
-          <path d="M9 28V10L19 26V10M19 26V10L29 28" stroke="#e6f1ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="32" cy="32" r="3" fill="#1a6cff"/>
-        </svg>
-        <span class="nav-logo-text">Nooo<span class="nav-logo-dot">.</span></span>
-      </a>
-    </div>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#progetti">Progetti</a></li>
-      <li><a href="#servizi">Servizi</a></li>
-      <li><a href="#contatti">Contatti</a></li>
-    </ul>
-  </div>
-
-  <!-- ========== HOME / HERO ========== -->
-  <section id="home">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">INFORMATICA &amp; GRAFICA</div>
-
-        <h1 class="hero-title">
-          Il digitale<br>
-          che fa la <span class="accent">differenza</span>
-        </h1>
-
-        <p class="hero-sub">
-          Siamo un'agenzia specializzata in siti web, brand identity e soluzioni informatiche.
-          Costruiamo presenze digitali che convertono, comunicano e crescono.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#progetti" class="btn btn-primary">I nostri lavori</a>
-          <a href="#contatti" class="btn btn-outline">Scrivici ora</a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="number">80<span>+</span></div>
-            <div class="label">Progetti realizzati</div>
-          </div>
-          <div class="stat-item">
-            <div class="number">6<span>+</span></div>
-            <div class="label">Anni di esperienza</div>
-          </div>
-          <div class="stat-item">
-            <div class="number">98<span>%</span></div>
-            <div class="label">Clienti soddisfatti</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== PROGETTI ========== -->
-  <section id="progetti" class="section">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">// I Nostri Lavori</span>
-        <h2 class="section-title">Progetti che parlano<br>da soli</h2>
-        <p class="section-sub">Ogni progetto è una soluzione su misura. Ecco una selezione dei nostri lavori più recenti.</p>
-      </div>
-
-      <!-- Filter bar: generata dinamicamente da render.js in base alle categorie del JSON -->
-      <div class="filter-bar reveal" id="filter-bar" role="group" aria-label="Filtra per categoria"></div>
-
-      <div class="progetti-grid" id="progetti-grid">
-        <!-- Popolato via render.js da progetti.json -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== CHI SIAMO BANNER ========== -->
-  <div class="chi-siamo-banner">
-    <div class="container">
-      <div class="banner-content">
-        <div class="banner-left reveal">
-          <span class="section-label">// Chi siamo</span>
-          <h2 class="banner-title">Informatica &amp; Grafica<br>dal 2018</h2>
-          <p class="banner-text">
-            Nooo Agency nasce dall'unione di competenze tecniche e creative.
-            Il nostro team combina sviluppo web, design visivo e strategia digitale
-            per offrire soluzioni complete a ogni tipo di azienda.
+    <!-- ========== HOME / HERO ========== -->
+    <section id="home">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">INFORMATICA &amp; GRAFICA</div>
+          <h1 class="hero-title">
+            Il digitale<br />
+            che fa la <span class="accent">differenza</span>
+          </h1>
+          <p class="hero-sub">
+            Siamo un'agenzia specializzata in siti web, brand identity e
+            soluzioni informatiche. Costruiamo presenze digitali che convertono,
+            comunicano e crescono.
           </p>
-          <a href="#contatti" class="btn btn-primary">Lavora con noi</a>
-        </div>
-
-        <div class="banner-features reveal">
-          <div class="feature-item">
-            <div class="feature-icon">⚡</div>
-            <div class="feature-text">
-              <h4>Velocità & Performance</h4>
-              <p>Siti veloci, ottimizzati e pronti per ogni dispositivo.</p>
-            </div>
+          <div class="hero-actions">
+            <a href="#progetti" class="btn btn-primary">I nostri lavori</a>
+            <a href="#contatti" class="btn btn-outline">Scrivici ora</a>
           </div>
-          <div class="feature-item">
-            <div class="feature-icon">🎨</div>
-            <div class="feature-text">
-              <h4>Design su misura</h4>
-              <p>Nessun template: ogni progetto è unico come il tuo brand.</p>
+          <div class="hero-stats">
+            <div class="stat-item" data-count="80" data-suffix="+">
+              <div class="number">
+                <span class="counter">0</span><span class="suffix">+</span>
+              </div>
+              <div class="label">Progetti realizzati</div>
             </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🔒</div>
-            <div class="feature-text">
-              <h4>Sicurezza & Assistenza</h4>
-              <p>Supporto continuativo e manutenzione professionale.</p>
+            <div class="stat-item" data-count="6" data-suffix="+">
+              <div class="number">
+                <span class="counter">0</span><span class="suffix">+</span>
+              </div>
+              <div class="label">Anni di esperienza</div>
             </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📈</div>
-            <div class="feature-text">
-              <h4>Risultati misurabili</h4>
-              <p>Strategie digitali con KPI chiari e report periodici.</p>
+            <div class="stat-item" data-count="98" data-suffix="%">
+              <div class="number">
+                <span class="counter">0</span><span class="suffix">%</span>
+              </div>
+              <div class="label">Clienti soddisfatti</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- ========== SERVIZI ========== -->
-  <section id="servizi" class="section">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">// Cosa Facciamo</span>
-        <h2 class="section-title">Soluzioni digitali<br>complete</h2>
-        <p class="section-sub">Dall'idea alla realizzazione: copriamo ogni aspetto del tuo progetto digitale.</p>
+    <!-- ========== PROGETTI ========== -->
+    <section id="progetti" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">// I Nostri Lavori</span>
+          <h2 class="section-title">Progetti che parlano<br />da soli</h2>
+          <!-- QUI IL CONTATORE DINAMICO -->
+          <p class="section-sub" id="progetti-count">Caricamento progetti…</p>
+        </div>
+
+        <div
+          class="filter-bar reveal"
+          id="filter-bar"
+          role="group"
+          aria-label="Filtra per categoria"
+        ></div>
+        <div class="progetti-grid" id="progetti-grid"></div>
       </div>
-      <div class="servizi-grid" id="servizi-grid">
-        <!-- Popolato via render.js da servizi.json -->
+    </section>
+
+    <!-- ========== CHI SIAMO BANNER ========== -->
+    <div class="chi-siamo-banner">
+      <div class="container">
+        <div class="banner-content">
+          <div class="banner-left reveal">
+            <span class="section-label">// Chi siamo</span>
+            <h2 class="banner-title">
+              Informatica &amp; Grafica<br />dal 2018
+            </h2>
+            <p class="banner-text">
+              Nooo Agency nasce dall'unione di competenze tecniche e creative.
+              Il nostro team combina sviluppo web, design visivo e strategia
+              digitale per offrire soluzioni complete a ogni tipo di azienda.
+            </p>
+            <a href="#contatti" class="btn btn-primary">Lavora con noi</a>
+          </div>
+          <div class="banner-features reveal">
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-text">
+                <h4>Velocità & Performance</h4>
+                <p>Siti veloci, ottimizzati e pronti per ogni dispositivo.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🎨</div>
+              <div class="feature-text">
+                <h4>Design su misura</h4>
+                <p>Nessun template: ogni progetto è unico come il tuo brand.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔒</div>
+              <div class="feature-text">
+                <h4>Sicurezza & Assistenza</h4>
+                <p>Supporto continuativo e manutenzione professionale.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">📈</div>
+              <div class="feature-text">
+                <h4>Risultati misurabili</h4>
+                <p>Strategie digitali con KPI chiari e report periodici.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- ========== CONTATTI ========== -->
-  <section id="contatti" class="section">
-    <div class="container">
-      <div class="contatti-header reveal">
-        <span class="section-label">// Contatti</span>
-        <h2>Parliamo del<br>tuo progetto</h2>
-        <p style="margin-top:16px; color:var(--grigio-light); font-size:1.05rem; line-height:1.8;">
-          Scegli con chi parlare in base alle tue esigenze.<br>
-          Rispondiamo entro poche ore.
-        </p>
+    <!-- ========== SERVIZI ========== -->
+    <section id="servizi" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">// Cosa Facciamo</span>
+          <h2 class="section-title">Soluzioni digitali<br />complete</h2>
+          <p class="section-sub">
+            Dall'idea alla realizzazione: copriamo ogni aspetto del tuo progetto
+            digitale.
+          </p>
+        </div>
+        <div class="servizi-grid" id="servizi-grid"></div>
       </div>
-      <div class="contatti-persone-grid" id="contatti-persone"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ========== FOOTER ========== -->
-  <footer id="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <!-- LOGO anche nel footer -->
-        <a href="#home" class="nav-logo footer-logo-link" aria-label="Nooo Agency - Home">
-          <svg class="nav-logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="1" y="1" width="36" height="36" rx="8" fill="rgba(26,108,255,0.12)" stroke="rgba(26,108,255,0.35)" stroke-width="1.2"/>
-            <path d="M9 28V10L19 26V10M19 26V10L29 28" stroke="#e6f1ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="32" cy="32" r="3" fill="#1a6cff"/>
-          </svg>
-          <span class="nav-logo-text">Nooo<span class="nav-logo-dot">.</span></span>
-        </a>
-
-        <p class="footer-copy">© 2025 Nooo Agency – Informatica &amp; Grafica. P.IVA 00000000000</p>
-
-        <!-- Social: IG + FB + altri — popolato da render.js -->
-        <div class="footer-social" id="footer-social"></div>
+    <!-- ========== CONTATTI ========== -->
+    <section id="contatti" class="section">
+      <div class="container">
+        <div class="contatti-header reveal">
+          <span class="section-label">// Contatti</span>
+          <h2>Parliamo del<br />tuo progetto</h2>
+          <p
+            style="
+              margin-top: 16px;
+              color: var(--grigio-light);
+              font-size: 1.05rem;
+              line-height: 1.8;
+            "
+          >
+            Scegli con chi parlare in base alle tue esigenze.<br />
+            Rispondiamo entro poche ore.
+          </p>
+        </div>
+        <div class="contatti-persone-grid" id="contatti-persone"></div>
       </div>
-    </div>
-  </footer>
+    </section>
 
-  <script src="js/main.js" type="module"></script>
-</body>
+    <!-- ========== FOOTER ========== -->
+    <footer id="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <a
+            href="#home"
+            class="nav-logo footer-logo-link"
+            aria-label="Nooo Agency - Home"
+          >
+            <svg
+              class="nav-logo-icon"
+              viewBox="0 0 38 38"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <rect
+                x="1"
+                y="1"
+                width="36"
+                height="36"
+                rx="8"
+                fill="rgba(26,108,255,0.12)"
+                stroke="rgba(26,108,255,0.35)"
+                stroke-width="1.2"
+              />
+              <path
+                d="M9 28V10L19 26V10M19 26V10L29 28"
+                stroke="#e6f1ff"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle cx="32" cy="32" r="3" fill="#1a6cff" />
+            </svg>
+            <span class="nav-logo-text"
+              >Nooo<span class="nav-logo-dot">.</span></span
+            >
+          </a>
+          <p class="footer-copy">
+            © 2025 Nooo Agency – Informatica &amp; Grafica. P.IVA 00000000000
+          </p>
+          <div class="footer-social" id="footer-social"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js" type="module"></script>
+  </body>
 </html>
