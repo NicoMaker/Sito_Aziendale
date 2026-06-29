@@ -6,39 +6,63 @@
     "baseUrl": "https://www.noooagency.com",
     "anno_fondazione": 2018
   },
-  "contatti": {
-    "whatsapp": {
-      "numero": "+393331234567",
-      "label": "WhatsApp",
-      "url": "https://wa.me/393331234567",
-      "icon": "whatsapp"
+  "team": [
+    {
+      "id": "marco",
+      "nome": "Marco Bianchi",
+      "ruolo": "Sviluppo & Informatica",
+      "emoji": "💻",
+      "contatti": {
+        "whatsapp": {
+          "numero": "+393331234567",
+          "label": "WhatsApp",
+          "url": "https://wa.me/393331234567"
+        },
+        "telefono": {
+          "numero": "+39 333 123 4567",
+          "label": "Chiama Marco",
+          "url": "tel:+393331234567"
+        },
+        "email": {
+          "indirizzo": "marco@noooagency.com",
+          "label": "Email Marco",
+          "url": "mailto:marco@noooagency.com"
+        }
+      }
     },
-    "telefono": {
-      "numero": "+39 333 123 4567",
-      "label": "Chiamaci",
-      "url": "tel:+393331234567",
-      "icon": "phone"
-    },
-    "email": {
-      "indirizzo": "info@noooagency.com",
-      "label": "Email",
-      "url": "mailto:info@noooagency.com",
-      "icon": "email"
-    },
-    "messaggio": {
-      "label": "Inviaci un messaggio",
-      "icon": "message"
+    {
+      "id": "giulia",
+      "nome": "Giulia Rossi",
+      "ruolo": "Design & Grafica",
+      "emoji": "🎨",
+      "contatti": {
+        "whatsapp": {
+          "numero": "+393339876543",
+          "label": "WhatsApp",
+          "url": "https://wa.me/393339876543"
+        },
+        "telefono": {
+          "numero": "+39 333 987 6543",
+          "label": "Chiama Giulia",
+          "url": "tel:+393339876543"
+        },
+        "email": {
+          "indirizzo": "giulia@noooagency.com",
+          "label": "Email Giulia",
+          "url": "mailto:giulia@noooagency.com"
+        }
+      }
     }
-  },
+  ],
   "social": {
     "instagram": "https://instagram.com/noooagency",
     "linkedin": "https://linkedin.com/company/noooagency",
     "behance": "https://behance.net/noooagency"
   },
   "nav": [
-    { "id": "home", "label": "Home", "href": "#home" },
+    { "id": "home",     "label": "Home",     "href": "#home" },
     { "id": "progetti", "label": "Progetti", "href": "#progetti" },
-    { "id": "servizi", "label": "Servizi", "href": "#servizi" },
+    { "id": "servizi",  "label": "Servizi",  "href": "#servizi" },
     { "id": "contatti", "label": "Contatti", "href": "#contatti" }
   ]
 }

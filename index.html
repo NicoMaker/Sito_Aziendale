@@ -40,7 +40,7 @@
     </div>
   </nav>
 
-  <!-- Mobile Nav Overlay -->
+  <!-- Mobile Nav Overlay — stile Da Prat: full-screen, link a lista centrata -->
   <div class="nav-mobile" role="dialog" aria-modal="true" aria-label="Menu mobile">
     <ul>
       <li><a href="#home">Home</a></li>
@@ -99,9 +99,8 @@
         <h2 class="section-title">Progetti che parlano<br>da soli</h2>
         <p class="section-sub">Ogni progetto è una soluzione su misura. Ecco una selezione dei nostri lavori più recenti.</p>
       </div>
-
       <div class="progetti-grid" id="progetti-grid">
-        <!-- Popolato via JS da progetti.json -->
+        <!-- Popolato via render.js da progetti.json -->
       </div>
     </div>
   </section>
@@ -163,9 +162,8 @@
         <h2 class="section-title">Soluzioni digitali<br>complete</h2>
         <p class="section-sub">Dall'idea alla realizzazione: copriamo ogni aspetto del tuo progetto digitale.</p>
       </div>
-
       <div class="servizi-grid" id="servizi-grid">
-        <!-- Popolato via JS da servizi.json -->
+        <!-- Popolato via render.js da servizi.json -->
       </div>
     </div>
   </section>
@@ -173,60 +171,17 @@
   <!-- ========== CONTATTI ========== -->
   <section id="contatti" class="section">
     <div class="container">
-      <div class="contatti-layout">
-        <div class="contatti-intro">
-          <span class="section-label reveal">// Contatti</span>
-          <h2 class="reveal">Parliamo del<br>tuo progetto</h2>
-          <p class="reveal">
-            Sei pronto a portare la tua azienda online? Contattaci come preferisci:
-            rispondiamo entro poche ore.
-          </p>
-
-          <div class="contatti-cards" id="contatti-cards">
-            <!-- Popolato via JS da site.json -->
-          </div>
-        </div>
-
-        <!-- Form -->
-        <div id="contatti-form" class="contatto-form reveal">
-          <h3 class="form-title">Inviaci un messaggio</h3>
-
-          <form id="contatto-form" novalidate>
-            <div class="form-group">
-              <label for="nome">Nome e cognome</label>
-              <input type="text" id="nome" name="nome" placeholder="Mario Rossi" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="mario@esempio.it" required />
-            </div>
-            <div class="form-group">
-              <label for="servizio">Servizio di interesse</label>
-              <select id="servizio" name="servizio">
-                <option value="">Seleziona un servizio…</option>
-                <option>Sito Web</option>
-                <option>Brand Identity</option>
-                <option>App & Software</option>
-                <option>Marketing Digitale</option>
-                <option>Grafica & Stampa</option>
-                <option>Consulenza IT</option>
-                <option>Altro</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="messaggio">Messaggio</label>
-              <textarea id="messaggio" name="messaggio" placeholder="Raccontaci il tuo progetto…" required></textarea>
-            </div>
-            <button type="submit" class="form-submit">Invia messaggio →</button>
-          </form>
-
-          <div id="form-success" class="form-success">
-            <div class="icon">✅</div>
-            <h4>Messaggio inviato!</h4>
-            <p>Ti risponderemo entro poche ore. Grazie per averci contattato.</p>
-          </div>
-        </div>
+      <div class="contatti-header reveal">
+        <span class="section-label">// Contatti</span>
+        <h2>Parliamo del<br>tuo progetto</h2>
+        <p style="margin-top:16px; color:var(--grigio-light); font-size:1.05rem; line-height:1.8;">
+          Scegli con chi parlare in base alle tue esigenze.<br>
+          Rispondiamo entro poche ore.
+        </p>
       </div>
+
+      <!-- Griglia 2 persone — popolata via render.js -->
+      <div class="contatti-persone-grid" id="contatti-persone"></div>
     </div>
   </section>
 
@@ -245,7 +200,7 @@
     </div>
   </footer>
 
-  <!-- Script -->
+  <!-- Entry point ES module -->
   <script src="js/main.js" type="module"></script>
 </body>
 </html>

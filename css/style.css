@@ -914,3 +914,161 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-track { background: var(--blu-deep); }
 ::-webkit-scrollbar-thumb { background: rgba(26, 108, 255, 0.4); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--blu-accent); }
+
+/* ============================================
+   PATCH: Contatti 2 persone, rimozione form
+   ============================================ */
+
+/* Layout contatti: 2 colonne persona */
+.contatti-persone-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 48px;
+}
+
+.persona-block {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+}
+
+.persona-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.persona-emoji {
+  font-size: 2rem;
+  width: 52px;
+  height: 52px;
+  background: rgba(26, 108, 255, 0.1);
+  border: 1px solid rgba(26, 108, 255, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.persona-nome {
+  font-size: 1.05rem;
+  color: var(--bianco);
+  margin-bottom: 4px;
+}
+
+.persona-ruolo {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--blu-glow);
+  letter-spacing: 0.08em;
+}
+
+.persona-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card contatto più compatta dentro persona */
+.persona-links .contatto-card {
+  padding: 14px 18px;
+}
+
+/* Header contatti senza layout 2 colonne */
+.contatti-header {
+  max-width: 600px;
+  margin-bottom: 0;
+}
+
+/* Rimuovi vecchio layout a 2 colonne contatti */
+.contatti-layout {
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .contatti-persone-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ============================================
+   Nav mobile overlay — stesso stile Da Prat
+   (full-screen centrato, link grandi)
+   ============================================ */
+
+/* Sovrascrive solo ciò che serve per il comportamento tendina */
+.nav-mobile {
+  display: flex !important; /* sempre nel DOM, visibilità via opacity+pointer-events */
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 12, 27, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-mobile.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Lista link centrata */
+.nav-mobile ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.nav-mobile ul li {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-mobile ul li:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.nav-mobile ul a {
+  display: block;
+  padding: 22px 40px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bianco-soft);
+  letter-spacing: -0.01em;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-mobile ul a:hover {
+  color: var(--bianco);
+  background: rgba(26, 108, 255, 0.07);
+}
+
+/* Animazione staggered dei link */
+.nav-mobile.open ul li:nth-child(1) a { animation: slideIn 0.3s 0.05s both; }
+.nav-mobile.open ul li:nth-child(2) a { animation: slideIn 0.3s 0.10s both; }
+.nav-mobile.open ul li:nth-child(3) a { animation: slideIn 0.3s 0.15s both; }
+.nav-mobile.open ul li:nth-child(4) a { animation: slideIn 0.3s 0.20s both; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
