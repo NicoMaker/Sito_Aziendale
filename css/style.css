@@ -19,9 +19,9 @@
   --shadow: 0 8px 40px rgba(0, 100, 255, 0.12);
   --radius: 12px;
   --radius-sm: 6px;
-  --font-display: "Space Grotesk", "Inter", sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --nav-height: 80px;
 }
@@ -138,7 +138,7 @@ img {
   box-shadow: 0 8px 30px rgba(26, 108, 255, 0.5);
 }
 .btn-primary::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -227,7 +227,7 @@ img {
   font-size: 0;
 }
 .nav-logo-icon.img-fallback::after {
-  content: "N";
+  content: 'N';
   position: absolute;
   inset: 0;
   display: flex;
@@ -283,7 +283,7 @@ img {
   position: relative;
 }
 .nav-links a::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -4px;
   left: 0;
@@ -503,7 +503,7 @@ img {
   letter-spacing: 0.1em;
 }
 .hero-badge::before {
-  content: "";
+  content: '';
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -886,7 +886,7 @@ img {
   gap: 8px;
 }
 .servizio-lista li::before {
-  content: "▸";
+  content: '▸';
   color: var(--blu-accent);
   font-size: 0.7rem;
   flex-shrink: 0;
@@ -1286,7 +1286,7 @@ img {
   color: var(--blu-accent);
   transition: var(--transition);
 }
-.faq-toggle[aria-expanded="true"] .faq-arrow {
+.faq-toggle[aria-expanded='true'] .faq-arrow {
   transform: rotate(180deg);
 }
 .faq-body {

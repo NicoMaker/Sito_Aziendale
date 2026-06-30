@@ -1,64 +1,60 @@
-import { loadJSON } from "./data.js";
-import { initNav } from "./nav.js";
-import { initReveal } from "./reveal.js";
-import { renderFooterSocial, SVG_EXTERNAL } from "./render.js";
-import {
-  initParticles,
-  initParallax,
-  initMouseGlow,
-} from "./animations.js";
+import { loadJSON } from './data.js'
+import { initNav } from './nav.js'
+import { initReveal } from './reveal.js'
+import { renderFooterSocial, SVG_EXTERNAL } from './render.js'
+import { initParticles, initParallax, initMouseGlow } from './animations.js'
 
-(async function () {
-  "use strict";
+;(async function () {
+  'use strict'
 
-  initParticles();
-  initParallax();
-  initMouseGlow();
+  initParticles()
+  initParallax()
+  initMouseGlow()
 
-  const loadingEl = document.getElementById("sd-loading");
-  const notfoundEl = document.getElementById("sd-notfound");
-  const contentEl = document.getElementById("sd-content");
+  const loadingEl = document.getElementById('sd-loading')
+  const notfoundEl = document.getElementById('sd-notfound')
+  const contentEl = document.getElementById('sd-content')
 
   try {
     // --- Slug dalla query string: servizio.html?slug=siti-web ---
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("slug");
+    const params = new URLSearchParams(window.location.search)
+    const slug = params.get('slug')
 
     const [siteData, progettiData, serviziData] = await Promise.all([
-      loadJSON("data/site.json"),
-      loadJSON("data/progetti.json"),
-      loadJSON("data/servizi.json"),
-    ]);
+      loadJSON('data/site.json'),
+      loadJSON('data/progetti.json'),
+      loadJSON('data/servizi.json'),
+    ])
 
-    renderFooterSocial(siteData);
+    renderFooterSocial(siteData)
 
-    const servizio = serviziData.servizi.find((s) => s.slug === slug);
+    const servizio = serviziData.servizi.find(s => s.slug === slug)
 
     if (!servizio) {
-      loadingEl.style.display = "none";
-      notfoundEl.style.display = "";
-      initNav();
-      return;
+      loadingEl.style.display = 'none'
+      notfoundEl.style.display = ''
+      initNav()
+      return
     }
 
     // --- Titolo pagina dinamico ---
-    document.title = `${servizio.titolo} – Nooo Agency`;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", servizio.descrizione);
+    document.title = `${servizio.titolo} – Nooo Agency`
+    const metaDesc = document.querySelector('meta[name="description"]')
+    if (metaDesc) metaDesc.setAttribute('content', servizio.descrizione)
 
     // --- Popolo i campi ---
-    document.getElementById("sd-icon").textContent = servizio.icona;
-    document.getElementById("sd-title").textContent = servizio.titolo;
-    document.getElementById("sd-desc").textContent = servizio.descrizione;
+    document.getElementById('sd-icon').textContent = servizio.icona
+    document.getElementById('sd-title').textContent = servizio.titolo
+    document.getElementById('sd-desc').textContent = servizio.descrizione
 
     // Lista dettagli
-    const lista = document.getElementById("sd-lista");
+    const lista = document.getElementById('sd-lista')
     lista.innerHTML = servizio.dettagli
-      .map((d) => `<li><span class="lista-check">✓</span>${d}</li>`)
-      .join("");
+      .map(d => `<li><span class="lista-check">✓</span>${d}</li>`)
+      .join('')
 
     // FAQ accordion
-    const faqWrap = document.getElementById("sd-faq");
+    const faqWrap = document.getElementById('sd-faq')
     if (servizio.faq && servizio.faq.length) {
       faqWrap.innerHTML = servizio.faq
         .map(
@@ -72,125 +68,132 @@ import {
             <p>${f.risposta}</p>
           </div>
         </div>
-      `,
+      `
         )
-        .join("");
+        .join('')
 
-      faqWrap.querySelectorAll(".faq-toggle").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const expanded = btn.getAttribute("aria-expanded") === "true";
-          faqWrap.querySelectorAll(".faq-toggle").forEach((b) => {
-            b.setAttribute("aria-expanded", "false");
-            b.querySelector(".faq-arrow").textContent = "+";
-            document.getElementById(b.getAttribute("aria-controls")).hidden = true;
-          });
+      faqWrap.querySelectorAll('.faq-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true'
+          faqWrap.querySelectorAll('.faq-toggle').forEach(b => {
+            b.setAttribute('aria-expanded', 'false')
+            b.querySelector('.faq-arrow').textContent = '+'
+            document.getElementById(b.getAttribute('aria-controls')).hidden =
+              true
+          })
           if (!expanded) {
-            btn.setAttribute("aria-expanded", "true");
-            btn.querySelector(".faq-arrow").textContent = "−";
-            document.getElementById(btn.getAttribute("aria-controls")).hidden = false;
+            btn.setAttribute('aria-expanded', 'true')
+            btn.querySelector('.faq-arrow').textContent = '−'
+            document.getElementById(btn.getAttribute('aria-controls')).hidden =
+              false
           }
-        });
-      });
+        })
+      })
     } else {
-      faqWrap.innerHTML = "";
+      faqWrap.innerHTML = ''
     }
 
     // Progetti correlati
-    const correlatiWrap = document.getElementById("sd-correlati-wrap");
-    const correlatiGrid = document.getElementById("sd-correlati-grid");
+    const correlatiWrap = document.getElementById('sd-correlati-wrap')
+    const correlatiGrid = document.getElementById('sd-correlati-grid')
     let correlati =
       servizio.categorie_correlate && servizio.categorie_correlate.length
-        ? progettiData.progetti.filter((p) =>
-            servizio.categorie_correlate.includes(p.categoria),
+        ? progettiData.progetti.filter(p =>
+            servizio.categorie_correlate.includes(p.categoria)
           )
-        : [];
+        : []
 
     // Fallback: se non ci sono progetti correlati per categoria,
     // mostro comunque alcuni progetti (i più recenti) invece di nascondere la sezione
     if (!correlati.length) {
       correlati = [...progettiData.progetti]
         .sort((a, b) => b.anno - a.anno)
-        .slice(0, 3);
+        .slice(0, 3)
     }
 
     if (correlati.length) {
       correlatiGrid.innerHTML = correlati
-        .map((p) => {
+        .map(p => {
           const isPresetCat =
             servizio.categorie_correlate &&
-            servizio.categorie_correlate.includes(p.categoria);
+            servizio.categorie_correlate.includes(p.categoria)
           return `
-        <div class="project-card reveal" data-cat="${p.categoria}" data-search="${p.titolo} ${p.descrizione} ${p.tecnologie.join(" ")}">
+        <div class="project-card reveal" data-cat="${p.categoria}" data-search="${p.titolo} ${p.descrizione} ${p.tecnologie.join(' ')}">
           <div class="project-img-wrap">
             <img src="${p.immagine_placeholder}" alt="${p.titolo}" loading="lazy">
             <div class="project-overlay"></div>
-            ${isPresetCat ? "" : `<span class="project-tag">${p.categoria}</span>`}
+            ${isPresetCat ? '' : `<span class="project-tag">${p.categoria}</span>`}
           </div>
           <div class="project-body">
             <p class="project-anno">${p.anno}</p>
             <h3 class="project-title">${p.titolo}</h3>
             <p class="project-desc">${p.descrizione}</p>
             <div class="project-card-footer">
-              <div class="project-tech">${p.tecnologie.map((t) => `<span class="tech-tag">${t}</span>`).join("")}</div>
-              ${p.link ? `<a href="${p.link}" class="project-link-btn" target="_blank" rel="noopener" aria-label="Apri ${p.titolo}">Apri ${SVG_EXTERNAL}</a>` : ""}
+              <div class="project-tech">${p.tecnologie.map(t => `<span class="tech-tag">${t}</span>`).join('')}</div>
+              ${p.link ? `<a href="${p.link}" class="project-link-btn" target="_blank" rel="noopener" aria-label="Apri ${p.titolo}">Apri ${SVG_EXTERNAL}</a>` : ''}
             </div>
           </div>
         </div>
-      `;
+      `
         })
-        .join("");
-      correlatiWrap.style.display = "";
+        .join('')
+      correlatiWrap.style.display = ''
 
       // --- Ricerca nei progetti correlati ---
-      const searchCorrelatiInput = document.getElementById("sd-search-correlati");
+      const searchCorrelatiInput = document.getElementById(
+        'sd-search-correlati'
+      )
       if (searchCorrelatiInput) {
-        const correlatiCards = correlatiGrid.querySelectorAll(".project-card");
-        searchCorrelatiInput.addEventListener("input", function () {
-          const query = this.value.toLowerCase().trim();
-          correlatiCards.forEach((card) => {
-            const searchData = card.dataset.search.toLowerCase();
-            card.classList.toggle("hidden", query !== "" && !searchData.includes(query));
-          });
-        });
+        const correlatiCards = correlatiGrid.querySelectorAll('.project-card')
+        searchCorrelatiInput.addEventListener('input', function () {
+          const query = this.value.toLowerCase().trim()
+          correlatiCards.forEach(card => {
+            const searchData = card.dataset.search.toLowerCase()
+            card.classList.toggle(
+              'hidden',
+              query !== '' && !searchData.includes(query)
+            )
+          })
+        })
       }
     } else {
-      correlatiWrap.style.display = "none";
+      correlatiWrap.style.display = 'none'
     }
 
     // Altri servizi (escluso quello corrente)
-    const altriGrid = document.getElementById("sd-altri-grid");
-    const altri = serviziData.servizi.filter((s) => s.slug !== slug);
+    const altriGrid = document.getElementById('sd-altri-grid')
+    const altri = serviziData.servizi.filter(s => s.slug !== slug)
     altriGrid.innerHTML = altri
       .map(
-        (s) => `
+        s => `
       <div class="servizio-card reveal" style="--servizio-color:${s.colore}">
         <span class="servizio-icon">${s.icona}</span>
         <h3 class="servizio-title">${s.titolo}</h3>
         <p class="servizio-desc">${s.descrizione}</p>
         <a href="servizio.html?slug=${s.slug}" class="btn-servizio-detail">Scopri di più →</a>
       </div>
-    `,
+    `
       )
-      .join("");
+      .join('')
 
     // --- Mostro il contenuto ---
-    loadingEl.style.display = "none";
-    contentEl.style.display = "";
+    loadingEl.style.display = 'none'
+    contentEl.style.display = ''
 
     // --- Nav + reveal animations ---
-    initNav();
-    const revealIO = initReveal();
+    initNav()
+    const revealIO = initReveal()
     document
-      .querySelectorAll("#servizio-detail .reveal")
-      .forEach((el) => revealIO.observe(el));
+      .querySelectorAll('#servizio-detail .reveal')
+      .forEach(el => revealIO.observe(el))
   } catch (err) {
-    console.error("Errore caricamento servizio:", err);
-    loadingEl.style.display = "none";
-    notfoundEl.style.display = "";
-    initNav();
+    console.error('Errore caricamento servizio:', err)
+    loadingEl.style.display = 'none'
+    notfoundEl.style.display = ''
+    initNav()
   }
-})();
+})()
 
 // --- Anno footer ---
-const yearEl = document.getElementById("current-year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+const yearEl = document.getElementById('current-year')
+if (yearEl) yearEl.textContent = new Date().getFullYear()

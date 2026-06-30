@@ -25,7 +25,11 @@
     <!-- ========== NAVBAR ========== -->
     <nav id="navbar" role="navigation" aria-label="Navigazione principale">
       <div class="container nav-inner">
-        <a href="index.html#home" class="nav-logo" aria-label="Nooo Agency - Home">
+        <a
+          href="index.html#home"
+          class="nav-logo"
+          aria-label="Nooo Agency - Home"
+        >
           <img
             class="nav-logo-icon"
             src="img/logo.png"
@@ -75,21 +79,29 @@
           <a href="index.html#servizi" class="btn-back">← Tutti i servizi</a>
 
           <!-- Stato di caricamento -->
-          <div id="sd-loading" style="padding: 60px 0; text-align: center; color: var(--grigio);">
+          <div
+            id="sd-loading"
+            style="padding: 60px 0; text-align: center; color: var(--grigio)"
+          >
             Caricamento…
           </div>
 
           <!-- Stato "servizio non trovato" -->
-          <div id="sd-notfound" style="display:none; padding: 60px 0; text-align: center;">
-            <h2 style="margin-bottom: 16px;">Servizio non trovato</h2>
-            <p style="margin-bottom: 32px; color: var(--grigio);">
+          <div
+            id="sd-notfound"
+            style="display: none; padding: 60px 0; text-align: center"
+          >
+            <h2 style="margin-bottom: 16px">Servizio non trovato</h2>
+            <p style="margin-bottom: 32px; color: var(--grigio)">
               Il servizio che cerchi non esiste o è stato rimosso.
             </p>
-            <a href="index.html#servizi" class="btn btn-primary">Torna ai servizi</a>
+            <a href="index.html#servizi" class="btn btn-primary"
+              >Torna ai servizi</a
+            >
           </div>
 
           <!-- Contenuto servizio (popolato via JS) -->
-          <div id="sd-content" style="display:none;">
+          <div id="sd-content" style="display: none">
             <div class="servizio-detail-header reveal">
               <div class="servizio-detail-icon" id="sd-icon"></div>
               <div>
@@ -109,10 +121,15 @@
             </div>
             <div class="servizio-detail-cta reveal">
               <p>Hai bisogno di questo servizio?</p>
-              <a href="index.html#contatti" class="btn btn-primary">Contattaci ora</a>
+              <a href="index.html#contatti" class="btn btn-primary"
+                >Contattaci ora</a
+              >
             </div>
             <!-- Progetti correlati -->
-            <div class="servizio-detail-correlati reveal" id="sd-correlati-wrap">
+            <div
+              class="servizio-detail-correlati reveal"
+              id="sd-correlati-wrap"
+            >
               <h3>Progetti correlati</h3>
               <div class="filter-bar" id="sd-correlati-filter-bar">
                 <div class="search-wrapper">
