@@ -431,10 +431,14 @@ img {
   min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   position: relative;
   overflow: hidden;
   padding-top: var(--nav-height);
   z-index: 1;
+}
+#home > .container {
+  width: 100%;
 }
 .hero-bg {
   position: absolute;
