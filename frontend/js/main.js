@@ -8,21 +8,15 @@ import {
   renderFooterSocial,
 } from './render.js'
 import {
-  initParticles,
-  initTypewriter,
   initCounter,
   initParallax,
-  initMouseGlow,
 } from './animations.js'
 
 ;(async function () {
   'use strict'
 
   // --- Inizializzazioni che non dipendono dal DOM dei contenuti ---
-  initParticles()
-  initTypewriter()
   initParallax()
-  initMouseGlow()
 
   try {
     // --- Caricamento dati ---
@@ -47,6 +41,14 @@ import {
     renderServizi(serviziData, revealIO)
     renderContatti(siteData, revealIO)
     renderFooterSocial(siteData)
+
+    // --- Email diretta (CTA) presa da site.json ---
+    const emailLink = document.getElementById('email-cta-link')
+    if (emailLink && siteData?.azienda?.email) {
+      const email = siteData.azienda.email
+      emailLink.textContent = email
+      emailLink.setAttribute('href', `mailto:${email}`)
+    }
 
     // --- NAVIGAZIONE: ora che il DOM è completo, attivo il nav ---
     initNav()

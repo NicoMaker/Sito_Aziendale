@@ -35,7 +35,7 @@ export function initParticles() {
     draw() {
       ctx.beginPath()
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(26, 108, 255, ${this.opacity})`
+      ctx.fillStyle = `rgba(91, 123, 41, ${this.opacity * 0.5})`
       ctx.fill()
     }
   }
@@ -59,7 +59,7 @@ export function initParticles() {
           ctx.beginPath()
           ctx.moveTo(particles[i].x, particles[i].y)
           ctx.lineTo(particles[j].x, particles[j].y)
-          ctx.strokeStyle = `rgba(26, 108, 255, ${0.1 * (1 - dist / 120)})`
+          ctx.strokeStyle = `rgba(91, 123, 41, ${0.08 * (1 - dist / 120)})`
           ctx.lineWidth = 0.5
           ctx.stroke()
         }

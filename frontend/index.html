@@ -19,9 +19,6 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- ===== PARTICLES CANVAS ===== -->
-    <canvas id="particles-canvas"></canvas>
-
     <!-- ========== NAVBAR ========== -->
     <nav id="navbar" role="navigation" aria-label="Navigazione principale">
       <div class="container nav-inner">
@@ -77,13 +74,12 @@
     <!-- ========== HOME / HERO ========== -->
     <section id="home">
       <div class="hero-bg"></div>
-      <div class="hero-grid"></div>
       <div class="container">
         <!-- ✅ Testo hero allineato a sinistra, sotto al logo -->
         <div class="hero-content">
-          <div class="hero-badge">INFORMATICA &amp; GRAFICA</div>
+          <span class="hero-eyebrow">Informatica &amp; Grafica</span>
           <h1 class="hero-title">
-            Il digitale<br />che fa la <span class="accent">differenza</span>
+            Il digitale che fa la <span class="accent">differenza</span>.
           </h1>
           <p class="hero-sub">
             Siamo un'agenzia specializzata in siti web, brand identity e
@@ -102,6 +98,7 @@
     <section id="progetti" class="section">
       <div class="container">
         <div class="section-header reveal">
+          <span class="section-label">— Progetti</span>
           <h2 class="section-title">Progetti che parlano<br />da soli</h2>
           <p class="section-sub" id="progetti-count">Caricamento progetti…</p>
         </div>
@@ -129,6 +126,7 @@
       <div class="container">
         <div class="banner-content">
           <div class="banner-left reveal">
+            <span class="section-label">— Chi siamo</span>
             <h2 class="banner-title">
               Informatica &amp; Grafica<br />dal 2018
             </h2>
@@ -177,6 +175,7 @@
     <section id="servizi" class="section">
       <div class="container">
         <div class="section-header reveal">
+          <span class="section-label">— Cosa facciamo</span>
           <h2 class="section-title">Soluzioni digitali<br />complete</h2>
           <p class="section-sub">
             Dall'idea alla realizzazione: copriamo ogni aspetto del tuo progetto
@@ -191,6 +190,7 @@
     <section id="contatti" class="section">
       <div class="container">
         <div class="contatti-header reveal">
+          <span class="section-label">— Contatti</span>
           <h2>Parliamo del<br />tuo progetto</h2>
           <p
             style="
@@ -301,6 +301,21 @@
               <span class="btn-text">Invia richiesta</span>
             </button>
           </form>
+        </div>
+
+        <!-- ========== EMAIL DIRETTA ========== -->
+        <div class="email-cta reveal">
+          <span class="section-label">— Oppure</span>
+          <h3 class="email-cta-title">Scrivici direttamente via email</h3>
+          <a
+            href="mailto:info@noooagency.com"
+            class="email-cta-link"
+            id="email-cta-link"
+            >info@noooagency.com</a
+          >
+          <p class="email-cta-sub">
+            Rispondiamo entro poche ore, tutti i giorni lavorativi.
+          </p>
         </div>
       </div>
     </section>
