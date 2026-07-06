@@ -1,12 +1,10 @@
 const { validaForm } = require('../utils/validators');
-const { inviaEmailAzienda, inviaEmailConfermaCliente } = require('../services/emailService');
-const config = require('../config');
+const { sendAzienda, sendCliente } = require('../services/email');
 
 exports.inviaFormContatti = async (req, res) => {
   try {
     const { nome, cognome, email, servizio, telefono, messaggio } = req.body;
 
-    // Validazione
     const errori = validaForm(req.body);
     if (errori.length) {
       return res.status(400).json({ ok: false, errori });
@@ -14,25 +12,11 @@ exports.inviaFormContatti = async (req, res) => {
 
     const nomeCompleto = `${nome.trim()} ${cognome.trim()}`;
 
-    // Invio email all'azienda
-    await inviaEmailAzienda({
-      nome,
-      cognome,
-      email,
-      servizio,
-      telefono,
-      messaggio,
-      nomeCompleto,
-    });
+    // Invio all'azienda
+    await sendAzienda({ nome, cognome, email, servizio, telefono, messaggio, nomeCompleto });
 
-    // Invio email di conferma al cliente
-    await inviaEmailConfermaCliente({
-      nome,
-      cognome,
-      email,
-      servizio,
-      messaggio,
-    });
+    // Invio di conferma al cliente
+    await sendCliente({ nome, email, servizio, messaggio });
 
     return res.json({
       ok: true,
@@ -40,8 +24,6 @@ exports.inviaFormContatti = async (req, res) => {
     });
   } catch (err) {
     console.error('❌ Errore invio email:', err);
-    // L'errore verrà passato al middleware di error handling grazie al next,
-    // ma per semplicità lo gestiamo qui.
     return res.status(500).json({
       ok: false,
       errori: [
