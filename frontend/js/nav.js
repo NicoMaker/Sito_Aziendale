@@ -74,7 +74,7 @@ function initNav() {
 
   if (isHome) {
     const sections = document.querySelectorAll("section[id]");
-    const links = document.querySelectorAll(".nav-links a");
+    const links = document.querySelectorAll(".nav-links a, .nav-mobile a");
 
     // Imposta il link attivo in base all'hash all'avvio
     const setActiveFromHash = () => {
@@ -114,7 +114,9 @@ function initNav() {
     sections.forEach((s) => spy.observe(s));
   } else {
     // Su pagine secondarie (es. servizio.html): evidenzia "Servizi"
-    const serviziLink = document.querySelector('.nav-links a[href*="servizi"]');
-    if (serviziLink) serviziLink.classList.add("active");
+    // sia nella navbar desktop sia nel menu mobile
+    document
+      .querySelectorAll('.nav-links a[href*="servizi"], .nav-mobile a[href*="servizi"]')
+      .forEach((l) => l.classList.add("active"));
   }
 }

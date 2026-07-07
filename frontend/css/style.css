@@ -16,6 +16,7 @@
   --accent: #181818;
   /* Arancione: riservato ai testi/accenti (eyebrow, hover, titoli evidenziati) */
   --accent-bright: #d9600c;
+  --accent-bright-rgb: 217, 96, 12;
   --accent-bright-2: #f0740f;
   --line: rgba(0, 0, 0, 0.1);
   --line-strong: rgba(0, 0, 0, 0.2);
@@ -180,6 +181,7 @@ button {
   font-weight: 700;
   font-size: 1.3rem;
   letter-spacing: -0.02em;
+  color: var(--accent-bright);
 }
 .nav-logo-dot {
   color: var(--accent-bright);
@@ -207,8 +209,8 @@ button {
 }
 .nav-links a:hover,
 .nav-links a.active {
-  color: var(--ink);
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--accent-bright);
+  background: rgba(var(--accent-bright-rgb), 0.09);
 }
 
 .hamburger {
@@ -276,7 +278,8 @@ button {
   min-height: var(--touch-target);
   transition: color 0.25s;
 }
-.nav-mobile a:hover {
+.nav-mobile a:hover,
+.nav-mobile a.active {
   color: var(--accent-bright);
 }
 .nav-mobile .mobile-cta {
@@ -408,9 +411,10 @@ button {
   line-height: 1.04;
   letter-spacing: -0.035em;
   margin-bottom: 26px;
+  color: var(--accent-bright);
 }
 .hero-title .accent {
-  color: var(--accent-bright);
+  color: var(--ink);
   position: relative;
 }
 .hero-title .accent::after {
@@ -574,6 +578,7 @@ button {
   font-size: clamp(1.9rem, 4vw, 3rem);
   line-height: 1.12;
   letter-spacing: -0.03em;
+  color: var(--accent-bright);
 }
 .section-sub {
   margin-top: 14px;
@@ -1548,6 +1553,7 @@ button {
   font-size: clamp(1.5rem, 2.8vw, 2rem);
   letter-spacing: -0.02em;
   margin-bottom: 6px;
+  color: var(--accent-bright);
 }
 .servizio-detail-sub {
   color: var(--muted);
@@ -1572,6 +1578,7 @@ button {
   font-family: var(--font-display);
   font-size: 1.1rem;
   margin-bottom: 12px;
+  color: var(--accent-bright);
 }
 .servizio-detail-lista ul {
   display: grid;
@@ -1656,6 +1663,7 @@ button {
   font-family: var(--font-display);
   font-size: 1.4rem;
   margin-bottom: 24px;
+  color: var(--accent-bright);
 }
 
 /* Card progetti correlati */
