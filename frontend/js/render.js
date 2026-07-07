@@ -152,6 +152,35 @@ function renderVideo(dati) {
     .join("");
 }
 
+// Formatta un numero "+393331234567" come "+39 333 123 4567",
+// così anche il numero WhatsApp appare leggibile come quello del telefono
+// (funziona su qualunque numero, anche se nel JSON è scritto senza spazi)
+function formatNumeroVisuale(numero) {
+  if (!numero) return "";
+  const pulito = String(numero).replace(/\s+/g, "");
+  const match = pulito.match(/^(\+\d{1,3})(\d+)$/);
+  if (!match) return numero;
+
+  const [, prefisso, resto] = match;
+  const gruppi = [];
+  for (let i = 0; i < resto.length; i += 3) gruppi.push(resto.slice(i, i + 3));
+
+  // L'ultimo gruppo, se troppo corto, si unisce al precedente (es. "4","567" → "4567")
+  if (gruppi.length > 1 && gruppi[gruppi.length - 1].length < 3) {
+    const ultimo = gruppi.pop();
+    gruppi[gruppi.length - 1] += ultimo;
+  }
+
+  return `${prefisso} ${gruppi.join(" ")}`;
+}
+
+// Icona WhatsApp (fumetto + cornetta stilizzata), colorata di verde
+// per essere riconoscibile a colpo d'occhio rispetto a chiamata/email
+const WHATSAPP_ICON_SVG = `<svg class="icon-whatsapp" width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" stroke="#25D366" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M8.6 8.4c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.7.7 1.8.1.1.1.3 0 .4-.1.2-.2.3-.3.4l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4.1.4-.1 1.1-.5 1.5-.5.5-1.5.8-2.5.5-2.4-.6-4.4-2.3-5.9-4.3-.6-.8-1-1.7-1-2.7 0-.9.4-1.6.6-1.9Z" fill="#25D366"/>
+</svg>`;
+
 // ── Team (da site.json) ─────────────────────────────────────
 function renderTeam(site) {
   const grid = document.getElementById("team-grid");
@@ -173,8 +202,8 @@ function renderTeam(site) {
           <div class="team-ruolo">${m.ruolo || ""}</div>
           ${m.piva ? `<div class="team-piva">${renderPiva(m.piva)}</div>` : ""}
           <div class="team-contatti-list">
-            ${contattoTeam(m.contatti && m.contatti.whatsapp, "chat", m.contatti && m.contatti.whatsapp && m.contatti.whatsapp.numero)}
-            ${contattoTeam(m.contatti && m.contatti.telefono, "call", m.contatti && m.contatti.telefono && m.contatti.telefono.numero)}
+            ${contattoTeam(m.contatti && m.contatti.whatsapp, WHATSAPP_ICON_SVG, formatNumeroVisuale(m.contatti && m.contatti.whatsapp && m.contatti.whatsapp.numero))}
+            ${contattoTeam(m.contatti && m.contatti.telefono, "call", formatNumeroVisuale(m.contatti && m.contatti.telefono && m.contatti.telefono.numero))}
             ${contattoTeam(m.contatti && m.contatti.email, "email", m.contatti && m.contatti.email && m.contatti.email.indirizzo)}
           </div>
         </div>
@@ -200,10 +229,15 @@ function renderPiva(piva) {
 }
 
 // Riga di contatto con icona + numero/indirizzo visibile (non solo icona)
+// "icona" può essere il nome di una Material Icon (es. "call") oppure
+// una stringa SVG già pronta (usata per WhatsApp, per essere riconoscibile)
 function contattoTeam(c, icona, valore) {
   if (!c || !c.url) return "";
+  const iconaHtml = icona.trim().startsWith("<svg")
+    ? icona
+    : `<span class="material-icons" aria-hidden="true">${icona}</span>`;
   return `<a class="team-contatto-riga" href="${c.url}" target="_blank" rel="noopener" title="${c.label || ""}" aria-label="${c.label || ""}">
-    <span class="material-icons" aria-hidden="true">${icona}</span>
+    ${iconaHtml}
     <span class="team-contatto-testo">${valore || c.label || ""}</span>
   </a>`;
 }

@@ -769,6 +769,7 @@ button { font-family: inherit; }
   background: rgba(26, 108, 255, 0.1);
 }
 .team-contatto-riga .material-icons { font-size: 19px; color: var(--accent-bright); flex-shrink: 0; }
+.team-contatto-riga .icon-whatsapp { flex-shrink: 0; }
 .team-contatto-testo {
   overflow: hidden;
   text-overflow: ellipsis;
