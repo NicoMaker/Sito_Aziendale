@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       SiteData.load("servizi"),
     ]);
 
+    window.API_URL = siteData.azienda.apiUrl || '/api/contatti';
+
     renderFooterSocial(siteData);
 
     const servizio = (serviziData.servizi || []).find((s) => s.slug === slug);
@@ -34,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", servizio.descrizione);
 
-    // ── Popola dettagli servizio ──
     document.getElementById("sd-icon").textContent = servizio.icona;
     document.getElementById("sd-title").textContent = servizio.titolo;
     document.getElementById("sd-desc").textContent = servizio.descrizione;
@@ -44,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       .map((d) => `<li><span class="lista-check">✓</span>${d}</li>`)
       .join("");
 
-    // ── FAQ accordion ──
     const faqWrap = document.getElementById("sd-faq");
     if (servizio.faq && servizio.faq.length) {
       faqWrap.innerHTML = servizio.faq
@@ -131,7 +131,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         .join("");
       correlatiWrap.style.display = "";
 
-      // Filtro solo ricerca (senza categorie)
       initFilterGrid({
         grid: correlatiGrid,
         searchInput: document.getElementById("sd-search-correlati"),
@@ -145,7 +144,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ── Servizi correlati: TUTTI tranne il corrente ────────
     const altriGrid = document.getElementById("sd-altri-servizi-grid");
     if (altriGrid) {
-      // Mostra tutti i servizi tranne quello attuale
       const serviziDaMostrare = serviziData.servizi.filter((s) => s.slug !== slug);
 
       altriGrid.innerHTML = serviziDaMostrare
@@ -168,26 +166,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         .join("");
     }
 
-    // ── FORM CONTATTI: precompilazione servizio e init ──────
+    // ── FORM CONTATTI: precompilazione e init ──────────────
     const formSelect = document.getElementById("f-servizio");
     if (formSelect) {
-      // Popola il select con i servizi
       serviziData.servizi.forEach((s) => {
         const opt = document.createElement("option");
         opt.value = s.titolo;
         opt.textContent = s.titolo;
         formSelect.appendChild(opt);
       });
-      // Imposta il valore sul servizio corrente
       formSelect.value = servizio.titolo;
     }
 
-    // Inizializza il form (include PhoneInput)
     if (typeof FormContatti !== "undefined") {
       FormContatti.init();
     }
 
-    // ── Scroll liscio verso il form quando si clicca su "Contattaci ora" ──
+    // ── Scroll liscio al form ──────────────────────────────
     const ctaLinks = document.querySelectorAll('a[href="#contatti-form-servizio"]');
     ctaLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -195,7 +190,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const target = document.getElementById("contatti-form-servizio");
         if (target) {
           target.scrollIntoView({ behavior: "smooth", block: "start" });
-          // Dopo lo scroll, metti il focus sul primo campo del form
           setTimeout(() => {
             const firstInput = target.querySelector("input, select, textarea");
             if (firstInput) firstInput.focus();
@@ -204,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // Mostra il contenuto
+    // ── Mostra contenuto ────────────────────────────────────
     loadingEl.style.display = "none";
     contentEl.style.display = "";
 
