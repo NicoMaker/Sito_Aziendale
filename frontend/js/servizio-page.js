@@ -134,7 +134,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       initFilterGrid({
         grid: correlatiGrid,
         searchInput: document.getElementById("sd-search-correlati"),
-        // catWrap non passato
         emptyEl: document.getElementById("sd-correlati-empty"),
         cardSelector: ".project-card",
       });
@@ -142,35 +141,77 @@ document.addEventListener("DOMContentLoaded", async () => {
       correlatiWrap.style.display = "none";
     }
 
-    // ── Servizi correlati (GRIglia di card) ─────────────────
+    // ── Servizi correlati (griglia) ─────────────────────────
     const altriGrid = document.getElementById("sd-altri-servizi-grid");
     if (altriGrid) {
-      // Mostra TUTTI i servizi tranne quello corrente
-      const serviziDaMostrare = serviziData.servizi.filter((s) => s.slug !== slug);
+      let serviziDaMostrare;
+      if (servizio.correlati && servizio.correlati.length) {
+        serviziDaMostrare = servizio.correlati
+          .map((s) => serviziData.servizi.find((sv) => sv.slug === s))
+          .filter(Boolean);
+      } else {
+        serviziDaMostrare = serviziData.servizi.filter((s) => s.slug !== slug);
+      }
 
       if (!serviziDaMostrare.length) {
-        altriGrid.innerHTML = `<p style="color: var(--muted); text-align: center;">Nessun altro servizio disponibile.</p>`;
-      } else {
-        altriGrid.innerHTML = serviziDaMostrare
-          .map((s, i) => `
-            <a
-              href="servizio.html?slug=${s.slug}"
-              class="servizio-card reveal reveal-delay-${i % 3}"
-              style="--card-accent:${s.colore || "var(--accent)"}"
-              aria-label="Scopri i dettagli di ${s.titolo}"
-            >
-              <div class="servizio-icona" aria-hidden="true">${s.icona || "◆"}</div>
-              <h3>${s.titolo}</h3>
-              <p>${s.descrizione}</p>
-              <span class="servizio-cta">
-                Scopri i dettagli
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-            </a>
-          `)
-          .join("");
+        serviziDaMostrare = serviziData.servizi.filter((s) => s.slug !== slug).slice(0, 3);
       }
+
+      altriGrid.innerHTML = serviziDaMostrare
+        .map((s, i) => `
+          <a
+            href="servizio.html?slug=${s.slug}"
+            class="servizio-card reveal reveal-delay-${i % 3}"
+            style="--card-accent:${s.colore || "var(--accent)"}"
+            aria-label="Scopri i dettagli di ${s.titolo}"
+          >
+            <div class="servizio-icona" aria-hidden="true">${s.icona || "◆"}</div>
+            <h3>${s.titolo}</h3>
+            <p>${s.descrizione}</p>
+            <span class="servizio-cta">
+              Scopri i dettagli
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        `)
+        .join("");
     }
+
+    // ── FORM CONTATTI: precompilazione servizio e init ──────
+    const formSelect = document.getElementById("f-servizio");
+    if (formSelect) {
+      // Popola il select con i servizi
+      serviziData.servizi.forEach((s) => {
+        const opt = document.createElement("option");
+        opt.value = s.titolo;
+        opt.textContent = s.titolo;
+        formSelect.appendChild(opt);
+      });
+      // Imposta il valore sul servizio corrente
+      formSelect.value = servizio.titolo;
+    }
+
+    // Inizializza il form (include PhoneInput)
+    if (typeof FormContatti !== "undefined") {
+      FormContatti.init();
+    }
+
+    // ── Scroll liscio verso il form quando si clicca su "Contattaci ora" ──
+    const ctaLinks = document.querySelectorAll('a[href="#contatti-form-servizio"]');
+    ctaLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = document.getElementById("contatti-form-servizio");
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          // Dopo lo scroll, metti il focus sul primo campo del form
+          setTimeout(() => {
+            const firstInput = target.querySelector("input, select, textarea");
+            if (firstInput) firstInput.focus();
+          }, 800);
+        }
+      });
+    });
 
     // Mostra il contenuto
     loadingEl.style.display = "none";

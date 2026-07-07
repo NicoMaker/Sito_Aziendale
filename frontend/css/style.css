@@ -1450,3 +1450,10 @@ button { font-family: inherit; }
 .servizio-detail-sub {
   font-size: 0.95rem;
 }
+
+/* --- Form nella pagina servizio: margini ridotti --- */
+#contatti-form-servizio {
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+  padding-top: 40px;
+}
