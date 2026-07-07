@@ -27,10 +27,16 @@
     <!-- ========== NAVBAR ========== -->
     <nav id="navbar" role="navigation" aria-label="Navigazione principale">
       <div class="container nav-inner">
-        <a href="index.html#home" class="nav-logo" aria-label="Nooo Agency - Home">
+        <a
+          href="index.html#home"
+          class="nav-logo"
+          aria-label="Nooo Agency - Home"
+        >
           <span class="nav-logo-mark" aria-hidden="true">N.</span>
           <span class="nav-logo-textwrap">
-            <span class="nav-logo-text">Nooo<span class="nav-logo-dot">.</span></span>
+            <span class="nav-logo-text"
+              >Nooo<span class="nav-logo-dot">.</span></span
+            >
             <span class="nav-logo-tagline">Informatica &amp; Grafica</span>
           </span>
         </a>
@@ -43,7 +49,9 @@
           <li><a href="index.html#team">Team</a></li>
         </ul>
 
-        <a href="index.html#contatti-form" class="btn btn-primary nav-cta">Scrivici</a>
+        <a href="index.html#contatti-form" class="btn btn-primary nav-cta"
+          >Scrivici</a
+        >
 
         <button class="hamburger" aria-label="Apri menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -52,14 +60,21 @@
     </nav>
 
     <!-- Mobile Nav -->
-    <div class="nav-mobile" role="dialog" aria-modal="true" aria-label="Menu mobile">
+    <div
+      class="nav-mobile"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu mobile"
+    >
       <ul>
         <li><a href="index.html#home">Home</a></li>
         <li><a href="index.html#servizi">Servizi</a></li>
         <li><a href="index.html#progetti">Progetti</a></li>
         <li><a href="index.html#video">Video</a></li>
         <li><a href="index.html#team">Team</a></li>
-        <li><a href="index.html#contatti-form" class="mobile-cta">Scrivici ora</a></li>
+        <li>
+          <a href="index.html#contatti-form" class="mobile-cta">Scrivici ora</a>
+        </li>
       </ul>
     </div>
 
@@ -70,17 +85,25 @@
           <a href="index.html#servizi" class="btn-back">← Tutti i servizi</a>
 
           <!-- Stato di caricamento -->
-          <div id="sd-loading" style="padding: 60px 0; text-align: center; color: var(--muted)">
+          <div
+            id="sd-loading"
+            style="padding: 60px 0; text-align: center; color: var(--muted)"
+          >
             Caricamento…
           </div>
 
           <!-- Stato "servizio non trovato" -->
-          <div id="sd-notfound" style="display: none; padding: 60px 0; text-align: center">
+          <div
+            id="sd-notfound"
+            style="display: none; padding: 60px 0; text-align: center"
+          >
             <h2 style="margin-bottom: 16px">Servizio non trovato</h2>
             <p style="margin-bottom: 32px; color: var(--muted)">
               Il servizio che cerchi non esiste o è stato rimosso.
             </p>
-            <a href="index.html#servizi" class="btn btn-primary">Torna ai servizi</a>
+            <a href="index.html#servizi" class="btn btn-primary"
+              >Torna ai servizi</a
+            >
           </div>
 
           <!-- Contenuto servizio (popolato via JS) -->
@@ -105,16 +128,41 @@
 
             <div class="servizio-detail-cta reveal">
               <p>Hai bisogno di questo servizio?</p>
-              <a href="#contatti-form-servizio" class="btn btn-primary">Contattaci ora</a>
+              <a href="#contatti-form-servizio" class="btn btn-primary"
+                >Contattaci ora</a
+              >
             </div>
 
             <!-- Progetti correlati -->
-            <div class="servizio-detail-correlati reveal" id="sd-correlati-wrap">
+            <div
+              class="servizio-detail-correlati reveal"
+              id="sd-correlati-wrap"
+            >
               <h3>Progetti correlati</h3>
               <div class="filter-bar" id="sd-correlati-filter-bar">
                 <div class="search-wrapper">
                   <span class="search-icon" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="11"
+                        cy="11"
+                        r="7"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <path
+                        d="M21 21l-4.3-4.3"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
                   </span>
                   <input
                     type="text"
@@ -123,10 +171,19 @@
                     aria-label="Cerca nei progetti correlati"
                   />
                 </div>
-                <div class="category-filter" id="sd-correlati-categorie" role="group" aria-label="Filtra per categoria"></div>
+                <div
+                  class="category-filter"
+                  id="sd-correlati-categorie"
+                  role="group"
+                  aria-label="Filtra per categoria"
+                ></div>
               </div>
               <div class="progetti-grid" id="sd-correlati-grid"></div>
-              <p class="filter-empty" id="sd-correlati-empty" style="display: none">
+              <p
+                class="filter-empty"
+                id="sd-correlati-empty"
+                style="display: none"
+              >
                 Nessun progetto trovato per questa ricerca.
               </p>
             </div>
@@ -141,26 +198,47 @@
             </div>
 
             <!-- ========== SEZIONE CONTATTI ========== -->
-            <section id="contatti-form-servizio" class="section section-form" style="padding-top: 40px; padding-bottom: 40px; margin-top: 20px;">
+            <section
+              id="contatti-form-servizio"
+              class="section section-form"
+              style="padding-top: 40px; padding-bottom: 40px; margin-top: 20px"
+            >
               <div class="container">
                 <div class="section-header reveal">
                   <span class="eyebrow">Contatti</span>
                   <h2>Parlaci del tuo progetto</h2>
                   <p class="section-sub">
-                    Rispondiamo entro un giorno lavorativo. Il preventivo è sempre gratuito e senza impegno.
+                    Rispondiamo entro un giorno lavorativo. Il preventivo è
+                    sempre gratuito e senza impegno.
                   </p>
                 </div>
 
-                <form id="form-contatti" class="form-contatti reveal" novalidate>
+                <form
+                  id="form-contatti"
+                  class="form-contatti reveal"
+                  novalidate
+                >
                   <div class="form-row">
                     <div class="form-field">
                       <label for="f-nome">Nome *</label>
-                      <input type="text" id="f-nome" name="nome" autocomplete="given-name" required />
+                      <input
+                        type="text"
+                        id="f-nome"
+                        name="nome"
+                        autocomplete="given-name"
+                        required
+                      />
                       <span class="field-error" data-error-for="nome"></span>
                     </div>
                     <div class="form-field">
                       <label for="f-cognome">Cognome *</label>
-                      <input type="text" id="f-cognome" name="cognome" autocomplete="family-name" required />
+                      <input
+                        type="text"
+                        id="f-cognome"
+                        name="cognome"
+                        autocomplete="family-name"
+                        required
+                      />
                       <span class="field-error" data-error-for="cognome"></span>
                     </div>
                   </div>
@@ -195,7 +273,12 @@
                           <span class="phone-dial" id="phone-dial">+39</span>
                           <span class="phone-caret" aria-hidden="true">▾</span>
                         </button>
-                        <ul class="phone-dropdown" id="phone-dropdown" role="listbox" tabindex="-1"></ul>
+                        <ul
+                          class="phone-dropdown"
+                          id="phone-dropdown"
+                          role="listbox"
+                          tabindex="-1"
+                        ></ul>
                         <input
                           type="tel"
                           id="f-telefono"
@@ -206,14 +289,19 @@
                           required
                         />
                       </div>
-                      <span class="field-error" data-error-for="telefono"></span>
+                      <span
+                        class="field-error"
+                        data-error-for="telefono"
+                      ></span>
                     </div>
                   </div>
 
                   <div class="form-field">
                     <label for="f-servizio">Servizio desiderato *</label>
                     <select id="f-servizio" name="servizio" required>
-                      <option value="" disabled selected>Scegli un servizio…</option>
+                      <option value="" disabled selected>
+                        Scegli un servizio…
+                      </option>
                     </select>
                     <span class="field-error" data-error-for="servizio"></span>
                   </div>
@@ -232,20 +320,29 @@
 
                   <div class="form-footer">
                     <p class="form-privacy">
-                      Inviando accetti che i tuoi dati vengano usati solo per risponderti. Nessuna newsletter, promesso.
+                      Inviando accetti che i tuoi dati vengano usati solo per
+                      risponderti. Nessuna newsletter, promesso.
                     </p>
-                    <button type="submit" class="btn btn-primary btn-submit" id="btn-invia">
+                    <button
+                      type="submit"
+                      class="btn btn-primary btn-submit"
+                      id="btn-invia"
+                    >
                       <span class="btn-label">Invia la richiesta</span>
                       <span class="btn-spinner" aria-hidden="true"></span>
                     </button>
                   </div>
 
-                  <div class="form-esito" id="form-esito" role="status" aria-live="polite"></div>
+                  <div
+                    class="form-esito"
+                    id="form-esito"
+                    role="status"
+                    aria-live="polite"
+                  ></div>
                 </form>
               </div>
             </section>
             <!-- ========== FINE SEZIONE CONTATTI ========== -->
-
           </div>
         </div>
       </div>
@@ -255,12 +352,19 @@
     <footer class="site-footer">
       <div class="container">
         <div class="footer-inner">
-          <a href="index.html#home" class="nav-logo footer-logo-link" aria-label="Nooo Agency - Home">
+          <a
+            href="index.html#home"
+            class="nav-logo footer-logo-link"
+            aria-label="Nooo Agency - Home"
+          >
             <span class="nav-logo-mark" aria-hidden="true">N.</span>
-            <span class="nav-logo-text">Nooo<span class="nav-logo-dot">.</span></span>
+            <span class="nav-logo-text"
+              >Nooo<span class="nav-logo-dot">.</span></span
+            >
           </a>
           <p class="footer-copy">
-            © <span id="current-year"></span> Nooo Agency – Informatica &amp; Grafica.
+            © <span id="current-year"></span> Nooo Agency – Informatica &amp;
+            Grafica.
           </p>
           <div class="footer-social" id="footer-social"></div>
         </div>

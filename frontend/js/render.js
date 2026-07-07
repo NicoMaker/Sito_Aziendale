@@ -27,7 +27,8 @@ function renderServizi(dati) {
   if (sotto && dati.sottotitolo) sotto.textContent = dati.sottotitolo;
 
   grid.innerHTML = (dati.servizi || [])
-    .map((s, i) => `
+    .map(
+      (s, i) => `
       <a
         href="servizio.html?slug=${s.slug}"
         class="servizio-card reveal reveal-delay-${i % 3}"
@@ -85,7 +86,7 @@ function renderProgetti(dati) {
         class="progetto-card reveal reveal-delay-${i % 3}"
         style="--card-accent:${p.colore || "var(--accent)"}"
         data-cat="${p.categoria || ""}"
-        data-search="${(`${p.titolo} ${p.descrizione || ""} ${(p.tecnologie || []).join(" ")}`).replace(/"/g, "&quot;").toLowerCase()}"${attrLink}
+        data-search="${`${p.titolo} ${p.descrizione || ""} ${(p.tecnologie || []).join(" ")}`.replace(/"/g, "&quot;").toLowerCase()}"${attrLink}
       >
         <div class="progetto-media">
           <img
@@ -230,7 +231,8 @@ function renderTeam(site) {
   if (sotto && azienda.descrizione) sotto.textContent = azienda.descrizione;
 
   let html = (site.team || [])
-    .map((m, i) => `
+    .map(
+      (m, i) => `
       <article class="team-card reveal reveal-delay-${i % 3}">
         <div class="team-foto">
           <img src="${m.foto}" alt="${m.nome}" loading="lazy" />
@@ -246,15 +248,26 @@ function renderTeam(site) {
           </div>
         </div>
       </article>
-    `)
+    `,
+    )
     .join("");
 
   // ── Card aziendale (senza gradienti) ──
   if (azienda.contattiAzienda) {
     const ca = azienda.contattiAzienda;
     const contattiAzienda = [
-      ca.whatsapp && contattoTeam(ca.whatsapp, WHATSAPP_ICON_SVG, formatNumeroVisuale(ca.whatsapp.numero)),
-      ca.telefono && contattoTeam(ca.telefono, "call", formatNumeroVisuale(ca.telefono.numero)),
+      ca.whatsapp &&
+        contattoTeam(
+          ca.whatsapp,
+          WHATSAPP_ICON_SVG,
+          formatNumeroVisuale(ca.whatsapp.numero),
+        ),
+      ca.telefono &&
+        contattoTeam(
+          ca.telefono,
+          "call",
+          formatNumeroVisuale(ca.telefono.numero),
+        ),
       ca.email && contattoTeam(ca.email, "email", ca.email.indirizzo),
     ].filter(Boolean);
 

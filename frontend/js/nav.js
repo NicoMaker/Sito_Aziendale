@@ -69,7 +69,7 @@ function initNav() {
         });
       },
       // Soglia: almeno il 30% della sezione deve essere visibile
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     sections.forEach((s) => spy.observe(s));
