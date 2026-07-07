@@ -1,7 +1,5 @@
 // ============================================================
 // servizio-page.js — Pagina di dettaglio di un singolo servizio
-// (servizio.html?slug=xxx). Script classico, coerente con il
-// resto del sito (nessun modulo ES).
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -12,7 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const contentEl = document.getElementById("sd-content");
 
   try {
-    // --- Slug dalla query string: servizio.html?slug=siti-web ---
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
 
@@ -33,17 +30,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // --- Titolo pagina dinamico ---
     document.title = `${servizio.titolo} – Nooo Agency`;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", servizio.descrizione);
 
-    // --- Popolo i campi ---
     document.getElementById("sd-icon").textContent = servizio.icona;
     document.getElementById("sd-title").textContent = servizio.titolo;
     document.getElementById("sd-desc").textContent = servizio.descrizione;
 
-    // Lista dettagli
     const lista = document.getElementById("sd-lista");
     lista.innerHTML = (servizio.dettagli || [])
       .map((d) => `<li><span class="lista-check">✓</span>${d}</li>`)
@@ -97,8 +91,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           )
         : [];
 
-    // Fallback: se non ci sono progetti correlati per categoria,
-    // mostro comunque alcuni progetti (i più recenti) invece di nascondere la sezione
     if (!correlati.length) {
       correlati = [...progettiData.progetti]
         .sort((a, b) => b.anno - a.anno)
@@ -138,11 +130,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         .join("");
       correlatiWrap.style.display = "";
 
-      // --- Ricerca + filtro categorie nei progetti correlati ---
+      // --- Ricerca + filtro (SOLO ricerca, senza categorie) ---
       initFilterGrid({
         grid: correlatiGrid,
         searchInput: document.getElementById("sd-search-correlati"),
-        catWrap: document.getElementById("sd-correlati-categorie"),
+        // catWrap: NON PASSATO per evitare il filtro categorie
         emptyEl: document.getElementById("sd-correlati-empty"),
         cardSelector: ".project-card",
       });
@@ -150,14 +142,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       correlatiWrap.style.display = "none";
     }
 
-    // Servizi correlati (solo quelli pertinenti a questa attività, non tutti)
+    // Servizi correlati (select)
     const altriSelect = document.getElementById("sd-altri-select");
     let correlatiServizi = (servizio.correlati || [])
       .map((relSlug) => serviziData.servizi.find((s) => s.slug === relSlug))
       .filter(Boolean);
 
-    // Fallback: se il servizio non ha una lista "correlati" in servizi.json,
-    // mostro comunque un paio di alternative invece di nascondere il blocco
     if (!correlatiServizi.length) {
       correlatiServizi = serviziData.servizi
         .filter((s) => s.slug !== slug)
@@ -174,19 +164,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           )
           .join("");
 
-      // Navigazione automatica: appena selezioni, si va subito
-      // all'inizio del dettaglio del nuovo servizio (nessun bottone da premere).
       altriSelect.addEventListener("change", () => {
         const nuovoSlug = altriSelect.value;
         if (nuovoSlug) window.location.href = `servizio.html?slug=${nuovoSlug}`;
       });
     }
 
-    // --- Mostro il contenuto ---
     loadingEl.style.display = "none";
     contentEl.style.display = "";
 
-    // --- Nav + reveal animations ---
     initNav();
     initReveal();
     if (typeof initMagneticButtons === "function") initMagneticButtons();
@@ -198,7 +184,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// --- Anno footer ---
 document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("current-year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();

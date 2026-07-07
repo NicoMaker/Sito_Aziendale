@@ -1380,3 +1380,8 @@ button { font-family: inherit; }
     font-size: 1rem;
   }
 }
+
+/* Nasconde il filtro categorie nella sezione progetti correlati */
+#sd-correlati-categorie {
+  display: none;
+}
