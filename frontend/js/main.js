@@ -3,7 +3,7 @@
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", async () => {
-  initNav();
+  // initNav() viene chiamata dopo il rendering, non qui
 
   try {
     const { site, servizi, progetti, video } = await SiteData.loadAll();
@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (err) {
     console.error("Errore nel caricamento dei dati del sito:", err);
   } finally {
+    // Ora le sezioni sono state generate, possiamo inizializzare la navigazione
+    initNav();
     initReveal();
     initCounters();
     initParallax();

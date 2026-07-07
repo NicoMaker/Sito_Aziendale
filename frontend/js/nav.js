@@ -30,14 +30,30 @@ function initNav() {
     .forEach((a) => a.addEventListener("click", () => toggleMenu(false)));
 
   // ── Evidenzia link attivo ──────────────────────────────────
-  // Determina se siamo su index.html o su una pagina secondaria
   const path = window.location.pathname;
   const isHome = path.endsWith("index.html") || path === "/" || path === "";
 
   if (isHome) {
-    // Su index.html: evidenzia la sezione visibile
     const sections = document.querySelectorAll("section[id]");
     const links = document.querySelectorAll(".nav-links a");
+
+    // Imposta il link attivo in base all'hash all'avvio
+    const setActiveFromHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        links.forEach((l) => {
+          const href = l.getAttribute("href");
+          if (href && href.split("#")[1] === hash) {
+            l.classList.add("active");
+          } else {
+            l.classList.remove("active");
+          }
+        });
+      }
+    };
+    setActiveFromHash();
+
+    // Osservatore per lo scroll – con soglia più permissiva
     const spy = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -46,13 +62,16 @@ function initNav() {
             const href = l.getAttribute("href");
             if (href) {
               const targetId = href.split("#")[1];
+              // Aggiunge/rimuove la classe active in base all'ID
               l.classList.toggle("active", targetId === entry.target.id);
             }
           });
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" },
+      // Soglia: almeno il 30% della sezione deve essere visibile
+      { threshold: 0.3 }
     );
+
     sections.forEach((s) => spy.observe(s));
   } else {
     // Su pagine secondarie (es. servizio.html): evidenzia "Servizi"
