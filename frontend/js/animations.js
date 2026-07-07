@@ -110,25 +110,9 @@ function initMagneticButtons() {
   });
 }
 
-// ── Glow che segue il cursore nell'hero (profondità, stile agency) ──
+// ── Glow che segue il cursore nell'hero (disabilitato per b/n) ──
 function initHeroGlow() {
-  if (prefersReducedMotion) return;
-  const hero = document.getElementById("home");
-  const media = document.getElementById("hero-media");
-  if (!hero || !media || window.matchMedia("(hover: none)").matches) return;
-
-  let raf = null;
-  hero.addEventListener("mousemove", (e) => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      const r = hero.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width) * 100;
-      const y = ((e.clientY - r.top) / r.height) * 100;
-      media.style.setProperty("--glow-x", `${x}%`);
-      media.style.setProperty("--glow-y", `${y}%`);
-      raf = null;
-    });
-  });
+  // Non facciamo nulla per evitare gradienti colorati
 }
 
 // ── Marquee (duplicazione contenuto per loop infinito) ──────

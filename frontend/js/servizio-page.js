@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       SiteData.load("servizi"),
     ]);
 
-    window.API_URL = siteData.azienda.apiUrl || '/api/contatti';
+    window.API_URL = siteData.azienda.apiUrl || "/api/contatti";
 
     renderFooterSocial(siteData);
 
@@ -69,12 +69,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           faqWrap.querySelectorAll(".faq-toggle").forEach((b) => {
             b.setAttribute("aria-expanded", "false");
             b.querySelector(".faq-arrow").textContent = "+";
-            document.getElementById(b.getAttribute("aria-controls")).hidden = true;
+            document.getElementById(b.getAttribute("aria-controls")).hidden =
+              true;
           });
           if (!expanded) {
             btn.setAttribute("aria-expanded", "true");
             btn.querySelector(".faq-arrow").textContent = "−";
-            document.getElementById(btn.getAttribute("aria-controls")).hidden = false;
+            document.getElementById(btn.getAttribute("aria-controls")).hidden =
+              false;
           }
         });
       });
@@ -110,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             ? ` href="${p.link}" target="_blank" rel="noopener" aria-label="Apri il progetto ${p.titolo}"`
             : "";
           return `
-        <${tag} class="project-card" data-cat="${p.categoria}" data-search="${(`${p.titolo} ${p.descrizione} ${(p.tecnologie || []).join(" ")}`).toLowerCase()}"${attrLink}>
+        <${tag} class="project-card" data-cat="${p.categoria}" data-search="${`${p.titolo} ${p.descrizione} ${(p.tecnologie || []).join(" ")}`.toLowerCase()}"${attrLink}>
           <div class="project-img-wrap">
             <img src="${p.immagine_placeholder}" alt="${p.titolo}" loading="lazy">
             <div class="project-overlay"></div>
@@ -144,10 +146,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ── Servizi correlati: TUTTI tranne il corrente ────────
     const altriGrid = document.getElementById("sd-altri-servizi-grid");
     if (altriGrid) {
-      const serviziDaMostrare = serviziData.servizi.filter((s) => s.slug !== slug);
+      const serviziDaMostrare = serviziData.servizi.filter(
+        (s) => s.slug !== slug,
+      );
 
       altriGrid.innerHTML = serviziDaMostrare
-        .map((s, i) => `
+        .map(
+          (s, i) => `
           <a
             href="servizio.html?slug=${s.slug}"
             class="servizio-card reveal reveal-delay-${i % 3}"
@@ -162,7 +167,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
           </a>
-        `)
+        `,
+        )
         .join("");
     }
 
@@ -183,7 +189,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // ── Scroll liscio al form ──────────────────────────────
-    const ctaLinks = document.querySelectorAll('a[href="#contatti-form-servizio"]');
+    const ctaLinks = document.querySelectorAll(
+      'a[href="#contatti-form-servizio"]',
+    );
     ctaLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();

@@ -1,9 +1,9 @@
 // ============================================================
 // services/email/sendAzienda.js — Notifica all'azienda
 // ============================================================
-const transporter = require('./transporter');
-const config = require('../../config');
-const { templateAzienda } = require('./templates');
+const transporter = require("./transporter");
+const config = require("../../config");
+const { templateAzienda } = require("./templates");
 
 async function sendAzienda(dati) {
   return transporter.sendMail({

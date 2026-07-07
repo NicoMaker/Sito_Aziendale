@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const { site, servizi, progetti, video } = await SiteData.loadAll();
 
-    window.API_URL = site.azienda.apiUrl || '/api/contatti';
+    window.API_URL = site.azienda.apiUrl || "/api/contatti";
 
     renderMarquee(servizi);
     renderServizi(servizi);

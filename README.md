@@ -49,17 +49,19 @@ Il backend serve anche il frontend, quindi basta un solo comando.
 
 ## Cosa modificare per personalizzare
 
-| Cosa | Dove |
-|---|---|
-| Orari, festività, ferie, chiusure, stagioni | `frontend/data/footer.json` |
-| Team, descrizione azienda, social | `frontend/data/site.json` |
-| Servizi + FAQ (anche le voci del form) | `frontend/data/servizi.json` |
-| Progetti/portfolio | `frontend/data/progetti.json` |
-| Video (YouTube o mp4) | `frontend/data/video.json` |
-| Email di destinazione del form | `backend/.env` → `MAIL_TO` |
+| Cosa                                        | Dove                          |
+| ------------------------------------------- | ----------------------------- |
+| Orari, festività, ferie, chiusure, stagioni | `frontend/data/footer.json`   |
+| Team, descrizione azienda, social           | `frontend/data/site.json`     |
+| Servizi + FAQ (anche le voci del form)      | `frontend/data/servizi.json`  |
+| Progetti/portfolio                          | `frontend/data/progetti.json` |
+| Video (YouTube o mp4)                       | `frontend/data/video.json`    |
+| Email di destinazione del form              | `backend/.env` → `MAIL_TO`    |
 
 ### Video
+
 In `video.json` ogni video è:
+
 - YouTube: `{ "tipo": "youtube", "id": "ID_DEL_VIDEO", "titolo": "...", "descrizione": "..." }`
 - File mp4: `{ "tipo": "mp4", "src": "video/nomefile.mp4", "poster": "img/poster.jpg", ... }`
 
@@ -74,6 +76,7 @@ In `video.json` ogni video è:
 ## Footer orari
 
 Il footer mostra SOLO gli orari (niente mappa, niente contatti), con il tuo sistema integrato senza modifiche di logica:
+
 - stato live (aperto / in apertura / in chiusura / chiuso) aggiornato ogni minuto
 - gestione festività, ferie, chiusure e orari extra da `footer.json`
 - cambio stagione automatico con countdown

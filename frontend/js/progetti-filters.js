@@ -16,7 +16,14 @@
  * @param {string} opts.cardSelector       - selettore delle singole card
  * @param {string[]} [opts.categorie]      - elenco categorie (auto se omesso)
  */
-function initFilterGrid({ grid, searchInput, catWrap, emptyEl, cardSelector, categorie }) {
+function initFilterGrid({
+  grid,
+  searchInput,
+  catWrap,
+  emptyEl,
+  cardSelector,
+  categorie,
+}) {
   if (!grid || !searchInput) return;
 
   const getCards = () => grid.querySelectorAll(cardSelector);

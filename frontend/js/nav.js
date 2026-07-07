@@ -16,7 +16,8 @@ function initNav() {
 
   // Menu mobile
   const toggleMenu = (open) => {
-    const isOpen = open !== undefined ? open : !mobileNav.classList.contains("open");
+    const isOpen =
+      open !== undefined ? open : !mobileNav.classList.contains("open");
     mobileNav.classList.toggle("open", isOpen);
     hamburger.classList.toggle("open", isOpen);
     hamburger.setAttribute("aria-expanded", String(isOpen));
@@ -24,9 +25,9 @@ function initNav() {
   };
 
   hamburger.addEventListener("click", () => toggleMenu());
-  mobileNav.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => toggleMenu(false)),
-  );
+  mobileNav
+    .querySelectorAll("a")
+    .forEach((a) => a.addEventListener("click", () => toggleMenu(false)));
 
   // ── Evidenzia link attivo ──────────────────────────────────
   // Determina se siamo su index.html o su una pagina secondaria

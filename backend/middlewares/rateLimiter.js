@@ -8,15 +8,19 @@ const MAX_RICHIESTE = 5;
 const richieste = new Map(); // ip → array di timestamp
 
 function rateLimiter(req, res, next) {
-  const ip = req.ip || req.connection.remoteAddress || 'sconosciuto';
+  const ip = req.ip || req.connection.remoteAddress || "sconosciuto";
   const ora = Date.now();
 
-  const storico = (richieste.get(ip) || []).filter((t) => ora - t < FINESTRA_MS);
+  const storico = (richieste.get(ip) || []).filter(
+    (t) => ora - t < FINESTRA_MS,
+  );
 
   if (storico.length >= MAX_RICHIESTE) {
     return res.status(429).json({
       ok: false,
-      errori: ['Troppe richieste in poco tempo. Riprova tra qualche minuto o chiamaci direttamente.'],
+      errori: [
+        "Troppe richieste in poco tempo. Riprova tra qualche minuto o chiamaci direttamente.",
+      ],
     });
   }
 

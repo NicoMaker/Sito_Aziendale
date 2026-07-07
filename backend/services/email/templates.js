@@ -2,15 +2,15 @@
 // services/email/templates.js — Template HTML delle email
 // Stile coerente con il sito (legno scuro + ambra)
 // ============================================================
-const { escapeHtml } = require('../../utils/validators');
-const config = require('../../config');
+const { escapeHtml } = require("../../utils/validators");
+const config = require("../../config");
 
 const COLORI = {
-  bg: '#0a0e1a',
-  panel: '#121a2e',
-  cream: '#eef2fb',
-  muted: '#7c88a3',
-  accent: '#4d8dff',
+  bg: "#0a0e1a",
+  panel: "#121a2e",
+  cream: "#eef2fb",
+  muted: "#7c88a3",
+  accent: "#4d8dff",
 };
 
 function layoutBase(titolo, corpo) {
@@ -42,14 +42,20 @@ function rigaDato(label, valore) {
 }
 
 // ── Email per l'azienda: nuova richiesta dal sito ──
-function templateAzienda({ nomeCompleto, email, telefono, servizio, messaggio }) {
+function templateAzienda({
+  nomeCompleto,
+  email,
+  telefono,
+  servizio,
+  messaggio,
+}) {
   const corpo = `
     <p style="margin:0 0 18px;">Hai ricevuto una nuova richiesta di preventivo dal sito:</p>
     <table style="width:100%;border-collapse:collapse;">
-      ${rigaDato('Nome', nomeCompleto)}
-      ${rigaDato('Email', email)}
-      ${rigaDato('Telefono', telefono)}
-      ${rigaDato('Servizio', servizio)}
+      ${rigaDato("Nome", nomeCompleto)}
+      ${rigaDato("Email", email)}
+      ${rigaDato("Telefono", telefono)}
+      ${rigaDato("Servizio", servizio)}
     </table>
     <div style="margin-top:18px;padding:16px;background:rgba(217,151,60,0.08);border:1px solid rgba(217,151,60,0.3);border-radius:10px;">
       <div style="color:${COLORI.accent};font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Messaggio</div>
@@ -58,7 +64,7 @@ function templateAzienda({ nomeCompleto, email, telefono, servizio, messaggio })
     <p style="margin:20px 0 0;color:${COLORI.muted};font-size:13px;">
       Puoi rispondere direttamente a questa email: il mittente è impostato sull'indirizzo del cliente.
     </p>`;
-  return layoutBase('Nuova richiesta di preventivo', corpo);
+  return layoutBase("Nuova richiesta di preventivo", corpo);
 }
 
 // ── Email di conferma per il cliente ──
@@ -67,7 +73,7 @@ function templateCliente({ nome, servizio }) {
     <p style="margin:0 0 16px;">Ciao ${escapeHtml(nome)},</p>
     <p style="margin:0 0 16px;">
       grazie per averci scritto! Abbiamo ricevuto la tua richiesta
-      ${servizio ? `per <strong style="color:${COLORI.accent};">${escapeHtml(servizio)}</strong>` : ''}
+      ${servizio ? `per <strong style="color:${COLORI.accent};">${escapeHtml(servizio)}</strong>` : ""}
       e ti risponderemo entro un giorno lavorativo.
     </p>
     <p style="margin:0 0 16px;">
@@ -75,7 +81,7 @@ function templateCliente({ nome, servizio }) {
       <strong style="color:${COLORI.accent};">${escapeHtml(config.azienda.email)}</strong>.
     </p>
     <p style="margin:0;">A presto,<br/>la squadra della ${escapeHtml(config.azienda.nome)}</p>`;
-  return layoutBase('Abbiamo ricevuto la tua richiesta', corpo);
+  return layoutBase("Abbiamo ricevuto la tua richiesta", corpo);
 }
 
 module.exports = { templateAzienda, templateCliente };

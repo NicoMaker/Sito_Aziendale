@@ -189,9 +189,10 @@ function formatNumeroVisuale(numero) {
   return `${prefisso} ${gruppi.join(" ")}`;
 }
 
+// Icona WhatsApp in grigio (senza colori)
 const WHATSAPP_ICON_SVG = `<svg class="icon-whatsapp" width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" stroke="#25D366" stroke-width="1.6" stroke-linejoin="round"/>
-  <path d="M8.6 8.4c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.7.7 1.8.1.1.1.3 0 .4-.1.2-.2.3-.3.4l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4.1.4-.1 1.1-.5 1.5-.5.5-1.5.8-2.5.5-2.4-.6-4.4-2.3-5.9-4.3-.6-.8-1-1.7-1-2.7 0-.9.4-1.6.6-1.9Z" fill="#25D366"/>
+  <path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M8.6 8.4c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.7.7 1.8.1.1.1.3 0 .4-.1.2-.2.3-.3.4l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4.1.4-.1 1.1-.5 1.5-.5.5-1.5.8-2.5.5-2.4-.6-4.4-2.3-5.9-4.3-.6-.8-1-1.7-1-2.7 0-.9.4-1.6.6-1.9Z" fill="currentColor"/>
 </svg>`;
 
 function isoToFlag(iso) {
@@ -248,10 +249,9 @@ function renderTeam(site) {
     `)
     .join("");
 
-  // ── Card aziendale (se presente) ──
+  // ── Card aziendale (senza gradienti) ──
   if (azienda.contattiAzienda) {
     const ca = azienda.contattiAzienda;
-    // Costruisce i contatti nello stesso ordine: WhatsApp, Telefono, Email
     const contattiAzienda = [
       ca.whatsapp && contattoTeam(ca.whatsapp, WHATSAPP_ICON_SVG, formatNumeroVisuale(ca.whatsapp.numero)),
       ca.telefono && contattoTeam(ca.telefono, "call", formatNumeroVisuale(ca.telefono.numero)),
@@ -261,9 +261,9 @@ function renderTeam(site) {
     const delayIndex = (site.team || []).length % 3;
 
     html += `
-      <article class="team-card azienda reveal reveal-delay-${delayIndex}" style="border-color: rgba(26,108,255,0.4);">
-        <div class="team-foto" style="background: linear-gradient(135deg, var(--accent), #0d3fa6); display: grid; place-items: center; font-size: 2.2rem; color: #fff;">
-          <span style="font-weight: 800;">N.</span>
+      <article class="team-card azienda reveal reveal-delay-${delayIndex}" style="border-color: var(--line-strong);">
+        <div class="team-foto" style="background: #ccc; display: grid; place-items: center; font-size: 2.2rem; color: #fff; font-weight: 800;">
+          <span>N.</span>
         </div>
         <div class="team-body">
           <h3>${azienda.nome || "Azienda"}</h3>

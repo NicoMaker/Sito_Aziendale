@@ -102,7 +102,14 @@ const FormContatti = {
   },
 
   validaTutto() {
-    const campi = ["nome", "cognome", "email", "telefono", "servizio", "messaggio"];
+    const campi = [
+      "nome",
+      "cognome",
+      "email",
+      "telefono",
+      "servizio",
+      "messaggio",
+    ];
     let ok = true;
     campi.forEach((c) => {
       if (!this.validaCampo(c)) ok = false;
@@ -118,7 +125,9 @@ const FormContatti = {
     esito.textContent = "";
 
     if (!this.validaTutto()) {
-      const primoErrore = this.form.querySelector(".form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea");
+      const primoErrore = this.form.querySelector(
+        ".form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea",
+      );
       if (primoErrore) primoErrore.focus();
       return;
     }
@@ -147,12 +156,14 @@ const FormContatti = {
 
       if (res.ok && dati.ok) {
         esito.classList.add("ok");
-        esito.textContent = dati.message || "Richiesta inviata! Ti risponderemo al più presto.";
+        esito.textContent =
+          dati.message || "Richiesta inviata! Ti risponderemo al più presto.";
         this.form.reset();
         document.getElementById("f-telefono").value = "";
       } else {
         esito.classList.add("errore");
-        esito.textContent = (dati.errori && dati.errori.join(" ")) ||
+        esito.textContent =
+          (dati.errori && dati.errori.join(" ")) ||
           "Si è verificato un errore. Riprova o chiamaci direttamente.";
       }
     } catch (err) {

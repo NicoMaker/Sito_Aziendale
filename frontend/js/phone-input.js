@@ -67,9 +67,7 @@ const PhoneInput = {
         dialEl.textContent = paese.dial;
         dropdown
           .querySelectorAll("li")
-          .forEach((el) =>
-            el.setAttribute("aria-selected", String(el === li)),
-          );
+          .forEach((el) => el.setAttribute("aria-selected", String(el === li)));
         // Rivalida con le nuove regole di lunghezza
         this.input.dispatchEvent(new Event("input"));
       }
@@ -98,9 +96,9 @@ const PhoneInput = {
       const cifre = this.getDigits();
       if (cifre.length > this.paese.max) {
         let rimaste = this.paese.max;
-        this.input.value = this.input.value.replace(/\d/g, (d) =>
-          rimaste-- > 0 ? d : "",
-        ).trimEnd();
+        this.input.value = this.input.value
+          .replace(/\d/g, (d) => (rimaste-- > 0 ? d : ""))
+          .trimEnd();
       }
     });
   },
@@ -120,7 +118,8 @@ const PhoneInput = {
   },
 
   messaggioErrore() {
-    if (!this.getDigits().length) return "Il numero di cellulare è obbligatorio.";
+    if (!this.getDigits().length)
+      return "Il numero di cellulare è obbligatorio.";
     return `Numero non valido per ${this.paese.nome}: servono da ${this.paese.min} a ${this.paese.max} cifre.`;
   },
 };

@@ -2,7 +2,14 @@
 // progetti-filter.js — Ricerca + filtro categorie con select
 // ============================================================
 
-function initFilterGrid({ grid, searchInput, catWrap, emptyEl, cardSelector, categorie }) {
+function initFilterGrid({
+  grid,
+  searchInput,
+  catWrap,
+  emptyEl,
+  cardSelector,
+  categorie,
+}) {
   if (!grid || !searchInput) return;
 
   const getCards = () => grid.querySelectorAll(cardSelector);
@@ -34,28 +41,28 @@ function initFilterGrid({ grid, searchInput, catWrap, emptyEl, cardSelector, cat
   // ── Creazione del select per le categorie ──
   if (catWrap) {
     // Svuota il contenitore
-    catWrap.innerHTML = '';
+    catWrap.innerHTML = "";
 
-    const select = document.createElement('select');
-    select.id = 'categoria-select';
-    select.setAttribute('aria-label', 'Filtra per categoria');
+    const select = document.createElement("select");
+    select.id = "categoria-select";
+    select.setAttribute("aria-label", "Filtra per categoria");
 
     // Opzione "Tutti"
-    const allOpt = document.createElement('option');
-    allOpt.value = 'Tutti';
-    allOpt.textContent = 'Tutte le categorie';
+    const allOpt = document.createElement("option");
+    allOpt.value = "Tutti";
+    allOpt.textContent = "Tutte le categorie";
     select.appendChild(allOpt);
 
     // Opzioni per ogni categoria
-    elencoCategorie.forEach(cat => {
-      const opt = document.createElement('option');
+    elencoCategorie.forEach((cat) => {
+      const opt = document.createElement("option");
       opt.value = cat;
       opt.textContent = cat;
       select.appendChild(opt);
     });
 
     // Evento change
-    select.addEventListener('change', () => {
+    select.addEventListener("change", () => {
       categoriaAttiva = select.value;
       applyFilter();
     });
@@ -66,16 +73,18 @@ function initFilterGrid({ grid, searchInput, catWrap, emptyEl, cardSelector, cat
   // ── Ricerca con scroll intelligente (solo desktop) ──
   let eraVuoto = true;
   let scrollCooldown = false;
-  const isMobile = () => window.innerWidth < 640 || ('ontouchstart' in window);
+  const isMobile = () => window.innerWidth < 640 || "ontouchstart" in window;
 
-  searchInput.addEventListener('input', () => {
+  searchInput.addEventListener("input", () => {
     const vuoto = !searchInput.value.trim();
 
     if (!isMobile() && eraVuoto && !vuoto && !scrollCooldown) {
       scrollCooldown = true;
-      const target = grid.closest('section') || grid;
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => { scrollCooldown = false; }, 600);
+      const target = grid.closest("section") || grid;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        scrollCooldown = false;
+      }, 600);
     }
 
     eraVuoto = vuoto;
@@ -84,7 +93,7 @@ function initFilterGrid({ grid, searchInput, catWrap, emptyEl, cardSelector, cat
 
   // Riapplica al resize
   let resizeTimer;
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(applyFilter, 200);
   });

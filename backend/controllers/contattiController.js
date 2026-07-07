@@ -1,8 +1,8 @@
 // ============================================================
 // controllers/contattiController.js — Logica del form contatti
 // ============================================================
-const { validaForm } = require('../utils/validators');
-const { sendAzienda, sendCliente } = require('../services/email');
+const { validaForm } = require("../utils/validators");
+const { sendAzienda, sendCliente } = require("../services/email");
 
 exports.inviaFormContatti = async (req, res) => {
   try {
@@ -20,7 +20,7 @@ exports.inviaFormContatti = async (req, res) => {
       cognome: cognome.trim(),
       nomeCompleto,
       email: email.trim(),
-      telefono: String(telefono).replace(/\s/g, ''),
+      telefono: String(telefono).replace(/\s/g, ""),
       servizio,
       messaggio: messaggio.trim(),
     };
@@ -32,15 +32,15 @@ exports.inviaFormContatti = async (req, res) => {
     try {
       await sendCliente(dati);
     } catch (err) {
-      console.warn('⚠️  Conferma al cliente non inviata:', err.message);
+      console.warn("⚠️  Conferma al cliente non inviata:", err.message);
     }
 
     return res.json({
       ok: true,
-      message: 'Richiesta inviata! Ti risponderemo entro un giorno lavorativo.',
+      message: "Richiesta inviata! Ti risponderemo entro un giorno lavorativo.",
     });
   } catch (err) {
-    console.error('❌ Errore invio email:', err);
+    console.error("❌ Errore invio email:", err);
     return res.status(500).json({
       ok: false,
       errori: [
