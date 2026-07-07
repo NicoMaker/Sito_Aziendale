@@ -1385,3 +1385,8 @@ button { font-family: inherit; }
 #sd-correlati-categorie {
   display: none;
 }
+
+/* Nasconde il filtro categorie nei progetti correlati */
+#sd-correlati-categorie {
+  display: none;
+}

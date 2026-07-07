@@ -134,6 +134,7 @@
                     aria-label="Cerca nei progetti correlati"
                   />
                 </div>
+                <!-- il filtro categorie è nascosto via CSS -->
                 <div class="category-filter" id="sd-correlati-categorie" role="group" aria-label="Filtra per categoria"></div>
               </div>
               <div class="progetti-grid" id="sd-correlati-grid"></div>
@@ -141,17 +142,13 @@
                 Nessun progetto trovato per questa ricerca.
               </p>
             </div>
-            <!-- Servizi correlati -->
+            <!-- Servizi correlati (GRIglia di card) -->
             <div class="servizio-detail-altri reveal">
-              <h3>Servizi correlati</h3>
+              <h3>Altri servizi</h3>
               <p class="servizio-correlati-hint">
-                Scegli un altro servizio per vederlo subito nel dettaglio.
+                Scopri gli altri servizi che offriamo.
               </p>
-              <div class="servizio-select-wrap">
-                <select id="sd-altri-select" aria-label="Vai a un altro servizio">
-                  <option value="" disabled selected>Scegli un servizio correlato…</option>
-                </select>
-              </div>
+              <div class="servizi-grid" id="sd-altri-servizi-grid"></div>
             </div>
           </div>
         </div>

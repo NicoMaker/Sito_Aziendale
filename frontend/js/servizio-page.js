@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       faqWrap.innerHTML = "";
     }
 
-    // Progetti correlati
+    // ── Progetti correlati ──────────────────────────────────
     const correlatiWrap = document.getElementById("sd-correlati-wrap");
     const correlatiGrid = document.getElementById("sd-correlati-grid");
     let correlati =
@@ -130,11 +130,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         .join("");
       correlatiWrap.style.display = "";
 
-      // --- Ricerca + filtro (SOLO ricerca, senza categorie) ---
+      // Filtro solo ricerca (senza categorie)
       initFilterGrid({
         grid: correlatiGrid,
         searchInput: document.getElementById("sd-search-correlati"),
-        // catWrap: NON PASSATO per evitare il filtro categorie
+        // catWrap non passato
         emptyEl: document.getElementById("sd-correlati-empty"),
         cardSelector: ".project-card",
       });
@@ -142,34 +142,37 @@ document.addEventListener("DOMContentLoaded", async () => {
       correlatiWrap.style.display = "none";
     }
 
-    // Servizi correlati (select)
-    const altriSelect = document.getElementById("sd-altri-select");
-    let correlatiServizi = (servizio.correlati || [])
-      .map((relSlug) => serviziData.servizi.find((s) => s.slug === relSlug))
-      .filter(Boolean);
+    // ── Servizi correlati (GRIglia di card) ─────────────────
+    const altriGrid = document.getElementById("sd-altri-servizi-grid");
+    if (altriGrid) {
+      // Mostra TUTTI i servizi tranne quello corrente
+      const serviziDaMostrare = serviziData.servizi.filter((s) => s.slug !== slug);
 
-    if (!correlatiServizi.length) {
-      correlatiServizi = serviziData.servizi
-        .filter((s) => s.slug !== slug)
-        .slice(0, 3);
-    }
-
-    if (altriSelect) {
-      altriSelect.innerHTML =
-        `<option value="" disabled selected>Scegli un servizio correlato…</option>` +
-        correlatiServizi
-          .map(
-            (s) =>
-              `<option value="${s.slug}">${s.icona ? s.icona + " " : ""}${s.titolo}</option>`,
-          )
+      if (!serviziDaMostrare.length) {
+        altriGrid.innerHTML = `<p style="color: var(--muted); text-align: center;">Nessun altro servizio disponibile.</p>`;
+      } else {
+        altriGrid.innerHTML = serviziDaMostrare
+          .map((s, i) => `
+            <a
+              href="servizio.html?slug=${s.slug}"
+              class="servizio-card reveal reveal-delay-${i % 3}"
+              style="--card-accent:${s.colore || "var(--accent)"}"
+              aria-label="Scopri i dettagli di ${s.titolo}"
+            >
+              <div class="servizio-icona" aria-hidden="true">${s.icona || "◆"}</div>
+              <h3>${s.titolo}</h3>
+              <p>${s.descrizione}</p>
+              <span class="servizio-cta">
+                Scopri i dettagli
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          `)
           .join("");
-
-      altriSelect.addEventListener("change", () => {
-        const nuovoSlug = altriSelect.value;
-        if (nuovoSlug) window.location.href = `servizio.html?slug=${nuovoSlug}`;
-      });
+      }
     }
 
+    // Mostra il contenuto
     loadingEl.style.display = "none";
     contentEl.style.display = "";
 
