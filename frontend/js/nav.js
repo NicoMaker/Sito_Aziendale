@@ -114,7 +114,8 @@ function initNav() {
       const inFondo =
         Math.ceil(window.innerHeight + window.scrollY) >=
         document.documentElement.scrollHeight - 2;
-      if (inFondo && sections.length) corrente = sections[sections.length - 1].id;
+      if (inFondo && sections.length)
+        corrente = sections[sections.length - 1].id;
 
       setActiveLink(corrente);
     };
@@ -137,7 +138,9 @@ function initNav() {
     // Su pagine secondarie (es. servizio.html): evidenzia "Servizi"
     // sia nella navbar desktop sia nel menu mobile
     document
-      .querySelectorAll('.nav-links a[href*="servizi"], .nav-mobile a[href*="servizi"]')
+      .querySelectorAll(
+        '.nav-links a[href*="servizi"], .nav-mobile a[href*="servizi"]',
+      )
       .forEach((l) => l.classList.add("active"));
   }
 }

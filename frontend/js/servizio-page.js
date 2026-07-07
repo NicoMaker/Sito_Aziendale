@@ -227,4 +227,3 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Ulteriore correzione di sicurezza a caricamento completato
 window.addEventListener("load", scrollToCurrentHash);
-

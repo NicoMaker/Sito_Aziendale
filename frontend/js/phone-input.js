@@ -7,11 +7,23 @@
 // ============================================================
 
 // Paese di riserva, usato solo se data/paesi-telefono.json non si carica
-const PHONE_COUNTRY_FALLBACK = { iso: "IT", nome: "Italia", dial: "+39", min: 8, max: 11 };
+const PHONE_COUNTRY_FALLBACK = {
+  iso: "IT",
+  nome: "Italia",
+  dial: "+39",
+  min: 8,
+  max: 11,
+};
 
 // "Nazione" fittizia per il numero fisso: nessun prefisso internazionale,
 // solo un range di cifre ragionevole per un numero di casa.
-const PHONE_FISSO = { iso: "", nome: "telefono fisso", dial: "", min: 5, max: 12 };
+const PHONE_FISSO = {
+  iso: "",
+  nome: "telefono fisso",
+  dial: "",
+  min: 5,
+  max: 12,
+};
 
 const PhoneInput = {
   paese: PHONE_COUNTRY_FALLBACK, // sostituito appena il JSON è caricato
@@ -147,7 +159,8 @@ const PhoneInput = {
         if (phoneField) phoneField.classList.remove("solo-numero");
         if (phoneLabel) phoneLabel.textContent = "Cellulare *";
         this.input.placeholder = "333 123 4567";
-        if (typeLink) typeLink.textContent = "Non hai un cellulare? Usa un fisso";
+        if (typeLink)
+          typeLink.textContent = "Non hai un cellulare? Usa un fisso";
       }
       if (typeLink) typeLink.dataset.tipo = tipo;
 
@@ -207,4 +220,3 @@ const PhoneInput = {
     return `Numero non valido per ${this.paese.nome}: servono da ${this.paese.min} a ${this.paese.max} cifre.`;
   },
 };
-

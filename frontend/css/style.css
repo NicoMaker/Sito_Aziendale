@@ -377,8 +377,16 @@ button {
   background-position: center;
   will-change: transform;
   background-image:
-    radial-gradient(36rem 30rem at 78% 78%, rgba(var(--accent-bright-rgb), 0.14), transparent 62%),
-    radial-gradient(34rem 28rem at 8% 88%, rgba(24, 24, 24, 0.07), transparent 60%),
+    radial-gradient(
+      36rem 30rem at 78% 78%,
+      rgba(var(--accent-bright-rgb), 0.14),
+      transparent 62%
+    ),
+    radial-gradient(
+      34rem 28rem at 8% 88%,
+      rgba(24, 24, 24, 0.07),
+      transparent 60%
+    ),
     radial-gradient(circle, rgba(0, 0, 0, 0.09) 1.5px, transparent 1.6px);
   background-size:
     cover,
