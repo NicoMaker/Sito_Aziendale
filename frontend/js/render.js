@@ -4,9 +4,9 @@
 
 // ── Social SVG icons ──────────────────────────────────────────
 const SOCIAL_ICONS = {
-  instagram: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="18.5" cy="5.5" r="1.2" fill="currentColor"/></svg>`,
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>`,
   linkedin: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M8 10v6M8 8v.01M12 16v-4.5M12 12c0-1.5 1-2 2-2s2 .5 2 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
-  facebook: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M14 9h3l-.4 2.5H14V21h-3v-9.5H9V9h2V7a3 3 0 0 1 3-3v2h-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+  facebook: `<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
   behance: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h5v1.5H8V8zm0 3.5h6.5V13H8v-1.5zm0 3h8.5v1.5H8v-1.5zM16 8h3v1.5h-3V8zm.5 4.5c1.5 0 3 .8 3 2.5 0 2-1.8 3-3.5 3-1.5 0-3-.8-3-2.5h1.5c0 .8.8 1.5 1.5 1.5s1.5-.7 1.5-1.5c0-.8-.8-1.5-1.5-1.5h-.5v-1.5h.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 };
 
@@ -190,12 +190,10 @@ function formatNumeroVisuale(numero) {
   return `${prefisso} ${gruppi.join(" ")}`;
 }
 
-// Icona WhatsApp in grigio (senza colori), tratto pulito e proporzioni curate
-const WHATSAPP_ICON_SVG = `<svg class="icon-whatsapp" width="21" height="21" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M16.02 4C9.4 4 4.05 9.35 4.05 16c0 2.24.6 4.34 1.66 6.15L4 28l6.02-1.58A11.93 11.93 0 0 0 16.02 28C22.64 28 28 22.65 28 16S22.64 4 16.02 4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
-  <path d="M11.6 10.75c.3-.66.55-.7.9-.71.28-.02.6-.02.87 0 .3.02.65-.06.95.7.3.79 1.03 2.5 1.12 2.68.1.19.16.4.03.63-.12.23-.19.35-.38.55l-.55.63c-.18.2-.38.4-.16.79.23.4 1.02 1.7 2.24 2.79 1.55 1.34 2.8 1.78 3.2 1.98.4.19.65.16.9-.1.27-.28.87-.98 1.1-1.32.24-.32.48-.27.8-.15l2.5 1.22c.3.14.5.22.56.35.1.2.1.83-.2 1.62-.3.8-1.67 1.54-2.32 1.64-.6.1-1.3.14-2.1-.13-.48-.16-1.1-.36-1.9-.71-3.35-1.5-5.56-4.86-5.73-5.1-.18-.23-1.37-1.83-1.37-3.48 0-1.66.85-2.48 1.14-2.8Z" fill="currentColor"/>
-</svg>`;
-
+// Per l'icona WhatsApp usiamo lo stesso set Material Icons di "call" ed
+// "email" (vedi contattoTeam più sotto): stesso font, stesso spessore,
+// stessa resa — dopo due tentativi di SVG custom, la coerenza visiva con
+// le icone accanto è la scelta più sicura.
 // ── Bandiere nazionali (immagine reale, non emoji) ─────────────
 // Le emoji-bandiera su alcuni sistemi/browser (es. Windows meno recenti)
 // non vengono renderizzate a colori e appaiono come semplice testo ("IT",
@@ -247,7 +245,7 @@ function renderTeam(site) {
           <div class="team-ruolo">${m.ruolo || ""}</div>
           ${m.piva ? `<div class="team-piva">${renderPiva(m.piva)}</div>` : ""}
           <div class="team-contatti-list">
-            ${contattoTeam(m.contatti && m.contatti.whatsapp, WHATSAPP_ICON_SVG, formatNumeroVisuale(m.contatti && m.contatti.whatsapp && m.contatti.whatsapp.numero))}
+            ${contattoTeam(m.contatti && m.contatti.whatsapp, "chat", formatNumeroVisuale(m.contatti && m.contatti.whatsapp && m.contatti.whatsapp.numero))}
             ${contattoTeam(m.contatti && m.contatti.telefono, "call", formatNumeroVisuale(m.contatti && m.contatti.telefono && m.contatti.telefono.numero))}
             ${contattoTeam(m.contatti && m.contatti.email, "email", m.contatti && m.contatti.email && m.contatti.email.indirizzo)}
           </div>
@@ -264,7 +262,7 @@ function renderTeam(site) {
       ca.whatsapp &&
         contattoTeam(
           ca.whatsapp,
-          WHATSAPP_ICON_SVG,
+          "chat",
           formatNumeroVisuale(ca.whatsapp.numero),
         ),
       ca.telefono &&

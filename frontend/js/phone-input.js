@@ -9,8 +9,14 @@
 // Paese di riserva, usato solo se data/paesi-telefono.json non si carica
 const PHONE_COUNTRY_FALLBACK = { iso: "IT", nome: "Italia", dial: "+39", min: 8, max: 11 };
 
+// "Nazione" fittizia per il numero fisso: nessun prefisso internazionale,
+// solo un range di cifre ragionevole per un numero di casa.
+const PHONE_FISSO = { iso: "", nome: "telefono fisso", dial: "", min: 5, max: 12 };
+
 const PhoneInput = {
   paese: PHONE_COUNTRY_FALLBACK, // sostituito appena il JSON è caricato
+  paeseMobile: PHONE_COUNTRY_FALLBACK, // ultima nazione scelta per il cellulare
+  modalita: "mobile", // "mobile" | "fisso"
   countries: [PHONE_COUNTRY_FALLBACK],
   input: null,
 
@@ -35,6 +41,7 @@ const PhoneInput = {
 
     this.paese =
       this.countries.find((c) => c.iso === "IT") || this.countries[0];
+    this.paeseMobile = this.paese;
 
     // ── Costruisce la lista nazioni (bandiere reali, non emoji) ──
     // data-search raccoglie nome, prefisso e sigla: la ricerca funziona
@@ -92,6 +99,7 @@ const PhoneInput = {
       const paese = this.countries.find((c) => c.iso === li.dataset.iso);
       if (paese) {
         this.paese = paese;
+        this.paeseMobile = paese;
         flagEl.innerHTML = flagImgHtml(paese.iso, { width: 20, height: 15 });
         dialEl.textContent = paese.dial;
         dropdownList
@@ -117,6 +125,40 @@ const PhoneInput = {
       // Evita che Invio nella ricerca invii per sbaglio il form di contatto
       searchInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") e.preventDefault();
+      });
+    }
+
+    // ── Link "Non hai un cellulare? Usa un fisso" ───────────────
+    const typeLink = document.getElementById("phone-type-link");
+    const phoneField = document.getElementById("phone-field");
+    const phoneLabel = document.getElementById("phone-label");
+
+    const impostaModalita = (tipo) => {
+      this.modalita = tipo;
+
+      if (tipo === "fisso") {
+        this.paese = PHONE_FISSO;
+        if (phoneField) phoneField.classList.add("solo-numero");
+        if (phoneLabel) phoneLabel.textContent = "Telefono fisso *";
+        this.input.placeholder = "0541 123456";
+        if (typeLink) typeLink.textContent = "← Usa invece il cellulare";
+      } else {
+        this.paese = this.paeseMobile;
+        if (phoneField) phoneField.classList.remove("solo-numero");
+        if (phoneLabel) phoneLabel.textContent = "Cellulare *";
+        this.input.placeholder = "333 123 4567";
+        if (typeLink) typeLink.textContent = "Non hai un cellulare? Usa un fisso";
+      }
+      if (typeLink) typeLink.dataset.tipo = tipo;
+
+      // Rivalida (e ritaglia se serve) il numero con le nuove regole
+      this.input.dispatchEvent(new Event("input"));
+    };
+
+    if (typeLink) {
+      typeLink.addEventListener("click", () => {
+        const nuovo = typeLink.dataset.tipo === "mobile" ? "fisso" : "mobile";
+        impostaModalita(nuovo);
       });
     }
 
@@ -159,7 +201,9 @@ const PhoneInput = {
 
   messaggioErrore() {
     if (!this.getDigits().length)
-      return "Il numero di cellulare è obbligatorio.";
+      return "Il numero di telefono è obbligatorio.";
+    if (!this.paese.iso)
+      return `Numero fisso non valido: servono da ${this.paese.min} a ${this.paese.max} cifre.`;
     return `Numero non valido per ${this.paese.nome}: servono da ${this.paese.min} a ${this.paese.max} cifre.`;
   },
 };
