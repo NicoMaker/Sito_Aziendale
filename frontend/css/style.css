@@ -1390,3 +1390,63 @@ button { font-family: inherit; }
 #sd-correlati-categorie {
   display: none;
 }
+
+/* ── Pagina dettaglio servizio: riduzione spazi ── */
+.servizio-detail-body {
+  gap: 24px; /* prima 48px */
+  margin-bottom: 24px; /* prima 48px */
+}
+
+.servizio-detail-lista h3,
+.servizio-detail-faq h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px; /* prima 20px */
+}
+
+.servizio-detail-lista ul {
+  gap: 8px; /* prima 14px */
+}
+
+.servizio-detail-lista li {
+  font-size: 0.92rem; /* leggermente più piccolo */
+}
+
+.servizio-detail-faq .faq-toggle {
+  padding: 12px 0; /* prima 16px */
+  font-size: 0.92rem;
+}
+
+.faq-body {
+  padding-bottom: 8px; /* prima 16px */
+  font-size: 0.88rem;
+}
+
+.servizio-detail-cta {
+  padding: 32px 24px; /* prima 48px 32px */
+  margin-bottom: 40px; /* prima 64px */
+}
+
+.servizio-detail-correlati,
+.servizio-detail-altri {
+  margin-bottom: 40px; /* prima 64px */
+}
+
+.servizio-detail-header {
+  margin-bottom: 28px; /* prima 48px */
+  padding-bottom: 20px; /* prima 32px */
+}
+
+.servizio-detail-icon {
+  width: 56px;
+  height: 56px;
+  font-size: 1.6rem;
+}
+
+.servizio-detail-title {
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  margin-bottom: 6px;
+}
+
+.servizio-detail-sub {
+  font-size: 0.95rem;
+}
