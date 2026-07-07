@@ -18,9 +18,12 @@ const PhoneInput = {
     this.input = document.getElementById("f-telefono");
     const btn = document.getElementById("phone-country-btn");
     const dropdown = document.getElementById("phone-dropdown");
+    const dropdownList = document.getElementById("phone-dropdown-list");
+    const searchInput = document.getElementById("phone-search");
+    const emptyEl = document.getElementById("phone-dropdown-empty");
     const flagEl = document.getElementById("phone-flag");
     const dialEl = document.getElementById("phone-dial");
-    if (!this.input || !btn || !dropdown) return;
+    if (!this.input || !btn || !dropdown || !dropdownList) return;
 
     try {
       const lista = await SiteData.load("paesi-telefono");
@@ -34,30 +37,53 @@ const PhoneInput = {
       this.countries.find((c) => c.iso === "IT") || this.countries[0];
 
     // ── Costruisce la lista nazioni (bandiere reali, non emoji) ──
-    dropdown.innerHTML = this.countries
-      .map(
-        (c) => `
-      <li role="option" data-iso="${c.iso}" aria-selected="${c.iso === this.paese.iso}">
+    // data-search raccoglie nome, prefisso e sigla: la ricerca funziona
+    // sia digitando la nazionalità ("germania") sia il prefisso ("+49").
+    dropdownList.innerHTML = this.countries
+      .map((c) => {
+        const chiave = `${c.nome} ${c.dial} ${c.iso}`.toLowerCase();
+        return `
+      <li role="option" data-iso="${c.iso}" data-search="${chiave}" aria-selected="${c.iso === this.paese.iso}">
         <span class="dd-flag">${flagImgHtml(c.iso, { width: 20, height: 15 })}</span>
         <span>${c.nome}</span>
         <span class="dd-dial">${c.dial}</span>
-      </li>`,
-      )
+      </li>`;
+      })
       .join("");
 
     // Imposta subito la bandiera/prefisso reali al posto del placeholder statico in HTML
     flagEl.innerHTML = flagImgHtml(this.paese.iso, { width: 20, height: 15 });
     dialEl.textContent = this.paese.dial;
 
+    // ── Ricerca per nazionalità o prefisso ──────────────────────
+    const filtraLista = () => {
+      const q = searchInput.value.trim().toLowerCase();
+      let visibili = 0;
+      dropdownList.querySelectorAll("li[data-iso]").forEach((li) => {
+        const match = !q || (li.dataset.search || "").includes(q);
+        li.style.display = match ? "" : "none";
+        if (match) visibili++;
+      });
+      if (emptyEl) emptyEl.style.display = visibili ? "none" : "";
+    };
+    if (searchInput) searchInput.addEventListener("input", filtraLista);
+
     const chiudi = () => {
       dropdown.classList.remove("open");
       btn.setAttribute("aria-expanded", "false");
+      // Resetta la ricerca per la prossima apertura
+      if (searchInput) searchInput.value = "";
+      filtraLista();
     };
 
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const open = dropdown.classList.toggle("open");
       btn.setAttribute("aria-expanded", String(open));
+      if (open && searchInput) {
+        // Porta subito il focus sulla ricerca per digitare da tastiera
+        setTimeout(() => searchInput.focus(), 0);
+      }
     });
 
     dropdown.addEventListener("click", (e) => {
@@ -68,7 +94,7 @@ const PhoneInput = {
         this.paese = paese;
         flagEl.innerHTML = flagImgHtml(paese.iso, { width: 20, height: 15 });
         dialEl.textContent = paese.dial;
-        dropdown
+        dropdownList
           .querySelectorAll("li")
           .forEach((el) => el.setAttribute("aria-selected", String(el === li)));
         // Rivalida con le nuove regole di lunghezza
@@ -78,10 +104,21 @@ const PhoneInput = {
       this.input.focus();
     });
 
-    document.addEventListener("click", chiudi);
+    // Chiude solo per i click FUORI dal dropdown: un click sulla ricerca
+    // o su una nazione non deve chiuderlo subito.
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target)) chiudi();
+    });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") chiudi();
     });
+
+    if (searchInput) {
+      // Evita che Invio nella ricerca invii per sbaglio il form di contatto
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") e.preventDefault();
+      });
+    }
 
     // ── SOLO cifre: blocca lettere e simboli alla digitazione ──
     this.input.addEventListener("beforeinput", (e) => {

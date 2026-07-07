@@ -264,12 +264,33 @@
                   <span class="phone-dial" id="phone-dial">+39</span>
                   <span class="phone-caret" aria-hidden="true">▾</span>
                 </button>
-                <ul
+                <div
                   class="phone-dropdown"
                   id="phone-dropdown"
-                  role="listbox"
-                  tabindex="-1"
-                ></ul>
+                >
+                  <div class="phone-dropdown-search">
+                    <input
+                      type="text"
+                      id="phone-search"
+                      placeholder="Cerca nazione o prefisso…"
+                      autocomplete="off"
+                      aria-label="Cerca nazione o prefisso"
+                    />
+                  </div>
+                  <ul
+                    class="phone-dropdown-list"
+                    id="phone-dropdown-list"
+                    role="listbox"
+                    tabindex="-1"
+                  ></ul>
+                  <p
+                    class="phone-dropdown-empty"
+                    id="phone-dropdown-empty"
+                    style="display: none"
+                  >
+                    Nessuna nazione trovata.
+                  </p>
+                </div>
                 <input
                   type="tel"
                   id="f-telefono"
