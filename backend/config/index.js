@@ -15,11 +15,12 @@ module.exports = {
   },
 
   mailFrom: {
-    name: process.env.MAIL_FROM_NAME || "Nooo Agency",
+    name: process.env.MAIL_FROM_NAME || "T-DS Agency",
     email: process.env.MAIL_FROM_EMAIL || process.env.SMTP_USER,
   },
 
-  mailTo: (process.env.MAIL_TO || process.env.SMTP_USER || "")
+  // Trasforma MAIL_TO in array di stringhe, escludendo valori vuoti
+  mailTo: (process.env.MAIL_TO || "")
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean),
@@ -27,8 +28,8 @@ module.exports = {
   corsOrigin: process.env.CORS_ORIGIN || "*",
 
   azienda: {
-    nome: "Nooo Agency",
-    email: "info@noooagency.com",
-    sito: "www.noooagency.com",
+    nome: process.env.AZIENDA_NOME || "T-DS Agency",
+    email: process.env.AZIENDA_EMAIL || process.env.SMTP_USER,
+    sito: process.env.AZIENDA_SITO || "www.tdsagency.it",
   },
 };
