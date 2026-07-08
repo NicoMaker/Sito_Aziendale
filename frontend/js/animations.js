@@ -101,11 +101,16 @@ function initHeroVideo() {
   const video = document.getElementById("hero-video");
   const home = document.getElementById("home");
 
-  // Il testo dell'hero parte con la sua animazione solo quando il video
-  // è in riproduzione (classe .hero-ready). Se il video manca o non
-  // parte, il testo compare comunque subito / dopo un tempo massimo.
+  // Coreografia hero: il video gira qualche secondo in primo piano,
+  // poi sfuma via mentre il testo entra con l'animazione e il logo
+  // scivola dentro da sinistra (classe .hero-ready, vedi CSS).
+  let testoAvviato = false;
   const avviaTestoHero = () => {
+    if (testoAvviato) return;
+    testoAvviato = true;
     if (home) home.classList.add("hero-ready");
+    // La navbar torna allo stile chiaro insieme alla sparizione del video
+    document.body.classList.remove("hero-has-video");
   };
 
   if (!video) {
@@ -134,12 +139,14 @@ function initHeroVideo() {
   video.addEventListener("loadeddata", attivaStileVideo);
   video.addEventListener("playing", () => {
     attivaStileVideo();
-    // Prima parte il video, subito dopo entra il testo con l'animazione
-    setTimeout(avviaTestoHero, 250);
+    // Il video resta protagonista ~3 secondi, poi sfuma via e
+    // entrano il testo e il logo
+    setTimeout(avviaTestoHero, 3000);
   });
 
-  // Rete di sicurezza: se il video non parte entro 3s, mostra il testo
-  setTimeout(avviaTestoHero, 3000);
+  // Rete di sicurezza: se il video non parte entro 4,5s, si va
+  // comunque avanti con testo e logo
+  setTimeout(avviaTestoHero, 4500);
 }
 
 // Attivati il prima possibile: l'attributo "autoplay" fa già partire il
