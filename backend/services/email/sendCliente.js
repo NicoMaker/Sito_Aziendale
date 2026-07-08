@@ -20,19 +20,27 @@ async function sendCliente(dati) {
       html: templateCliente(dati),
       // Opzioni per migliorare deliverability
       headers: {
-        'X-Priority': '3',
-        'List-Unsubscribe': `<mailto:${config.mailFrom.email}?subject=unsubscribe>`,
+        "X-Priority": "3",
+        "List-Unsubscribe": `<mailto:${config.mailFrom.email}?subject=unsubscribe>`,
       },
     });
 
     console.log("✅ Email cliente inviata a:", dati.email);
     console.log("📧 Message ID:", info.messageId);
-    console.log("📨 Accettati:", info.accepted?.length ? info.accepted.join(", ") : "nessuno");
-    console.log("📨 Rifiutati:", info.rejected?.length ? info.rejected.join(", ") : "nessuno");
+    console.log(
+      "📨 Accettati:",
+      info.accepted?.length ? info.accepted.join(", ") : "nessuno",
+    );
+    console.log(
+      "📨 Rifiutati:",
+      info.rejected?.length ? info.rejected.join(", ") : "nessuno",
+    );
 
     // Se il server SMTP ha rifiutato la consegna, lanciamo un errore
     if (info.rejected && info.rejected.length > 0) {
-      throw new Error(`Email rifiutata dal server SMTP per: ${info.rejected.join(", ")}`);
+      throw new Error(
+        `Email rifiutata dal server SMTP per: ${info.rejected.join(", ")}`,
+      );
     }
 
     return info;
