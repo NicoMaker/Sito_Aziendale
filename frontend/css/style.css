@@ -210,6 +210,7 @@ button {
   display: flex;
   align-items: center;
   gap: 28px;
+  width: min(1440px, 96%);
 }
 .nav-logo {
   display: inline-flex;
@@ -2122,6 +2123,26 @@ button {
   .hamburger {
     display: flex;
   }
+  #navbar {
+    padding: 10px 0;
+  }
+  #navbar.scrolled {
+    padding: 8px 0;
+  }
+  .nav-inner {
+    align-items: center;
+    min-height: 56px;
+  }
+  .nav-logo {
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav-logo-img {
+    height: 52px;
+  }
+  #navbar.scrolled .nav-logo-img {
+    height: 46px;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -2170,7 +2191,9 @@ button {
     gap: 30px;
   }
   .hero-brand {
-    max-width: 150px;
+    order: 2;
+    max-width: 160px;
+    margin-inline: auto;
   }
   .cat-pill {
     flex: 0 0 auto;
