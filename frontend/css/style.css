@@ -800,10 +800,13 @@ button {
   position: relative;
   z-index: 1;
 }
-/* Immagine servizio GRANDE: blocco media a tutta larghezza */
+/* Immagine servizio GRANDE: foto a piena resa, bordo a bordo (niente più
+   "lettera-box" attorno alla foto, sia su mobile che su desktop) */
 .servizio-icona {
+  position: relative;
   width: 100%;
-  height: 190px;
+  aspect-ratio: 16 / 10;
+  height: auto;
   display: grid;
   place-items: center;
   border-radius: 18px;
@@ -818,30 +821,41 @@ button {
   overflow: hidden;
   transition:
     transform 0.35s var(--ease-spring),
-    background 0.3s;
+    box-shadow 0.35s var(--ease);
 }
 .servizio-icona .material-icons {
   font-size: 64px;
 }
+/* La foto riempie SEMPRE tutto il riquadro (object-fit: cover) così non
+   resta mai spazio vuoto attorno, indipendentemente dal formato del file */
 .servizio-icona-img {
-  width: auto;
-  height: 74%;
-  max-width: 82%;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 22px rgba(var(--ink-rgb), 0.18));
-  transition: transform 0.4s var(--ease-spring);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: none;
+  transition: transform 0.6s var(--ease-spring);
+}
+/* Velo leggero in basso per far risaltare eventuale badge/testo sovrapposto
+   e dare più profondità "editoriale" alla card */
+.servizio-icona::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0) 55%,
+    rgba(10, 10, 10, 0.28) 100%
+  );
+  pointer-events: none;
 }
 .servizio-card:hover .servizio-icona {
   transform: translateY(-4px);
-  background: linear-gradient(
-    145deg,
-    rgba(var(--accent-rgb), 0.2),
-    rgba(var(--accent-rgb), 0.05) 60%,
-    rgba(var(--ink-rgb), 0.04)
-  );
+  box-shadow: 0 18px 40px rgba(var(--ink-rgb), 0.18);
 }
 .servizio-card:hover .servizio-icona-img {
-  transform: scale(1.08) rotate(-2deg);
+  transform: scale(1.08);
 }
 .servizio-card h3 {
   font-family: var(--font-display);
@@ -1747,38 +1761,25 @@ button {
 }
 
 /* ============================================================
-   PAGINA SERVIZIO (servizio.html) — stile brand T-DS
+   PAGINA SERVIZIO (servizio.html) — hero fotografico moderno
+   La foto riempie SEMPRE tutta la zona (object-fit: cover), niente
+   più riquadro piccolo con l'immagine "schiacciata" al centro:
+   la foto fa da sfondo con un velo scuro sopra che tiene il testo
+   sempre leggibile, sia su desktop che su mobile.
    ============================================================ */
 .servizio-detail-header {
   position: relative;
   margin: 34px 0 40px;
-  padding: 46px 44px;
+  min-height: 440px;
   display: flex;
-  align-items: center;
-  gap: 40px;
+  align-items: flex-end;
   background: var(--brand-black, #0a0a0a);
   color: #ffffff;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  isolation: isolate;
 }
-/* Glow rosso brand nell'header nero, come le card identity */
-.servizio-detail-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      520px circle at 12% 0%,
-      rgba(var(--accent-rgb), 0.35),
-      transparent 60%
-    ),
-    radial-gradient(
-      420px circle at 100% 110%,
-      rgba(var(--accent-rgb), 0.22),
-      transparent 60%
-    );
-  pointer-events: none;
-}
+/* Barra accento rossa in cima, come nel resto del sito */
 .servizio-detail-header::after {
   content: "";
   position: absolute;
@@ -1787,16 +1788,10 @@ button {
   right: 0;
   height: 6px;
   background: var(--accent);
-}
-.servizio-detail-header > * {
-  position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 #servizio-detail.section {
   padding-top: 130px;
-}
-.servizio-detail-header > div:last-child {
-  flex: 1;
 }
 .servizio-detail-body h3,
 .servizio-detail-correlati > h3,
@@ -1818,29 +1813,65 @@ button {
   max-width: none;
   width: 100%;
 }
-/* Immagine servizio GRANDE nella pagina di dettaglio */
-.servizio-detail-icon {
-  flex-shrink: 0;
-  width: 210px;
-  height: 210px;
+/* Foto a tutta larghezza/altezza dietro al testo dell'header */
+.servizio-detail-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.servizio-detail-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* Sfondo di riserva quando il servizio ha solo un'icona/emoji e non una foto */
+.servizio-detail-media-fallback {
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
-  border-radius: 22px;
-  background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: var(--accent-2);
-  margin-bottom: 0;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  background:
+    radial-gradient(
+      520px circle at 12% 0%,
+      rgba(var(--accent-rgb), 0.35),
+      transparent 60%
+    ),
+    radial-gradient(
+      420px circle at 100% 110%,
+      rgba(var(--accent-rgb), 0.22),
+      transparent 60%
+    );
 }
-.servizio-detail-icon .material-icons {
-  font-size: 92px;
+.servizio-detail-media-fallback .material-icons {
+  font-size: 120px;
+  color: rgba(255, 255, 255, 0.45);
 }
-.servizio-detail-icon .servizio-icona-img,
-.servizio-detail-icon img {
-  width: 76%;
-  height: 76%;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
+/* Velo scuro sopra la foto: più intenso in basso/a sinistra dove sta il
+   testo, quasi trasparente in alto/a destra per far respirare la foto */
+.servizio-detail-header-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(10, 10, 10, 0.95) 0%,
+      rgba(10, 10, 10, 0.6) 46%,
+      rgba(10, 10, 10, 0.12) 78%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(10, 10, 10, 0.55) 0%,
+      rgba(10, 10, 10, 0) 62%
+    );
+}
+.servizio-detail-header-content {
+  position: relative;
+  z-index: 2;
+  padding: 46px 48px 42px;
+  max-width: 680px;
 }
 .servizio-detail-title {
   font-family: var(--font-display);
@@ -1863,18 +1894,17 @@ button {
   margin-bottom: 14px;
 }
 .servizio-detail-sub {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 1.12rem;
   max-width: 620px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 @media (max-width: 720px) {
   .servizio-detail-header {
-    padding: 34px 26px;
-    gap: 26px;
+    min-height: 340px;
   }
-  .servizio-detail-icon {
-    width: 150px;
-    height: 150px;
+  .servizio-detail-header-content {
+    padding: 30px 24px 26px;
   }
 }
 .servizio-detail-body {
@@ -2318,41 +2348,704 @@ button {
   }
 }
 
-/* Card servizi home */
-.servizio-icona-img {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 22px rgba(var(--ink-rgb), 0.18));
-  transition: transform 0.4s var(--ease-spring);
+/* (Le regole per .servizio-icona-img e per l'hero della pagina di
+   dettaglio servizio sono definite una sola volta più sopra nel file,
+   rispettivamente nella sezione "SERVIZI" e nella sezione
+   "PAGINA SERVIZIO" — qui prima c'erano dei duplicati in conflitto tra
+   loro che causavano il rendering incoerente delle foto su mobile/desktop). */
+
+
+   /* ============================================================
+   SERVIZIO DETAIL — HERO CON IMMAGINE GRANDE E TESTO SOTTO
+   ============================================================ */
+
+/* ── Hero del servizio: immagine a tutta larghezza + testo sotto ── */
+.servizio-hero {
+  margin: 24px 0 44px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
 }
 
-/* Pagina dettaglio servizio */
-.servizio-detail-icon img,
-.servizio-detail-icon .servizio-icona-img {
+.servizio-hero-image {
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
+  aspect-ratio: 16 / 9;
+  background: var(--bg-2);
+  overflow: hidden;
 }
 
-/* Card servizi home */
-.servizio-icona-img {
+.servizio-hero-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: drop-shadow(0 12px 22px rgba(var(--ink-rgb), 0.18));
-  transition: transform 0.4s var(--ease-spring);
+  display: block;
+  transition: transform 0.7s var(--ease-spring);
 }
 
-/* Pagina dettaglio servizio */
-.servizio-detail-icon img,
-.servizio-detail-icon .servizio-icona-img {
+.servizio-hero:hover .servizio-hero-image img {
+  transform: scale(1.02);
+}
+
+.servizio-hero-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--accent-rgb), 0.12),
+    rgba(var(--accent-rgb), 0.04)
+  );
+  color: var(--accent-2);
+}
+
+.servizio-hero-fallback .material-icons {
+  font-size: 80px;
+  opacity: 0.6;
+}
+
+.servizio-hero-content {
+  padding: 28px 32px 32px;
+  background: var(--panel);
+}
+
+.servizio-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.servizio-hero-title::before {
+  content: "T-DS studio";
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.servizio-hero-desc {
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  color: var(--ink-dim);
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* ── Layout corpo: lista + FAQ affiancate ── */
+.servizio-detail-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: start;
+  padding-top: 10px;
+}
+
+.servizio-detail-lista h3,
+.servizio-detail-faq h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.lista-check {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-check li {
+  position: relative;
+  padding: 14px 16px 14px 52px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--ink-dim);
+  font-size: 0.96rem;
+  transition:
+    border-color 0.25s,
+    transform 0.25s var(--ease);
+}
+
+.lista-check li:hover {
+  border-color: rgba(var(--accent-rgb), 0.35);
+  transform: translateX(4px);
+}
+
+.lista-check li::before {
+  content: "✓";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── FAQ ── */
+.faq-item {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+
+.faq-item.open {
+  border-color: rgba(var(--accent-rgb), 0.4);
+}
+
+.faq-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  min-height: var(--touch-target);
+}
+
+.faq-label {
+  flex: 1;
+}
+
+.faq-plus {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease);
+}
+
+.faq-item.open .faq-plus {
+  transform: rotate(45deg);
+}
+
+.faq-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s var(--ease);
+}
+
+.faq-item.open .faq-body {
+  max-height: 400px;
+}
+
+.faq-body p {
+  padding: 0 20px 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── CTA ── */
+.servizio-detail-cta {
+  margin: 40px 0 20px;
+  padding: clamp(32px, 4.5vw, 50px);
+  border-radius: var(--radius-lg);
+  background: var(--accent);
+  text-align: center;
+  color: #ffffff;
+}
+
+.servizio-detail-cta p {
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-weight: 600;
+  margin-bottom: 22px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.servizio-detail-cta .btn.btn-primary {
+  background: var(--brand-black, #0a0a0a);
+  color: #ffffff;
+  border-color: var(--brand-black, #0a0a0a);
+}
+
+.servizio-detail-cta .btn.btn-primary:hover {
+  background: #ffffff;
+  color: var(--accent-2);
+  border-color: #ffffff;
+}
+
+/* ── Progetti correlati ── */
+.servizio-detail-correlati,
+.servizio-detail-altri {
+  padding: 44px 0 10px;
+  border-top: 1px solid var(--line);
+}
+
+.servizio-detail-correlati > h3,
+.servizio-detail-altri > h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.servizio-correlati-hint {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .servizio-detail-body {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .servizio-hero {
+    margin: 16px 0 32px;
+  }
+
+  .servizio-hero-content {
+    padding: 22px 24px 26px;
+  }
+}
+
+@media (max-width: 720px) {
+  .servizio-hero-image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .servizio-hero-content {
+    padding: 18px 18px 22px;
+  }
+
+  .servizio-hero-title {
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
+  }
+
+  .servizio-hero-title::before {
+    font-size: 0.6rem;
+    margin-bottom: 6px;
+  }
+
+  .servizio-hero-desc {
+    font-size: 0.95rem;
+  }
+
+  .servizio-detail-body {
+    gap: 24px;
+  }
+
+  .lista-check li {
+    padding: 12px 14px 12px 46px;
+    font-size: 0.9rem;
+  }
+
+  .lista-check li::before {
+    width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
+    left: 14px;
+  }
+
+  .faq-toggle {
+    padding: 14px 16px;
+    font-size: 0.92rem;
+  }
+
+  .faq-body p {
+    padding: 0 16px 14px;
+    font-size: 0.88rem;
+  }
+
+  .servizio-detail-cta {
+    padding: 28px 20px;
+    margin: 24px 0 10px;
+  }
+
+  .servizio-detail-cta p {
+    font-size: 1rem;
+  }
+
+  .servizio-detail-correlati,
+  .servizio-detail-altri {
+    padding: 30px 0 6px;
+  }
+
+  .servizio-detail-correlati > h3,
+  .servizio-detail-altri > h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .servizio-hero-image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .servizio-hero-content {
+    padding: 14px 14px 18px;
+  }
+
+  .servizio-hero-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ── Movimento ridotto ── */
+@media (prefers-reduced-motion: reduce) {
+  .servizio-hero-image img {
+    transition: none;
+  }
+  .servizio-hero:hover .servizio-hero-image img {
+    transform: none;
+  }
+}
+
+/* ── Hero del servizio: immagine a tutta larghezza + testo sotto ── */
+.servizio-hero {
+  margin: 24px 0 44px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+
+.servizio-hero-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;               /* <-- da 16/9 a 16/7 (più bassa) */
+  max-height: 460px;                  /* <-- limite per schermi molto larghi */
+  background: var(--bg-2);
+  overflow: hidden;
+}
+
+/* Il resto rimane invariato... */
+
+
+/* ── Hero del servizio: immagine intera, senza tagli ── */
+.servizio-hero-image {
+  position: relative;
+  width: 100%;
+  max-height: 460px;               /* Altezza massima (leggermente più piccola) */
+  background: var(--bg-2);          /* Sfondo di riempimento se l'immagine è più stretta */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.servizio-hero-image img {
   width: 100%;
   height: 100%;
+  max-height: 460px;               /* Stesso limite del contenitore */
+  object-fit: contain;             /* MOSTRA TUTTA L'IMMAGINE senza tagli */
+  display: block;
+  transition: transform 0.7s var(--ease-spring);
+}
+
+.servizio-hero:hover .servizio-hero-image img {
+  transform: scale(1.02);          /* Piccolo zoom al passaggio del mouse */
+}
+
+/* ── Fallback (icona) centrato ── */
+.servizio-hero-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--accent-rgb), 0.12),
+    rgba(var(--accent-rgb), 0.04)
+  );
+  color: var(--accent-2);
+}
+
+/* ============================================================
+   SERVIZIO DETAIL — HERO: IMMAGINE A SINISTRA, TESTO A DESTRA
+   ============================================================ */
+
+.servizio-hero {
+  display: flex;
+  flex-direction: row;
+  margin: 24px 0 44px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  min-height: 320px;
+}
+
+/* ── Immagine a sinistra ── */
+.servizio-hero-image {
+  flex: 0 0 45%;
+  max-height: 380px;
+  background: var(--bg-2);
+  overflow: hidden;
+  position: relative;
+}
+
+.servizio-hero-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
   object-fit: cover;
   object-position: center;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
+  display: block;
+  transition: transform 0.7s var(--ease-spring);
+}
+
+.servizio-hero:hover .servizio-hero-image img {
+  transform: scale(1.03);
+}
+
+/* ── Fallback icona (se l'immagine non c'è) ── */
+.servizio-hero-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;  /* gestito via JS */
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--accent-rgb), 0.12),
+    rgba(var(--accent-rgb), 0.04)
+  );
+  color: var(--accent-2);
+}
+.servizio-hero-fallback .material-icons {
+  font-size: 72px;
+  opacity: 0.6;
+}
+
+/* ── Testo a destra ── */
+.servizio-hero-content {
+  flex: 1;
+  padding: 36px 40px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--panel);
+}
+
+.servizio-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.servizio-hero-title::before {
+  content: "T-DS studio";
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.servizio-hero-desc {
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  color: var(--ink-dim);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+/* ── Responsive: su mobile impila ── */
+@media (max-width: 820px) {
+  .servizio-hero {
+    flex-direction: column;
+    min-height: auto;
+    margin: 16px 0 32px;
+  }
+
+  .servizio-hero-image {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 320px;
+  }
+
+  .servizio-hero-image img {
+    max-height: 320px;
+  }
+
+  .servizio-hero-content {
+    padding: 24px 24px 28px;
+  }
+
+  .servizio-hero-title {
+    font-size: clamp(1.3rem, 5vw, 1.7rem);
+  }
+
+  .servizio-hero-title::before {
+    font-size: 0.55rem;
+    margin-bottom: 6px;
+  }
+
+  .servizio-hero-desc {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .servizio-hero-image {
+    aspect-ratio: 4 / 3;
+    max-height: 260px;
+  }
+
+  .servizio-hero-image img {
+    max-height: 260px;
+  }
+
+  .servizio-hero-content {
+    padding: 18px 16px 22px;
+  }
+
+  .servizio-hero-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ── Movimento ridotto ── */
+@media (prefers-reduced-motion: reduce) {
+  .servizio-hero-image img {
+    transition: none;
+  }
+  .servizio-hero:hover .servizio-hero-image img {
+    transform: none;
+  }
+}
+
+/* ── Hero del servizio: immagine a sinistra, testo a destra ── */
+.servizio-hero {
+  display: flex;
+  flex-direction: row;
+  margin: 24px 0 44px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  min-height: 280px;
+}
+
+/* ── Immagine a sinistra ── */
+.servizio-hero-image {
+  flex: 0 0 42%;                     /* Larghezza fissa 42% */
+  aspect-ratio: 4 / 3;               /* Rapporto fisso per non deformare */
+  max-height: 360px;
+  background: var(--bg-2);
+  overflow: hidden;
+  position: relative;
+}
+
+.servizio-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;               /* MOSTRA TUTTA L'IMMAGINE senza tagli */
+  object-position: center;
+  display: block;
+  background: var(--bg-2);           /* Sfondo se l'immagine è più piccola */
+  transition: transform 0.7s var(--ease-spring);
+}
+
+.servizio-hero:hover .servizio-hero-image img {
+  transform: scale(1.03);
+}
+
+/* ── Testo a destra ── */
+.servizio-hero-content {
+  flex: 1;
+  padding: 32px 36px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--panel);
+}
+
+/* ── Tablet (mantiene sx/dx) ── */
+@media (max-width: 1024px) {
+  .servizio-hero-image {
+    flex: 0 0 38%;
+    aspect-ratio: 4 / 3;
+    max-height: 300px;
+  }
+  .servizio-hero-content {
+    padding: 24px 28px 24px 24px;
+  }
+  .servizio-hero-title {
+    font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+  }
+}
+
+/* ── Mobile: impila ── */
+@media (max-width: 720px) {
+  .servizio-hero {
+    flex-direction: column;
+    min-height: auto;
+    margin: 16px 0 28px;
+  }
+
+  .servizio-hero-image {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 300px;
+  }
+
+  .servizio-hero-image img {
+    object-fit: cover;              /* Su mobile può tagliare leggermente, ma è accettabile */
+  }
+
+  .servizio-hero-content {
+    padding: 20px 20px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .servizio-hero-image {
+    aspect-ratio: 4 / 3;
+    max-height: 240px;
+  }
+  .servizio-hero-content {
+    padding: 16px 16px 20px;
+  }
+  .servizio-hero-title {
+    font-size: 1.2rem;
+  }
 }
