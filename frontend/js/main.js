@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderServizi(servizi);
     renderProgetti(progetti);
     renderVideo(video);
-    renderTeam(site);
+    await renderTeam(site); // <-- ora è asincrona
     renderFooterSocial(site);
 
     initFilterGrid({

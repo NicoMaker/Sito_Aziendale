@@ -19,6 +19,29 @@ const SOCIAL_PLATFORMS = [
   { key: "behance", label: "Behance", icon: SOCIAL_ICONS.behance },
 ];
 
+// ── Cache per i prefissi internazionali caricati da JSON ──
+let PREFISSI_INTERNAZIONALI = [];
+
+// Carica i prefissi da data/paesi-telefono.json (se non già caricati)
+async function caricaPrefissi() {
+  if (PREFISSI_INTERNAZIONALI.length > 0) return;
+  try {
+    const lista = await SiteData.load("paesi-telefono");
+    if (Array.isArray(lista) && lista.length) {
+      // Estrae i dial (senza il '+') e li ordina per lunghezza decrescente
+      const dials = lista
+        .map(p => p.dial.replace('+', ''))
+        .filter(d => /^\d+$/.test(d));
+      // Ordina per lunghezza decrescente (così i prefissi più lunghi vengono provati prima)
+      PREFISSI_INTERNAZIONALI = dials.sort((a, b) => b.length - a.length);
+    }
+  } catch (err) {
+    console.warn("Impossibile caricare i prefissi telefonici, uso fallback limitato.");
+    // Fallback minimo (solo Italia)
+    PREFISSI_INTERNAZIONALI = ['39'];
+  }
+}
+
 // ── Marquee ───────────────────────────────────────────────────
 function renderMarquee(datiServizi) {
   const parole = (datiServizi.servizi || []).map((s) => s.titolo);
@@ -253,22 +276,45 @@ function renderVideo(dati) {
 }
 
 // ── Utilità per numeri e icone ──────────────────────────────
+// Formatta un numero di telefono usando i prefissi caricati da JSON
 function formatNumeroVisuale(numero) {
-  if (!numero) return "";
-  const pulito = String(numero).replace(/\s+/g, "");
-  const match = pulito.match(/^(\+\d{1,3})(\d+)$/);
-  if (!match) return numero;
+  if (!numero) return '';
+  let num = String(numero).replace(/\s+/g, '');
+  let prefisso = '';
+  let resto = num;
 
-  const [, prefisso, resto] = match;
+  // Se inizia con '00' o '+' estraiamo il prefisso internazionale
+  if (num.startsWith('+')) {
+    num = num.substring(1);
+  } else if (num.startsWith('00')) {
+    num = num.substring(2);
+  }
+
+  // Cerca il prefisso più lungo che corrisponde all'inizio di num
+  let trovato = false;
+  for (const p of PREFISSI_INTERNAZIONALI) {
+    if (num.startsWith(p)) {
+      prefisso = '+' + p;
+      resto = num.substring(p.length);
+      trovato = true;
+      break;
+    }
+  }
+  if (!trovato) {
+    // Se non riconosciamo il prefisso, restituiamo il numero così com'è
+    return numero;
+  }
+
+  // Formatta il resto in gruppi di 3 da sinistra
   const gruppi = [];
-  for (let i = 0; i < resto.length; i += 3) gruppi.push(resto.slice(i, i + 3));
-
+  for (let i = 0; i < resto.length; i += 3) {
+    gruppi.push(resto.slice(i, i + 3));
+  }
   if (gruppi.length > 1 && gruppi[gruppi.length - 1].length < 3) {
     const ultimo = gruppi.pop();
     gruppi[gruppi.length - 1] += ultimo;
   }
-
-  return `${prefisso} ${gruppi.join(" ")}`;
+  return prefisso + ' ' + gruppi.join(' ');
 }
 
 function flagImgHtml(iso, opts = {}) {
@@ -298,7 +344,11 @@ function contattoTeam(c, icona, valore) {
 }
 
 // ── Team ──────────────────────────────────────────────────────
-function renderTeam(site) {
+// NOTA: renderTeam ora è asincrona per caricare i prefissi se necessario
+async function renderTeam(site) {
+  // Carica i prefissi se non già disponibili
+  await caricaPrefissi();
+
   const grid = document.getElementById("team-grid");
   const sotto = document.getElementById("team-sottotitolo");
   if (!grid) return;
