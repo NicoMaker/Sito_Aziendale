@@ -15,7 +15,7 @@ module.exports = {
   },
 
   mailFrom: {
-    name: process.env.MAIL_FROM_NAME || "T-DS Agency",
+    name: process.env.MAIL_FROM_NAME || "T-DS Studio",
     email: process.env.MAIL_FROM_EMAIL || process.env.SMTP_USER,
   },
 
