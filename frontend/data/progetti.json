@@ -36,6 +36,22 @@
       "link": "https://idealegnofvg.com/"
     },
     {
+      "id": 3,
+      "titolo": "Da Prat – Serramenti su Misura",
+      "categoria": "Sito Web",
+      "descrizione": "Sito vetrina per una falegnameria specializzata in serramenti su misura. Presentazione di materiali, prodotti e soluzioni per porte, finestre e sistemi oscuranti.",
+      "dettagli": [
+        "Design su misura per l'attività di falegnameria",
+        "Ottimizzato per la ricerca locale e dispositivi mobili",
+        "Catalogo completo di serramenti in PVC, alluminio e legno"
+      ],
+      "tecnologie": ["HTML", "CSS", "JavaScript"],
+      "immagine": "img/Web_Site/Da_Prat_Falegnameria.png",
+      "immagine_placeholder": "https://picsum.photos/seed/prat/600/400",
+      "anno": 2026,
+      "colore": "#8B5A2B"
+    },
+    {
       "id": 4,
       "titolo": "Bottadiculo",
       "categoria": "Brand Identity",
