@@ -46,39 +46,34 @@ const PhoneInput = {
     try {
       const lista = await SiteData.load("paesi-telefono");
       if (Array.isArray(lista) && lista.length) this.countries = lista;
-      // Nazioni in ordine alfabetico (italiano)
       this.countries.sort((a, b) =>
         (a.nome || "").localeCompare(b.nome || "", "it"),
       );
     } catch (err) {
       console.error("Impossibile caricare data/paesi-telefono.json:", err);
-      // Resta l'elenco di riserva con la sola Italia
     }
 
     this.paese =
       this.countries.find((c) => c.iso === "IT") || this.countries[0];
     this.paeseMobile = this.paese;
 
-    // ── Costruisce la lista nazioni (bandiere reali, non emoji) ──
-    // data-search raccoglie nome, prefisso e sigla: la ricerca funziona
-    // sia digitando la nazionalità ("germania") sia il prefisso ("+49").
+    // Costruisce la lista nazioni
     dropdownList.innerHTML = this.countries
       .map((c) => {
         const chiave = `${c.nome} ${c.dial} ${c.iso}`.toLowerCase();
         return `
-      <li role="option" data-iso="${c.iso}" data-search="${chiave}" aria-selected="${c.iso === this.paese.iso}">
-        <span class="dd-flag">${flagImgHtml(c.iso, { width: 20, height: 15 })}</span>
-        <span>${c.nome}</span>
-        <span class="dd-dial">${c.dial}</span>
-      </li>`;
+    <li role="option" data-iso="${c.iso}" data-search="${chiave}" aria-selected="${c.iso === this.paese.iso}">
+      <span class="dd-flag">${flagImgHtml(c.iso, { width: 20, height: 15 })}</span>
+      <span>${c.nome}</span>
+      <span class="dd-dial">${c.dial}</span>
+    </li>`;
       })
       .join("");
 
-    // Imposta subito la bandiera/prefisso reali al posto del placeholder statico in HTML
     flagEl.innerHTML = flagImgHtml(this.paese.iso, { width: 20, height: 15 });
     dialEl.textContent = this.paese.dial;
 
-    // ── Ricerca per nazionalità o prefisso ──────────────────────
+    // Filtro ricerca
     const filtraLista = () => {
       const q = searchInput.value.trim().toLowerCase();
       let visibili = 0;
@@ -94,7 +89,6 @@ const PhoneInput = {
     const chiudi = () => {
       dropdown.classList.remove("open");
       btn.setAttribute("aria-expanded", "false");
-      // Resetta la ricerca per la prossima apertura
       if (searchInput) searchInput.value = "";
       filtraLista();
     };
@@ -104,7 +98,6 @@ const PhoneInput = {
       const open = dropdown.classList.toggle("open");
       btn.setAttribute("aria-expanded", String(open));
       if (open && searchInput) {
-        // Porta subito il focus sulla ricerca per digitare da tastiera
         setTimeout(() => searchInput.focus(), 0);
       }
     });
@@ -121,15 +114,12 @@ const PhoneInput = {
         dropdownList
           .querySelectorAll("li")
           .forEach((el) => el.setAttribute("aria-selected", String(el === li)));
-        // Rivalida con le nuove regole di lunghezza
         this.input.dispatchEvent(new Event("input"));
       }
       chiudi();
       this.input.focus();
     });
 
-    // Chiude solo per i click FUORI dal dropdown: un click sulla ricerca
-    // o su una nazione non deve chiuderlo subito.
     document.addEventListener("click", (e) => {
       if (!dropdown.contains(e.target)) chiudi();
     });
@@ -138,20 +128,18 @@ const PhoneInput = {
     });
 
     if (searchInput) {
-      // Evita che Invio nella ricerca invii per sbaglio il form di contatto
       searchInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") e.preventDefault();
       });
     }
 
-    // ── Link "Non hai un cellulare? Usa un fisso" ───────────────
+    // ── Link "Non hai un cellulare? Usa un fisso" ──
     const typeLink = document.getElementById("phone-type-link");
     const phoneField = document.getElementById("phone-field");
     const phoneLabel = document.getElementById("phone-label");
 
     const impostaModalita = (tipo) => {
       this.modalita = tipo;
-
       if (tipo === "fisso") {
         this.paese = PHONE_FISSO;
         if (phoneField) phoneField.classList.add("solo-numero");
@@ -167,8 +155,6 @@ const PhoneInput = {
           typeLink.textContent = "Non hai un cellulare? Usa un fisso";
       }
       if (typeLink) typeLink.dataset.tipo = tipo;
-
-      // Rivalida (e ritaglia se serve) il numero con le nuove regole
       this.input.dispatchEvent(new Event("input"));
     };
 
@@ -179,19 +165,24 @@ const PhoneInput = {
       });
     }
 
-    // ── SOLO cifre: blocca lettere e simboli alla digitazione ──
+    // ── SOLO CIFRE: blocca spazi, lettere, simboli ──
     this.input.addEventListener("beforeinput", (e) => {
       if (e.inputType.startsWith("insert") && e.data) {
-        if (/[^\d\s]/.test(e.data)) e.preventDefault();
+        // Permetti solo cifre (0-9)
+        if (!/^\d$/.test(e.data)) {
+          e.preventDefault();
+        }
       }
     });
 
-    // Pulisce anche incolla / autocompletamento
+    // Pulisce incolla / autocompletamento: rimuove tutto tranne le cifre
     this.input.addEventListener("input", () => {
-      const pulito = this.input.value.replace(/[^\d\s]/g, "");
-      if (pulito !== this.input.value) this.input.value = pulito;
+      const soloCifre = this.input.value.replace(/\D/g, "");
+      if (soloCifre !== this.input.value) {
+        this.input.value = soloCifre;
+      }
 
-      // Limita alla lunghezza massima del paese
+      // Limita alla lunghezza massima del paese (conta solo le cifre)
       const cifre = this.getDigits();
       if (cifre.length > this.paese.max) {
         let rimaste = this.paese.max;
