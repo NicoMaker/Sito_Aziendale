@@ -179,8 +179,11 @@ function labelTipoTelefono(tipoTelefono) {
 function rigaTelefono({ telefono, nazione, tipoTelefono }) {
   if (!telefono) return "";
   const label = labelTipoTelefono(tipoTelefono);
-  const flag = flagEmailHtml(nazione);
-  const paese = nomeNazione(nazione);
+  // Niente bandiera né nome nazione per il numero fisso: mostra solo
+  // il numero formattato col prefisso distrettuale e il badge "Telefono fisso".
+  const isFisso = tipoTelefono === "fisso";
+  const flag = isFisso ? "" : flagEmailHtml(nazione);
+  const paese = isFisso ? "" : nomeNazione(nazione);
   const numero = formatTelefono(telefono, tipoTelefono);
 
   const contenuto = `
