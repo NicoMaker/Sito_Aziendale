@@ -1079,6 +1079,33 @@ button {
 /* ── Pannello "Più informazioni" delle card progetto ────────
    Stesso linguaggio delle FAQ: pulsante col "+" arancio che
    ruota a "×" quando la card è aperta. */
+
+/* Card ad altezza piena con pulsanti ancorati in basso:
+   in ogni riga della griglia i pulsanti ("Apri il sito" e
+   "Più informazioni") risultano così alla stessa altezza,
+   anche con descrizioni di lunghezza diversa. Dove non c'è
+   il pulsante del sito non resta alcuno spazio vuoto. */
+.progetto-card,
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+.progetto-media,
+.project-img-wrap {
+  flex-shrink: 0;
+}
+.progetto-body,
+.project-body {
+  flex: 1;
+}
+.progetto-footer-group {
+  margin-top: auto; /* spinge il blocco pulsanti in fondo alla card */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 6px;
+}
+
 .progetto-toggle {
   display: flex;
   align-items: center;

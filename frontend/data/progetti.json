@@ -12,8 +12,12 @@
         "Ottimizzato per mobile e ricerca locale",
         "Sezioni prodotti e contatti sempre aggiornate"
       ],
-      "tecnologie": ["HTML", "CSS", "JavaScript"],
-      "immagine": "Img/Web_Site/Macelleria_da_Ketti.png",
+      "tecnologie": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "immagine": "img/Web_Site/Macelleria_da_Ketti.png",
       "immagine_placeholder": "https://picsum.photos/seed/ketti/600/400",
       "anno": 2025,
       "colore": "#e85d1f",
@@ -28,8 +32,12 @@
         "Galleria dei lavori realizzati",
         "Immagine coordinata con il brand"
       ],
-      "tecnologie": ["HTML", "CSS", "JavaScript"],
-      "immagine": "Img/Web_Site/IDEALEGNO.jpg",
+      "tecnologie": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "immagine": "img/Web_Site/IDEALEGNO.jpg",
       "immagine_placeholder": "https://picsum.photos/seed/idealegno/600/400",
       "anno": 2025,
       "colore": "#c2470e",
@@ -45,8 +53,13 @@
         "Deploy continuo su Netlify",
         "Codice open source consultabile"
       ],
-      "tecnologie": ["HTML", "CSS", "JavaScript", "Netlify"],
-      "immagine": "Img/Web_Site/Pagina_Generale_Siti.jpg",
+      "tecnologie": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Netlify"
+      ],
+      "immagine": "img/Web_Site/Pagina_Generale_Siti.jpg",
       "immagine_placeholder": "https://picsum.photos/seed/paginagenerale/600/400",
       "anno": 2025,
       "colore": "#e85d1f",
@@ -63,8 +76,13 @@
         "Interfaccia leggera e veloce",
         "Codice open source su GitHub"
       ],
-      "tecnologie": ["HTML", "CSS", "JavaScript", "Netlify"],
-      "immagine": "Img/Web_Site/Giri_in_Bici.jpg",
+      "tecnologie": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Netlify"
+      ],
+      "immagine": "img/Web_Site/Giri_in_Bici.jpg",
       "immagine_placeholder": "https://picsum.photos/seed/giribici/600/400",
       "anno": 2025,
       "colore": "#c2470e",
@@ -81,8 +99,12 @@
         "Palette colori e sistema tipografico",
         "Applicazioni del brand su materiali reali"
       ],
-      "tecnologie": ["Illustrator", "Photoshop", "Behance"],
-      "immagine": "Img/Brand_Identity/Bottadiculo.png",
+      "tecnologie": [
+        "Illustrator",
+        "Photoshop",
+        "Behance"
+      ],
+      "immagine": "img/Brand_Identity/Bottadiculo.png",
       "immagine_placeholder": "https://picsum.photos/seed/bottadiculo/600/400",
       "anno": 2025,
       "colore": "#e85d1f"
@@ -97,8 +119,12 @@
         "Gerarchie tipografiche e leggibilità",
         "Impaginazione completa del magazine"
       ],
-      "tecnologie": ["InDesign", "Illustrator", "Behance"],
-      "immagine": "Img/Brand_Identity/SPAZIO_Magazine.png",
+      "tecnologie": [
+        "InDesign",
+        "Illustrator",
+        "Behance"
+      ],
+      "immagine": "img/Brand_Identity/Spazio_Magazine.png",
       "immagine_placeholder": "https://picsum.photos/seed/spazio/600/400",
       "anno": 2025,
       "colore": "#c2470e"
@@ -113,8 +139,12 @@
         "Concept grafico coordinato",
         "File pronti per la stampa"
       ],
-      "tecnologie": ["Illustrator", "Photoshop", "Behance"],
-      "immagine": "Img/Brand_Identity/Calendario_2024.png",
+      "tecnologie": [
+        "Illustrator",
+        "Photoshop",
+        "Behance"
+      ],
+      "immagine": "img/Brand_Identity/Calendario_2024.png",
       "immagine_placeholder": "https://picsum.photos/seed/novus/600/400",
       "anno": 2024,
       "colore": "#e85d1f"

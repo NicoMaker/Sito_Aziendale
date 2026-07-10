@@ -133,47 +133,49 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h3 class="project-title">${p.titolo}</h3>
             <p class="project-desc">${p.descrizione}</p>
 
-            ${
-              linkValido || codiceValido
-                ? `<div class="progetto-actions">
-                    ${
-                      linkValido
-                        ? `<a class="project-link-btn primario" href="${p.link}" target="_blank" rel="noopener" aria-label="${labelLink}: ${p.titolo}">${labelLink} ${SVG_EXTERNAL}</a>`
-                        : ""
-                    }
-                    ${
-                      codiceValido
-                        ? `<a class="project-link-btn" href="${p.codice}" target="_blank" rel="noopener" aria-label="Codice sorgente di ${p.titolo} su GitHub">Codice su GitHub ${SVG_EXTERNAL}</a>`
-                        : ""
-                    }
-                  </div>`
-                : ""
-            }
+            <div class="progetto-footer-group">
+              ${
+                linkValido || codiceValido
+                  ? `<div class="progetto-actions">
+                      ${
+                        linkValido
+                          ? `<a class="project-link-btn primario" href="${p.link}" target="_blank" rel="noopener" aria-label="${labelLink}: ${p.titolo}">${labelLink} ${SVG_EXTERNAL}</a>`
+                          : ""
+                      }
+                      ${
+                        codiceValido
+                          ? `<a class="project-link-btn" href="${p.codice}" target="_blank" rel="noopener" aria-label="Codice sorgente di ${p.titolo} su GitHub">Codice su GitHub ${SVG_EXTERNAL}</a>`
+                          : ""
+                      }
+                    </div>`
+                  : ""
+              }
 
-            <button
-              type="button"
-              class="progetto-toggle"
-              aria-expanded="false"
-              aria-controls="correlato-extra-${p.id || i}"
-            >
-              <span class="progetto-toggle-label">Più informazioni</span>
-              <span class="progetto-plus" aria-hidden="true">+</span>
-            </button>
+              <button
+                type="button"
+                class="progetto-toggle"
+                aria-expanded="false"
+                aria-controls="correlato-extra-${p.id || i}"
+              >
+                <span class="progetto-toggle-label">Più informazioni</span>
+                <span class="progetto-plus" aria-hidden="true">+</span>
+              </button>
 
-            <div class="progetto-extra" id="correlato-extra-${p.id || i}">
-              <div class="progetto-extra-inner">
-                ${
-                  p.dettagli && p.dettagli.length
-                    ? `<ul class="progetto-dettagli">
-                        ${p.dettagli.map((d) => `<li>${d}</li>`).join("")}
-                      </ul>`
-                    : ""
-                }
-                ${
-                  p.tecnologie && p.tecnologie.length
-                    ? `<div class="project-tech">${p.tecnologie.map((t) => `<span class="tech-tag">${t}</span>`).join("")}</div>`
-                    : ""
-                }
+              <div class="progetto-extra" id="correlato-extra-${p.id || i}">
+                <div class="progetto-extra-inner">
+                  ${
+                    p.dettagli && p.dettagli.length
+                      ? `<ul class="progetto-dettagli">
+                          ${p.dettagli.map((d) => `<li>${d}</li>`).join("")}
+                        </ul>`
+                      : ""
+                  }
+                  ${
+                    p.tecnologie && p.tecnologie.length
+                      ? `<div class="project-tech">${p.tecnologie.map((t) => `<span class="tech-tag">${t}</span>`).join("")}</div>`
+                      : ""
+                  }
+                </div>
               </div>
             </div>
           </div>
