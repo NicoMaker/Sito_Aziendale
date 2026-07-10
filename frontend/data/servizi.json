@@ -32,9 +32,15 @@
           "risposta": "Possiamo gestire hosting e dominio per te, oppure lavorare con la tua infrastruttura esistente. Ti consigliamo la soluzione più adatta al tuo progetto."
         }
       ],
-      "colore": "#1a6cff",
-      "categorie_correlate": ["Sito Web"],
-      "correlati": ["marketing-digitale", "grafica-stampa", "consulenza-it"]
+      "colore": "#ef3e36",
+      "categorie_correlate": [
+        "Sito Web"
+      ],
+      "correlati": [
+        "marketing-digitale",
+        "grafica-stampa",
+        "consulenza-it"
+      ]
     },
     {
       "id": 2,
@@ -66,9 +72,15 @@
           "risposta": "Sì, affianchiamo aziende sia nella costruzione di un brand da zero che nel rinnovamento di identità esistenti, mantenendo la riconoscibilità acquisita."
         }
       ],
-      "colore": "#0d3fa6",
-      "categorie_correlate": ["Brand Identity"],
-      "correlati": ["grafica-stampa", "siti-web", "marketing-digitale"]
+      "colore": "#0a0a0a",
+      "categorie_correlate": [
+        "Brand Identity"
+      ],
+      "correlati": [
+        "grafica-stampa",
+        "siti-web",
+        "marketing-digitale"
+      ]
     },
     {
       "id": 3,
@@ -99,9 +111,13 @@
           "risposta": "Il costo dipende dalla complessità delle funzionalità. Dopo un briefing dettagliato forniamo un preventivo trasparente e senza sorprese."
         }
       ],
-      "colore": "#00b4d8",
+      "colore": "#ef3e36",
       "categorie_correlate": [],
-      "correlati": ["siti-web", "consulenza-it", "marketing-digitale"]
+      "correlati": [
+        "siti-web",
+        "consulenza-it",
+        "marketing-digitale"
+      ]
     },
     {
       "id": 4,
@@ -133,9 +149,13 @@
           "risposta": "La frequenza è concordata nel piano editoriale mensile. Tipicamente 3–5 post a settimana per piattaforma, con stories e reels inclusi nei piani completi."
         }
       ],
-      "colore": "#0077b6",
+      "colore": "#0a0a0a",
       "categorie_correlate": [],
-      "correlati": ["siti-web", "brand-identity", "grafica-stampa"]
+      "correlati": [
+        "siti-web",
+        "brand-identity",
+        "grafica-stampa"
+      ]
     },
     {
       "id": 5,
@@ -167,9 +187,16 @@
           "risposta": "Assolutamente sì. Se hai già un manuale d'identità, lo rispettiamo e realizziamo materiali coerenti con le tue linee guida esistenti."
         }
       ],
-      "colore": "#023e8a",
-      "categorie_correlate": ["Grafica e Illustrazione", "Tipografia"],
-      "correlati": ["brand-identity", "siti-web", "marketing-digitale"]
+      "colore": "#ef3e36",
+      "categorie_correlate": [
+        "Grafica e Illustrazione",
+        "Tipografia"
+      ],
+      "correlati": [
+        "brand-identity",
+        "siti-web",
+        "marketing-digitale"
+      ]
     },
     {
       "id": 6,
@@ -201,9 +228,13 @@
           "risposta": "Lavoriamo con aziende di ogni dimensione: dalla piccola impresa familiare alle PMI strutturate. Le soluzioni vengono sempre dimensionate al budget e alle esigenze reali."
         }
       ],
-      "colore": "#1a6cff",
+      "colore": "#0a0a0a",
       "categorie_correlate": [],
-      "correlati": ["app-software", "siti-web", "brand-identity"]
+      "correlati": [
+        "app-software",
+        "siti-web",
+        "brand-identity"
+      ]
     }
   ]
 }

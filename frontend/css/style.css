@@ -5,27 +5,28 @@
    ============================================================ */
 
 :root {
-  /* Palette chiara: bianco puro + arancio brand */
+  /* Palette brand T-DS studio: bianco puro + rosso brand + nero */
   --bg: #ffffff;
   --bg-rgb: 255, 255, 255;
-  --bg-2: #f7f5f1;
+  --bg-2: #f6f6f5;
   --panel: #ffffff;
-  --panel-2: #f1efe9;
-  --ink: #171a21;
-  --ink-rgb: 23, 26, 33;
-  --ink-dim: #3f434e;
-  --muted: #7b8090;
+  --panel-2: #f0f0ef;
+  --ink: #0a0a0a;
+  --ink-rgb: 10, 10, 10;
+  --ink-dim: #3a3a3a;
+  --muted: #6f7076;
 
-  /* Arancio brand (unico colore espressivo) */
-  --accent: #e85d1f;
-  --accent-rgb: 232, 93, 31;
-  --accent-2: #c2470e;
-  --accent-bright: #e85d1f;
-  --accent-bright-rgb: 232, 93, 31;
-  --accent-bright-2: #c2470e;
+  /* Rosso brand T-DS (dalle card identity) */
+  --accent: #ef3e36;
+  --accent-rgb: 239, 62, 54;
+  --accent-2: #d42a22;
+  --accent-bright: #ef3e36;
+  --accent-bright-rgb: 239, 62, 54;
+  --accent-bright-2: #d42a22;
+  --brand-black: #0a0a0a;
 
-  --line: rgba(23, 26, 33, 0.1);
-  --line-strong: rgba(23, 26, 33, 0.22);
+  --line: rgba(10, 10, 10, 0.1);
+  --line-strong: rgba(10, 10, 10, 0.22);
   --error: #d32f2f;
   --ok: #2e7d32;
 
@@ -776,31 +777,71 @@ button {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 32px 28px;
+  padding: 26px 26px 30px;
+}
+/* Barra accento brand in cima a ogni card servizio */
+.servizio-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--card-accent, var(--accent));
+  z-index: 2;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.45s var(--ease);
+}
+.servizio-card:hover::after {
+  transform: scaleX(1);
 }
 .servizio-card > * {
   position: relative;
   z-index: 1;
 }
+/* Immagine servizio GRANDE: blocco media a tutta larghezza */
 .servizio-icona {
-  width: 56px;
-  height: 56px;
+  width: 100%;
+  height: 190px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
-  background: rgba(var(--accent-rgb), 0.1);
-  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(var(--accent-rgb), 0.12),
+    rgba(var(--accent-rgb), 0.03) 60%,
+    rgba(var(--ink-rgb), 0.03)
+  );
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
   color: var(--accent-2);
+  overflow: hidden;
   transition:
     transform 0.35s var(--ease-spring),
     background 0.3s;
 }
 .servizio-icona .material-icons {
-  font-size: 28px;
+  font-size: 64px;
+}
+.servizio-icona-img {
+  width: auto;
+  height: 74%;
+  max-width: 82%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 22px rgba(var(--ink-rgb), 0.18));
+  transition: transform 0.4s var(--ease-spring);
 }
 .servizio-card:hover .servizio-icona {
-  transform: rotate(-6deg) scale(1.08);
-  background: rgba(var(--accent-rgb), 0.18);
+  transform: translateY(-4px);
+  background: linear-gradient(
+    145deg,
+    rgba(var(--accent-rgb), 0.2),
+    rgba(var(--accent-rgb), 0.05) 60%,
+    rgba(var(--ink-rgb), 0.04)
+  );
+}
+.servizio-card:hover .servizio-icona-img {
+  transform: scale(1.08) rotate(-2deg);
 }
 .servizio-card h3 {
   font-family: var(--font-display);
@@ -1687,6 +1728,10 @@ button {
   font-family: var(--font-mono);
   font-size: 0.9rem;
   border-radius: 12px;
+  transition: opacity 0.6s var(--ease);
+}
+.form-esito.nascosto {
+  opacity: 0;
 }
 .form-esito.ok {
   color: var(--ok);
@@ -1702,13 +1747,50 @@ button {
 }
 
 /* ============================================================
-   PAGINA SERVIZIO (servizio.html)
+   PAGINA SERVIZIO (servizio.html) — stile brand T-DS
    ============================================================ */
 .servizio-detail-header {
-  padding: 40px 0 30px;
+  position: relative;
+  margin: 34px 0 40px;
+  padding: 46px 44px;
   display: flex;
-  align-items: flex-start;
-  gap: 26px;
+  align-items: center;
+  gap: 40px;
+  background: var(--brand-black, #0a0a0a);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+/* Glow rosso brand nell'header nero, come le card identity */
+.servizio-detail-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      520px circle at 12% 0%,
+      rgba(var(--accent-rgb), 0.35),
+      transparent 60%
+    ),
+    radial-gradient(
+      420px circle at 100% 110%,
+      rgba(var(--accent-rgb), 0.22),
+      transparent 60%
+    );
+  pointer-events: none;
+}
+.servizio-detail-header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--accent);
+}
+.servizio-detail-header > * {
+  position: relative;
+  z-index: 1;
 }
 #servizio-detail.section {
   padding-top: 130px;
@@ -1723,7 +1805,7 @@ button {
 .servizio-detail-faq h3 {
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
   margin-bottom: 22px;
 }
@@ -1736,33 +1818,64 @@ button {
   max-width: none;
   width: 100%;
 }
+/* Immagine servizio GRANDE nella pagina di dettaglio */
 .servizio-detail-icon {
   flex-shrink: 0;
-  width: 76px;
-  height: 76px;
+  width: 210px;
+  height: 210px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
-  background: rgba(var(--accent-rgb), 0.1);
-  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--accent-2);
-  margin-bottom: 22px;
+  margin-bottom: 0;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
 }
 .servizio-detail-icon .material-icons {
-  font-size: 34px;
+  font-size: 92px;
+}
+.servizio-detail-icon .servizio-icona-img,
+.servizio-detail-icon img {
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
 }
 .servizio-detail-title {
   font-family: var(--font-display);
-  font-size: clamp(2.1rem, 5vw, 3.4rem);
-  font-weight: 600;
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.05;
   margin-bottom: 16px;
+  color: #ffffff;
+}
+/* Wordmark "T-DS studio" nell'header, come le card brand */
+.servizio-detail-header .servizio-detail-title::before {
+  content: "T-DS studio";
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
 }
 .servizio-detail-sub {
-  color: var(--ink-dim);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 1.12rem;
   max-width: 620px;
+}
+@media (max-width: 720px) {
+  .servizio-detail-header {
+    padding: 34px 26px;
+    gap: 26px;
+  }
+  .servizio-detail-icon {
+    width: 150px;
+    height: 150px;
+  }
 }
 .servizio-detail-body {
   padding-bottom: 30px;
@@ -1981,23 +2094,30 @@ button {
   margin: 50px 0 20px;
   padding: clamp(34px, 5vw, 56px);
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(
-      600px 300px at 20% 0%,
-      rgba(var(--accent-rgb), 0.16),
-      transparent 60%
-    ),
-    var(--panel);
-  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  background: var(--accent);
+  border: none;
   text-align: center;
+  color: #ffffff;
 }
 .servizio-detail-cta h2 {
   margin-bottom: 12px;
+  color: #ffffff;
 }
 .servizio-detail-cta p {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.9);
   max-width: 520px;
   margin: 0 auto 26px;
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+.servizio-detail-cta .btn.btn-primary {
+  background: var(--brand-black, #0a0a0a);
+  color: #ffffff;
+  border-color: var(--brand-black, #0a0a0a);
+}
+.servizio-detail-cta .btn.btn-primary:hover {
+  background: #ffffff;
+  color: var(--accent-2);
 }
 
 /* ============================================================

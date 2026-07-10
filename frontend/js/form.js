@@ -8,6 +8,25 @@ const FormContatti = {
   form: null,
   API_URL: "/api/contatti",
 
+  // Dopo quanti millisecondi la scritta di esito ("mail inviata" / errore)
+  // sparisce da sola dalla pagina.
+  ESITO_TIMEOUT_MS: 30000,
+  _esitoTimer: null,
+  _esitoFadeTimer: null,
+
+  // Programma la scomparsa automatica del messaggio di esito dopo 30 secondi
+  nascondiEsitoDopo(esito) {
+    clearTimeout(this._esitoTimer);
+    clearTimeout(this._esitoFadeTimer);
+    this._esitoTimer = setTimeout(() => {
+      esito.classList.add("nascosto"); // fade-out morbido (CSS)
+      this._esitoFadeTimer = setTimeout(() => {
+        esito.className = "form-esito";
+        esito.textContent = "";
+      }, 700); // attende la fine della transizione
+    }, this.ESITO_TIMEOUT_MS);
+  },
+
   // Regex email rigorosa (nome@dominio.tld)
   EMAIL_REGEX: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
 
@@ -121,6 +140,8 @@ const FormContatti = {
   async invia(e) {
     e.preventDefault();
     const esito = document.getElementById("form-esito");
+    clearTimeout(this._esitoTimer);
+    clearTimeout(this._esitoFadeTimer);
     esito.className = "form-esito";
     esito.textContent = "";
 
@@ -179,6 +200,9 @@ const FormContatti = {
     } finally {
       btn.classList.remove("loading");
       esito.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      // La scritta di esito ("Richiesta inviata!" o errore) sparisce
+      // automaticamente dopo 30 secondi.
+      if (esito.textContent) this.nascondiEsitoDopo(esito);
     }
   },
 };

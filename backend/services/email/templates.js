@@ -1,29 +1,29 @@
 // ============================================================
 // services/email/templates.js — Template HTML delle email
-// Stile coerente col sito (T-DS Agency — "Digital Atelier")
-// Bianco + arancio brand, Space Grotesk / Instrument Sans / JetBrains Mono
+// Stile "carta intestata" T-DS studio:
+// bianco puro · nero · rosso brand #EF3E36 · quadratini rossi
+// Wordmark tipografico "T-DS studio" come nell'identity.
 // ============================================================
 const { escapeHtml } = require("../../utils/validators");
 const config = require("../../config");
 
-// ── Palette presa 1:1 da style.css (:root) ──
+// ── Palette brand (dalle card identity / carta intestata) ──
 const COLORI = {
-  bg: "#f7f5f1", // --bg-2
-  panel: "#ffffff", // --panel
-  panel2: "#f1efe9", // --panel-2
-  ink: "#171a21", // --ink
-  inkDim: "#3f434e", // --ink-dim
-  muted: "#7b8090", // --muted
-  accent: "#e85d1f", // --accent
-  accent2: "#c2470e", // --accent-2
-  line: "rgba(23,26,33,0.10)", // --line
-  lineStrong: "rgba(23,26,33,0.16)",
+  bg: "#f2f2f2", // sfondo esterno neutro
+  panel: "#ffffff", // foglio bianco
+  panel2: "#f6f6f5",
+  ink: "#0a0a0a", // nero brand
+  inkDim: "#3a3a3a",
+  muted: "#6f7076",
+  accent: "#ef3e36", // rosso brand T-DS
+  accent2: "#d42a22",
+  line: "rgba(10,10,10,0.10)",
+  lineStrong: "#0a0a0a", // riga nera piena, come il footer della carta
 };
 
-const FONT_DISPLAY =
-  "'Space Grotesk', 'Segoe UI', Helvetica, Arial, sans-serif";
-const FONT_BODY = "'Instrument Sans', 'Segoe UI', Helvetica, Arial, sans-serif";
-const FONT_MONO = "'JetBrains Mono', 'Courier New', monospace";
+const FONT_DISPLAY = "'Manrope', 'Segoe UI', Helvetica, Arial, sans-serif";
+const FONT_BODY = "'Manrope', 'Segoe UI', Helvetica, Arial, sans-serif";
+const FONT_MONO = "'Manrope', 'Segoe UI', Helvetica, Arial, sans-serif";
 
 // ── Utility: formatta un numero di telefono italiano in modo leggibile ──
 // Es: "3331234567" -> "333 123 4567" · "+393331234567" -> "+39 333 123 4567"
@@ -67,8 +67,7 @@ function telHref(telefono) {
 
 // ── Bandiera nazionale nell'email ────────────────────────────
 // PNG (non SVG né emoji): è il formato più affidabile nei client
-// di posta (Gmail, Outlook, Apple Mail). flagcdn è lo stesso servizio
-// già usato dal frontend per il selettore del prefisso.
+// di posta (Gmail, Outlook, Apple Mail).
 function flagEmailHtml(iso) {
   if (!iso || !/^[A-Za-z]{2}$/.test(iso)) return "";
   const code = iso.toLowerCase();
@@ -81,7 +80,6 @@ function labelTipoTelefono(tipoTelefono) {
 }
 
 // ── Riga telefono: bandiera + numero cliccabile + tipo ──────
-// Usata sia nell'email all'azienda sia nel riepilogo al cliente.
 function rigaTelefono({ telefono, nazione, tipoTelefono }) {
   if (!telefono) return "";
   const label = labelTipoTelefono(tipoTelefono);
@@ -89,12 +87,12 @@ function rigaTelefono({ telefono, nazione, tipoTelefono }) {
   const numero = formatTelefono(telefono);
 
   const contenuto = `
-    ${flag ? `<span style="margin-right:8px;">${flag}</span>` : ""}<a href="tel:${escapeHtml(telHref(telefono))}" style="color:${COLORI.accent2};text-decoration:none;font-weight:600;">${escapeHtml(numero)}</a>
+    ${flag ? `<span style="margin-right:8px;">${flag}</span>` : ""}<a href="tel:${escapeHtml(telHref(telefono))}" style="color:${COLORI.accent2};text-decoration:none;font-weight:700;">${escapeHtml(numero)}</a>
     <span style="display:inline-block;margin-left:8px;padding:2px 10px;border:1px solid ${COLORI.line};border-radius:999px;background:${COLORI.panel2};color:${COLORI.inkDim};font-family:${FONT_MONO};font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;vertical-align:1px;">${escapeHtml(label)}</span>`;
 
   return `
   <tr>
-    <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};vertical-align:top;width:130px;">
+    <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};font-weight:700;vertical-align:top;width:130px;">
       ${escapeHtml(label)}
     </td>
     <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.ink};font-size:15px;">
@@ -103,8 +101,21 @@ function rigaTelefono({ telefono, nazione, tipoTelefono }) {
   </tr>`;
 }
 
+// ── Wordmark tipografico "T-DS studio" (nero + rosso) ───────
+function wordmarkHtml(size = 34) {
+  const studioSize = Math.round(size * 0.4);
+  return `
+  <span style="font-family:${FONT_DISPLAY};font-weight:800;font-size:${size}px;letter-spacing:-0.04em;color:${COLORI.ink};line-height:1;">T-DS<span style="font-size:${studioSize}px;font-weight:700;color:${COLORI.accent};letter-spacing:0;">&nbsp;studio</span></span>`;
+}
+
+// Quadratino rosso brand (come a margine dei paragrafi della carta intestata)
+function quadratino(size = 8) {
+  return `<span style="display:inline-block;width:${size}px;height:${size}px;background:${COLORI.accent};"></span>`;
+}
+
 // ============================================================
-// LAYOUT BASE — replica header/panel/footer del sito
+// LAYOUT BASE — replica la carta intestata:
+// foglio bianco, wordmark in alto, riga nera e footer in basso
 // ============================================================
 function layoutBase(titolo, corpo, { preheader = "" } = {}) {
   return `<!doctype html>
@@ -123,34 +134,42 @@ function layoutBase(titolo, corpo, { preheader = "" } = {}) {
     <div style="background:${COLORI.bg};padding:40px 16px;font-family:${FONT_BODY};">
       <div style="max-width:600px;margin:0 auto;">
 
-        <!-- Header brand, come .nav-logo / accento mono del sito -->
-        <div style="text-align:center;padding-bottom:22px;">
-          <div style="display:inline-block;font-family:${FONT_MONO};font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORI.accent2};font-weight:700;">
-            ${escapeHtml(config.azienda.nome)}
-          </div>
-        </div>
+        <!-- Foglio "carta intestata" -->
+        <div style="background:${COLORI.panel};border:1px solid ${COLORI.line};border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(10,10,10,0.10);">
 
-        <!-- Card principale, come .panel / .faq-item / .lista-check li -->
-        <div style="background:${COLORI.panel};border:1px solid ${COLORI.line};border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(23,26,33,0.06);">
-
-          <!-- Striscia accento in alto, come .scroll-progress -->
-          <div style="height:4px;background:linear-gradient(90deg, ${COLORI.accent}, ${COLORI.accent2});"></div>
-
-          <div style="padding:34px 32px 8px;">
-            <h1 style="margin:0;font-family:${FONT_DISPLAY};font-size:24px;font-weight:600;letter-spacing:-0.02em;color:${COLORI.ink};">
-              ${titolo}
-            </h1>
+          <!-- Intestazione: wordmark T-DS studio, come sulla carta -->
+          <div style="padding:34px 36px 0;">
+            ${wordmarkHtml(38)}
           </div>
 
-          <div style="padding:14px 32px 32px;color:${COLORI.ink};font-size:15px;line-height:1.7;">
+          <!-- Titolo del documento con quadratino rosso -->
+          <div style="padding:26px 36px 6px;">
+            <table role="presentation" style="border-collapse:collapse;"><tr>
+              <td style="vertical-align:middle;padding-right:10px;">${quadratino(10)}</td>
+              <td style="vertical-align:middle;">
+                <h1 style="margin:0;font-family:${FONT_DISPLAY};font-size:22px;font-weight:800;letter-spacing:-0.02em;color:${COLORI.ink};">
+                  ${titolo}
+                </h1>
+              </td>
+            </tr></table>
+          </div>
+
+          <div style="padding:14px 36px 30px;color:${COLORI.ink};font-size:15px;line-height:1.7;">
             ${corpo}
           </div>
-        </div>
 
-        <!-- Footer, come .site-footer -->
-        <div style="text-align:center;padding:26px 12px 0;">
-          <div style="color:${COLORI.muted};font-size:12px;font-family:${FONT_MONO};letter-spacing:0.02em;">
-            ${escapeHtml(config.azienda.nome)} · ${escapeHtml(config.azienda.sito)} · ${escapeHtml(config.azienda.email)}
+          <!-- Piè di pagina interno: riga nera piena, come la carta -->
+          <div style="margin:0 36px;border-top:2px solid ${COLORI.lineStrong};"></div>
+          <div style="padding:16px 36px 26px;">
+            <table role="presentation" style="width:100%;border-collapse:collapse;"><tr>
+              <td style="font-family:${FONT_DISPLAY};font-weight:800;font-size:14px;color:${COLORI.ink};letter-spacing:-0.02em;white-space:nowrap;">
+                T-DS <span style="color:${COLORI.accent};font-size:10px;font-weight:700;">studio</span>
+              </td>
+              <td style="text-align:center;color:${COLORI.muted};font-size:11px;letter-spacing:0.04em;">
+                ${escapeHtml(config.azienda.nome)} · ${escapeHtml(config.azienda.sito)} · ${escapeHtml(config.azienda.email)}
+              </td>
+              <td style="text-align:right;width:12px;">${quadratino(8)}</td>
+            </tr></table>
           </div>
         </div>
 
@@ -160,16 +179,16 @@ function layoutBase(titolo, corpo, { preheader = "" } = {}) {
 </html>`;
 }
 
-// Riga dato in stile "tabella pulita" (come rigaDato originale, ma nella nuova palette)
+// Riga dato in stile "tabella pulita" della carta intestata
 // Se href è passato, il valore diventa un link cliccabile (mailto:/tel:)
 function rigaDato(label, valore, href) {
   const contenuto = href
-    ? `<a href="${escapeHtml(href)}" style="color:${COLORI.accent2};text-decoration:none;font-weight:600;">${escapeHtml(valore)}</a>`
+    ? `<a href="${escapeHtml(href)}" style="color:${COLORI.accent2};text-decoration:none;font-weight:700;">${escapeHtml(valore)}</a>`
     : escapeHtml(valore);
 
   return `
   <tr>
-    <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};vertical-align:top;width:130px;">
+    <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};font-weight:700;vertical-align:top;width:130px;">
       ${escapeHtml(label)}
     </td>
     <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.ink};font-size:15px;">
@@ -178,15 +197,15 @@ function rigaDato(label, valore, href) {
   </tr>`;
 }
 
-// Pulsante CTA in stile .btn / .btn-submit del sito (pillola arancio)
+// Pulsante CTA: rosso brand pieno, squadrato-morbido come le card identity
 function bottone(testo, href) {
   return `
-  <a href="${escapeHtml(href)}" style="display:inline-block;background:${COLORI.accent};color:#ffffff;font-family:${FONT_MONO};font-size:13px;font-weight:600;letter-spacing:0.03em;text-decoration:none;padding:13px 28px;border-radius:999px;">
+  <a href="${escapeHtml(href)}" style="display:inline-block;background:${COLORI.accent};color:#ffffff;font-family:${FONT_DISPLAY};font-size:13.5px;font-weight:800;letter-spacing:0.03em;text-decoration:none;padding:13px 30px;border-radius:8px;">
     ${escapeHtml(testo)}
   </a>`;
 }
 
-// Voce con spunta arancio, come .lista-check li::before
+// Voci elenco con quadratino rosso brand (niente cerchi: stile carta intestata)
 function vociCheck(voci) {
   return `
   <table style="width:100%;border-collapse:collapse;margin:6px 0 0;">
@@ -194,8 +213,8 @@ function vociCheck(voci) {
       .map(
         (v) => `
       <tr>
-        <td style="padding:6px 0;vertical-align:top;width:26px;">
-          <span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:${COLORI.accent};color:#ffffff;font-size:11px;line-height:20px;text-align:center;font-weight:700;">✓</span>
+        <td style="padding:7px 0;vertical-align:top;width:22px;">
+          ${quadratino(9)}
         </td>
         <td style="padding:6px 0;color:${COLORI.inkDim};font-size:14px;">${escapeHtml(v)}</td>
       </tr>`,
@@ -228,8 +247,8 @@ function templateAzienda({
       ${rigaDato("Servizio", servizio)}
     </table>
 
-    <div style="margin-top:20px;padding:18px 20px;background:${COLORI.panel2};border:1px solid ${COLORI.line};border-radius:14px;">
-      <div style="color:${COLORI.accent2};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};margin-bottom:10px;">
+    <div style="margin-top:20px;padding:18px 20px;background:${COLORI.panel2};border-left:4px solid ${COLORI.accent};border-radius:6px;">
+      <div style="color:${COLORI.accent2};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};font-weight:800;margin-bottom:10px;">
         Messaggio
       </div>
       <div style="white-space:pre-wrap;color:${COLORI.ink};">${escapeHtml(messaggio)}</div>
@@ -265,7 +284,7 @@ function templateCliente({
   const primoNome = nomeVisualizzato.split(" ")[0] || nomeVisualizzato;
 
   const corpo = `
-    <p style="margin:0 0 16px;color:${COLORI.ink};">
+    <p style="margin:0 0 16px;color:${COLORI.ink};font-weight:700;">
       Ciao ${escapeHtml(primoNome)},
     </p>
     <p style="margin:0 0 20px;color:${COLORI.inkDim};">
@@ -275,8 +294,8 @@ function templateCliente({
     </p>
 
     <!-- Riepilogo dati inviati -->
-    <div style="margin:0 0 22px;padding:18px 20px;background:${COLORI.panel2};border:1px solid ${COLORI.line};border-radius:14px;">
-      <div style="color:${COLORI.accent2};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};margin-bottom:10px;">
+    <div style="margin:0 0 22px;padding:18px 20px;background:${COLORI.panel2};border-left:4px solid ${COLORI.accent};border-radius:6px;">
+      <div style="color:${COLORI.accent2};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};font-weight:800;margin-bottom:10px;">
         Riepilogo della tua richiesta
       </div>
       <table style="width:100%;border-collapse:collapse;">
@@ -288,7 +307,7 @@ function templateCliente({
       ${
         messaggio
           ? `<div style="margin-top:14px;">
-               <div style="color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};margin-bottom:6px;">Messaggio</div>
+               <div style="color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};font-weight:700;margin-bottom:6px;">Messaggio</div>
                <div style="white-space:pre-wrap;color:${COLORI.ink};font-size:14.5px;">${escapeHtml(messaggio)}</div>
              </div>`
           : ""
@@ -297,7 +316,7 @@ function templateCliente({
 
     <!-- Prossimi passi -->
     <div style="margin:0 0 22px;">
-      <div style="color:${COLORI.ink};font-family:${FONT_DISPLAY};font-size:15px;font-weight:600;margin-bottom:8px;">
+      <div style="color:${COLORI.ink};font-family:${FONT_DISPLAY};font-size:15px;font-weight:800;margin-bottom:8px;">
         Cosa succede adesso
       </div>
       ${vociCheck([
@@ -309,11 +328,11 @@ function templateCliente({
 
     <p style="margin:0 0 4px;color:${COLORI.inkDim};">
       Se hai fretta, scrivici direttamente a
-      <a href="mailto:${escapeHtml(config.azienda.email)}" style="color:${COLORI.accent2};font-weight:600;text-decoration:none;">${escapeHtml(config.azienda.email)}</a>.
+      <a href="mailto:${escapeHtml(config.azienda.email)}" style="color:${COLORI.accent2};font-weight:700;text-decoration:none;">${escapeHtml(config.azienda.email)}</a>.
     </p>
 
     <p style="margin:20px 0 0;color:${COLORI.ink};">
-      A presto,<br/>la squadra di ${escapeHtml(config.azienda.nome)}
+      A presto,<br/><strong>T-DS studio</strong> — la squadra di ${escapeHtml(config.azienda.nome)}
     </p>`;
 
   return layoutBase("Abbiamo ricevuto la tua richiesta", corpo, {
