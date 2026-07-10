@@ -65,6 +65,44 @@ function telHref(telefono) {
   return raw.startsWith("+") ? `+${cifre}` : cifre;
 }
 
+// ── Bandiera nazionale nell'email ────────────────────────────
+// PNG (non SVG né emoji): è il formato più affidabile nei client
+// di posta (Gmail, Outlook, Apple Mail). flagcdn è lo stesso servizio
+// già usato dal frontend per il selettore del prefisso.
+function flagEmailHtml(iso) {
+  if (!iso || !/^[A-Za-z]{2}$/.test(iso)) return "";
+  const code = iso.toLowerCase();
+  return `<img src="https://flagcdn.com/40x30/${code}.png" width="20" height="15" alt="${escapeHtml(iso.toUpperCase())}" style="display:inline-block;vertical-align:-2px;border-radius:2px;border:1px solid ${COLORI.line};" />`;
+}
+
+// Etichetta del tipo di numero: "Telefono fisso" oppure "Cellulare"
+function labelTipoTelefono(tipoTelefono) {
+  return tipoTelefono === "fisso" ? "Telefono fisso" : "Cellulare";
+}
+
+// ── Riga telefono: bandiera + numero cliccabile + tipo ──────
+// Usata sia nell'email all'azienda sia nel riepilogo al cliente.
+function rigaTelefono({ telefono, nazione, tipoTelefono }) {
+  if (!telefono) return "";
+  const label = labelTipoTelefono(tipoTelefono);
+  const flag = flagEmailHtml(nazione);
+  const numero = formatTelefono(telefono);
+
+  const contenuto = `
+    ${flag ? `<span style="margin-right:8px;">${flag}</span>` : ""}<a href="tel:${escapeHtml(telHref(telefono))}" style="color:${COLORI.accent2};text-decoration:none;font-weight:600;">${escapeHtml(numero)}</a>
+    <span style="display:inline-block;margin-left:8px;padding:2px 10px;border:1px solid ${COLORI.line};border-radius:999px;background:${COLORI.panel2};color:${COLORI.inkDim};font-family:${FONT_MONO};font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;vertical-align:1px;">${escapeHtml(label)}</span>`;
+
+  return `
+  <tr>
+    <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.muted};font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:${FONT_MONO};vertical-align:top;width:130px;">
+      ${escapeHtml(label)}
+    </td>
+    <td style="padding:10px 0;border-bottom:1px solid ${COLORI.line};color:${COLORI.ink};font-size:15px;">
+      ${contenuto}
+    </td>
+  </tr>`;
+}
+
 // ============================================================
 // LAYOUT BASE — replica header/panel/footer del sito
 // ============================================================
@@ -173,10 +211,11 @@ function templateAzienda({
   nomeCompleto,
   email,
   telefono,
+  nazione,
+  tipoTelefono,
   servizio,
   messaggio,
 }) {
-  const telFormattato = formatTelefono(telefono);
 
   const corpo = `
     <p style="margin:0 0 20px;color:${COLORI.inkDim};">
@@ -186,7 +225,7 @@ function templateAzienda({
     <table style="width:100%;border-collapse:collapse;">
       ${rigaDato("Nome", nomeCompleto)}
       ${rigaDato("Email", email, `mailto:${email}`)}
-      ${telefono ? rigaDato("Telefono", telFormattato, `tel:${telHref(telefono)}`) : ""}
+      ${rigaTelefono({ telefono, nazione, tipoTelefono })}
       ${rigaDato("Servizio", servizio)}
     </table>
 
@@ -218,12 +257,13 @@ function templateCliente({
   nome,
   email,
   telefono,
+  nazione,
+  tipoTelefono,
   servizio,
   messaggio,
 }) {
   const nomeVisualizzato = nomeCompleto || nome || "";
   const primoNome = nomeVisualizzato.split(" ")[0] || nomeVisualizzato;
-  const telFormattato = formatTelefono(telefono);
 
   const corpo = `
     <p style="margin:0 0 16px;color:${COLORI.ink};">
@@ -243,7 +283,7 @@ function templateCliente({
       <table style="width:100%;border-collapse:collapse;">
         ${rigaDato("Nome", nomeVisualizzato)}
         ${rigaDato("Email", email, `mailto:${email}`)}
-        ${telefono ? rigaDato("Telefono", telFormattato, `tel:${telHref(telefono)}`) : ""}
+        ${rigaTelefono({ telefono, nazione, tipoTelefono })}
         ${servizio ? rigaDato("Servizio", servizio) : ""}
       </table>
       ${
@@ -282,4 +322,10 @@ function templateCliente({
   });
 }
 
-module.exports = { templateAzienda, templateCliente, formatTelefono };
+module.exports = {
+  templateAzienda,
+  templateCliente,
+  formatTelefono,
+  flagEmailHtml,
+  labelTipoTelefono,
+};

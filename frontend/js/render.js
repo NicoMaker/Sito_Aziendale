@@ -65,6 +65,9 @@ function renderServizi(dati) {
 }
 
 // ── Progetti ─────────────────────────────────────────────────
+// Ogni card ha un pulsante "+" (stesso linguaggio visivo delle FAQ):
+// cliccandolo si apre il pannello con TUTTE le informazioni del
+// progetto — dettagli, tecnologie e i pulsanti "Apri" / "Codice".
 function renderProgetti(dati) {
   const grid = document.getElementById("progetti-grid");
   const titolo = document.getElementById("progetti-titolo");
@@ -76,17 +79,23 @@ function renderProgetti(dati) {
 
   grid.innerHTML = (dati.progetti || [])
     .map((p, i) => {
-      const apribile = isUrlValida(p.link);
-      const tag = apribile ? "a" : "article";
-      const attrLink = apribile
-        ? ` href="${p.link}" target="_blank" rel="noopener" aria-label="Apri il progetto ${p.titolo}"`
-        : "";
+      const linkValido = isUrlValida(p.link);
+      const codiceValido = isUrlValida(p.codice);
+      const isBehance = linkValido && /behance\.net/i.test(p.link);
+
+      // Testo del pulsante principale in base al tipo di progetto
+      const labelLink = isBehance ? "Guarda su Behance" : "Apri il sito";
+
+      const testoRicerca =
+        `${p.titolo} ${p.categoria || ""} ${p.descrizione || ""} ` +
+        `${(p.dettagli || []).join(" ")} ${(p.tecnologie || []).join(" ")} ${p.anno || ""}`;
+
       return `
-      <${tag}
+      <article
         class="progetto-card reveal reveal-delay-${i % 3}"
         style="--card-accent:${p.colore || "var(--accent)"}"
         data-cat="${p.categoria || ""}"
-        data-search="${`${p.titolo} ${p.descrizione || ""} ${(p.tecnologie || []).join(" ")}`.replace(/"/g, "&quot;").toLowerCase()}"${attrLink}
+        data-search="${testoRicerca.replace(/"/g, "&quot;").toLowerCase()}"
       >
         <div class="progetto-media">
           <img
@@ -103,21 +112,79 @@ function renderProgetti(dati) {
           </div>
           <h3>${p.titolo}</h3>
           <p>${p.descrizione || ""}</p>
-          <div class="progetto-footer">
-            ${
-              p.tecnologie && p.tecnologie.length
-                ? `<div class="progetto-tags">${p.tecnologie
-                    .map((t) => `<span class="tag">${t}</span>`)
-                    .join("")}</div>`
-                : "<span></span>"
-            }
-            <br>
-            ${apribile ? `<span class="project-link-btn">Apri ${p.categoria || "progetto"} ${SVG_EXTERNAL}</span>` : ""}
+
+          ${
+            linkValido || codiceValido
+              ? `<div class="progetto-actions">
+                  ${
+                    linkValido
+                      ? `<a class="project-link-btn primario" href="${p.link}" target="_blank" rel="noopener" aria-label="${labelLink}: ${p.titolo}">${labelLink} ${SVG_EXTERNAL}</a>`
+                      : ""
+                  }
+                  ${
+                    codiceValido
+                      ? `<a class="project-link-btn" href="${p.codice}" target="_blank" rel="noopener" aria-label="Codice sorgente di ${p.titolo} su GitHub">Codice su GitHub ${SVG_EXTERNAL}</a>`
+                      : ""
+                  }
+                </div>`
+              : ""
+          }
+
+          <button
+            type="button"
+            class="progetto-toggle"
+            aria-expanded="false"
+            aria-controls="progetto-extra-${p.id || i}"
+          >
+            <span class="progetto-toggle-label">Più informazioni</span>
+            <span class="progetto-plus" aria-hidden="true">+</span>
+          </button>
+
+          <div class="progetto-extra" id="progetto-extra-${p.id || i}">
+            <div class="progetto-extra-inner">
+              ${
+                p.dettagli && p.dettagli.length
+                  ? `<ul class="progetto-dettagli">
+                      ${p.dettagli.map((d) => `<li>${d}</li>`).join("")}
+                    </ul>`
+                  : ""
+              }
+              ${
+                p.tecnologie && p.tecnologie.length
+                  ? `<div class="progetto-tags">
+                      ${p.tecnologie.map((t) => `<span class="tag">${t}</span>`).join("")}
+                    </div>`
+                  : ""
+              }
+            </div>
           </div>
         </div>
-      </${tag}>`;
+      </article>`;
     })
     .join("");
+
+  initProgettiToggle(grid);
+}
+
+// Apertura/chiusura del pannello "Più informazioni" (delegazione:
+// funziona anche se le card vengono rigenerate). Il "+" ruota a "×"
+// come nelle FAQ; ogni card si apre/chiude in modo indipendente.
+function initProgettiToggle(grid) {
+  if (grid.dataset.toggleInit) return;
+  grid.dataset.toggleInit = "true";
+
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".progetto-toggle");
+    if (!btn || !grid.contains(btn)) return;
+
+    const card = btn.closest(".progetto-card, .project-card");
+    if (!card) return;
+    const aperta = card.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(aperta));
+    btn.querySelector(".progetto-toggle-label").textContent = aperta
+      ? "Meno informazioni"
+      : "Più informazioni";
+  });
 }
 
 function isUrlValida(link) {

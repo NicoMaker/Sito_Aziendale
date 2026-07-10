@@ -141,7 +141,12 @@ const FormContatti = {
       email: this.form.elements.email.value.trim(),
       telefono: PhoneInput.getFullNumber(),
       prefisso: PhoneInput.paese.dial,
-      nazione: PhoneInput.paese.iso,
+      // Il numero fisso non ha una nazione selezionabile: essendo un
+      // numero di rete fissa italiano, la bandiera mostrata è quella IT.
+      nazione: PhoneInput.modalita === "fisso" ? "IT" : PhoneInput.paese.iso,
+      // "mobile" | "fisso" — serve al backend per scrivere nell'email
+      // "Cellulare" oppure "Telefono fisso" accanto alla bandiera.
+      tipoTelefono: PhoneInput.modalita,
       servizio: this.form.elements.servizio.value,
       messaggio: this.form.elements.messaggio.value.trim(),
     };

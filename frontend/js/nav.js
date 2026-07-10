@@ -9,8 +9,16 @@
 // dinamici (marquee, grid, ecc.) abbiano la loro altezza definitiva, e la
 // pagina finisce per mostrare la sezione sbagliata. Richiamando questa
 // funzione a rendering completato correggiamo la posizione.
+//
+// IMPORTANTE: memorizziamo l'hash di arrivo SUBITO, al caricamento dello
+// script. Lo scrollspy più sotto riscrive l'URL con la sezione corrente
+// (all'apertura = #home, perché lo scroll è a zero) e cancellerebbe la
+// destinazione richiesta: senza questa variabile, qualsiasi link tipo
+// index.html#progetti finiva sempre in cima alla home.
+const HASH_DESTINAZIONE = window.location.hash;
+
 function scrollToCurrentHash() {
-  const hash = window.location.hash;
+  const hash = HASH_DESTINAZIONE || window.location.hash;
   if (!hash || hash.length < 2) return;
   let target;
   try {
@@ -98,6 +106,10 @@ function initNav() {
 
     let ticking = false;
     let hashCorrente = null;
+    // Finché l'utente non scrolla davvero, NON riscriviamo l'URL:
+    // all'apertura la pagina è ancora in alto e lo scrollspy
+    // sostituirebbe l'ancora richiesta (es. #progetti) con #home.
+    let utenteHaScrollato = false;
     const aggiornaSezioneAttiva = () => {
       ticking = false;
       const refY = getReferenceY();
@@ -124,7 +136,7 @@ function initNav() {
       // Usiamo history.replaceState (non location.hash) così il
       // browser NON riscrolla la pagina e non si riempie la
       // cronologia di un passaggio per ogni sezione attraversata.
-      if (corrente && corrente !== hashCorrente) {
+      if (utenteHaScrollato && corrente && corrente !== hashCorrente) {
         hashCorrente = corrente;
         try {
           history.replaceState(null, "", "#" + corrente);
@@ -137,6 +149,7 @@ function initNav() {
     window.addEventListener(
       "scroll",
       () => {
+        utenteHaScrollato = true;
         if (!ticking) {
           ticking = true;
           requestAnimationFrame(aggiornaSezioneAttiva);

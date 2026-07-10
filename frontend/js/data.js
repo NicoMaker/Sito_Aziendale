@@ -4,7 +4,10 @@
 
 const SiteData = {
   async load(nome) {
-    const res = await fetch(`data/${nome}.json`);
+    // "no-cache" obbliga il browser a rivalidare il file col server:
+    // se i JSON vengono aggiornati (progetti, servizi, ecc.) le pagine
+    // mostrano subito i dati nuovi invece di una copia vecchia in cache.
+    const res = await fetch(`data/${nome}.json`, { cache: "no-cache" });
     if (!res.ok)
       throw new Error(
         `Impossibile caricare data/${nome}.json (HTTP ${res.status})`,

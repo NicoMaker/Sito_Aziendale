@@ -842,11 +842,11 @@ button {
   color: var(--accent-2);
   padding-top: 10px;
 }
-.servizio-cta::after {
-  content: "→";
+/* Una sola freccia: quella SVG già nel markup (niente ::after "→"). */
+.servizio-cta svg {
   transition: transform 0.25s var(--ease);
 }
-.servizio-card:hover .servizio-cta::after {
+.servizio-card:hover .servizio-cta svg {
   transform: translateX(5px);
 }
 
@@ -1074,6 +1074,124 @@ button {
   border-color: var(--accent);
   color: var(--accent-2);
   background: rgba(var(--accent-rgb), 0.07);
+}
+
+/* ── Pannello "Più informazioni" delle card progetto ────────
+   Stesso linguaggio delle FAQ: pulsante col "+" arancio che
+   ruota a "×" quando la card è aperta. */
+.progetto-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 12px 18px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+}
+.progetto-toggle:hover,
+.progetto-card.open .progetto-toggle,
+.project-card.open .progetto-toggle {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+.progetto-plus {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease);
+}
+.progetto-card.open .progetto-plus,
+.project-card.open .progetto-plus {
+  transform: rotate(45deg); /* + diventa × */
+}
+
+/* Apertura fluida senza altezze fisse (grid-rows 0fr → 1fr) */
+.progetto-extra {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.progetto-card.open .progetto-extra,
+.project-card.open .progetto-extra {
+  grid-template-rows: 1fr;
+}
+.progetto-extra-inner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.progetto-card.open .progetto-extra-inner,
+.project-card.open .progetto-extra-inner {
+  padding-top: 16px;
+}
+
+/* Elenco dettagli con spunta arancio, come .lista-check */
+.progetto-dettagli {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+.progetto-dettagli li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--ink-dim);
+  font-size: 0.92rem;
+}
+.progetto-dettagli li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.progetto-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.project-link-btn.primario {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.project-link-btn.primario:hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #fff;
 }
 
 /* ============================================================
@@ -1721,9 +1839,28 @@ button {
   transition: transform 0.3s var(--ease);
   flex-shrink: 0;
 }
+/* "+" moderno nel cerchio arancione, come le card progetto:
+   quando la FAQ è aperta ruota di 45° e diventa una "×". */
+.faq-plus {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease);
+}
 .faq-item.open .faq-icon,
 .faq-item.open .faq-arrow {
   transform: rotate(180deg);
+}
+.faq-item.open .faq-plus {
+  transform: rotate(45deg);
 }
 .faq-risposta,
 .faq-body {

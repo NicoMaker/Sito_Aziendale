@@ -9,6 +9,10 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 // Telefono internazionale: "+" seguito da 8–15 cifre (standard E.164)
 const PHONE_REGEX = /^\+\d{8,15}$/;
 
+// Telefono fisso (rete fissa italiana): il campo del form non aggiunge
+// il prefisso internazionale, quindi arrivano solo cifre (5–12).
+const PHONE_FISSO_REGEX = /^\d{5,12}$/;
+
 /**
  * Valida i campi del form contatti.
  * @param {Object} body - req.body
@@ -37,10 +41,18 @@ function validaForm(body) {
     errori.push("L'indirizzo email non è valido.");
   }
 
-  // ── Telefono: solo cifre con prefisso internazionale ──
+  // ── Telefono: solo cifre; con prefisso internazionale se cellulare ──
   if (body.telefono) {
     const telefono = String(body.telefono).replace(/\s/g, "");
-    if (!PHONE_REGEX.test(telefono)) {
+    const isFisso = body.tipoTelefono === "fisso";
+
+    if (isFisso) {
+      if (!PHONE_FISSO_REGEX.test(telefono)) {
+        errori.push(
+          "Il numero di telefono fisso non è valido: sono ammesse solo cifre (da 5 a 12).",
+        );
+      }
+    } else if (!PHONE_REGEX.test(telefono)) {
       errori.push(
         "Il numero di cellulare non è valido: sono ammesse solo cifre con prefisso internazionale (es. +39 339 1234567).",
       );
@@ -72,4 +84,10 @@ function escapeHtml(str) {
     .replace(/'/g, "&#39;");
 }
 
-module.exports = { validaForm, escapeHtml, EMAIL_REGEX, PHONE_REGEX };
+module.exports = {
+  validaForm,
+  escapeHtml,
+  EMAIL_REGEX,
+  PHONE_REGEX,
+  PHONE_FISSO_REGEX,
+};

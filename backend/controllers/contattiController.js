@@ -7,7 +7,16 @@ const config = require("../config");
 
 exports.inviaFormContatti = async (req, res) => {
   try {
-    const { nome, cognome, email, servizio, telefono, messaggio } = req.body;
+    const {
+      nome,
+      cognome,
+      email,
+      servizio,
+      telefono,
+      messaggio,
+      nazione,
+      tipoTelefono,
+    } = req.body;
 
     // 1. Validazione
     const errori = validaForm(req.body);
@@ -22,6 +31,14 @@ exports.inviaFormContatti = async (req, res) => {
       nomeCompleto,
       email: email.trim(),
       telefono: String(telefono).replace(/\s/g, ""),
+      // ISO 3166-1 alpha-2 della nazione del numero (es. "IT"): serve
+      // per mostrare la bandiera nell'email. Il fisso arriva già come "IT".
+      nazione: String(nazione || "")
+        .trim()
+        .toUpperCase()
+        .slice(0, 2),
+      // "fisso" | "mobile" → nell'email diventa "Telefono fisso" / "Cellulare"
+      tipoTelefono: tipoTelefono === "fisso" ? "fisso" : "mobile",
       servizio,
       messaggio: messaggio.trim(),
     };

@@ -4,71 +4,125 @@
   "progetti": [
     {
       "id": 1,
-      "titolo": "Arredo Casa Milano",
+      "titolo": "Macelleria da Ketti",
       "categoria": "Sito Web",
-      "descrizione": "E-commerce moderno per un'azienda di arredamento milanese. Design minimal, esperienza utente curata, integrazione con CRM.",
-      "tecnologie": ["HTML", "CSS", "JavaScript", "WooCommerce"],
-      "immagine": "img/progetti/progetto1.jpg",
-      "immagine_placeholder": "https://picsum.photos/seed/p1/600/400",
+      "descrizione": "Sito vetrina per una macelleria artigianale: presentazione dei prodotti, contatti e presenza online curata.",
+      "dettagli": [
+        "Design su misura per l'attività",
+        "Ottimizzato per mobile e ricerca locale",
+        "Sezioni prodotti e contatti sempre aggiornate"
+      ],
+      "tecnologie": ["HTML", "CSS", "JavaScript"],
+      "immagine": "Web_Site/Macelleria_da_Ketti.png",
+      "immagine_placeholder": "https://picsum.photos/seed/ketti/600/400",
       "anno": 2025,
-      "colore": "#1a6cff",
-      "link": "https://www.arredocasa-milano.it"
+      "colore": "#e85d1f",
+      "link": "https://macelleriadaketti.it/"
     },
     {
       "id": 2,
-      "titolo": "Studio Legale Ferrara",
-      "categoria": "Brand Identity",
-      "descrizione": "Identità visiva completa per uno studio legale: logo, palette, biglietti da visita, carta intestata e sito istituzionale.",
-      "tecnologie": ["Illustrator", "Figma", "WordPress"],
-      "immagine": "img/progetti/progetto2.jpg",
-      "immagine_placeholder": "https://picsum.photos/seed/p2/600/400",
+      "titolo": "IdeaLegno",
+      "categoria": "Sito Web",
+      "descrizione": "Sito istituzionale per un'azienda di lavorazione del legno in Friuli-Venezia Giulia: portfolio lavori e richiesta preventivi.",
+      "dettagli": [
+        "Galleria dei lavori realizzati",
+        "Modulo di contatto per preventivi",
+        "Immagine coordinata con il brand"
+      ],
+      "tecnologie": ["HTML", "CSS", "JavaScript"],
+      "immagine": "Web_Site/IDEALEGNO.jpg",
+      "immagine_placeholder": "https://picsum.photos/seed/idealegno/600/400",
       "anno": 2025,
-      "colore": "#0d3fa6"
+      "colore": "#c2470e",
+      "link": "https://idealegnofvg.com/"
     },
     {
       "id": 3,
-      "titolo": "FoodRunner App",
-      "categoria": "App Mobile",
-      "descrizione": "App di food delivery per un ristorante locale. Interfaccia intuitiva, sistema di ordini in tempo reale, pannello gestionale.",
-      "tecnologie": ["React Native", "Node.js", "Firebase"],
-      "immagine": "img/progetti/progetto3.jpg",
-      "immagine_placeholder": "https://picsum.photos/seed/p3/600/400",
-      "anno": 2024,
-      "colore": "#00b4d8"
+      "titolo": "Pagina Generale Siti",
+      "categoria": "Sito Web",
+      "descrizione": "Hub che raccoglie e presenta tutti i progetti web in un'unica pagina, con codice sorgente aperto su GitHub.",
+      "dettagli": [
+        "Raccolta centralizzata dei progetti",
+        "Deploy continuo su Netlify",
+        "Codice open source consultabile"
+      ],
+      "tecnologie": ["HTML", "CSS", "JavaScript", "Netlify"],
+      "immagine": "Web_Site/Pagina_Generale_Siti.jpg",
+      "immagine_placeholder": "https://picsum.photos/seed/paginagenerale/600/400",
+      "anno": 2025,
+      "colore": "#e85d1f",
+      "link": "https://paginageneralesiti.netlify.app/",
+      "codice": "https://github.com/NicoMaker/Pagina_Generale_Siti"
     },
     {
       "id": 4,
-      "titolo": "Clinica Benessere Verona",
+      "titolo": "Giri in Bici",
       "categoria": "Sito Web",
-      "descrizione": "Sito vetrina con sistema di prenotazione online, blog dedicato al benessere e ottimizzazione SEO locale.",
-      "tecnologie": ["WordPress", "SEO", "Google Ads"],
-      "immagine": "img/progetti/progetto4.jpg",
-      "immagine_placeholder": "https://picsum.photos/seed/p4/600/400",
-      "anno": 2024,
-      "colore": "#0077b6"
+      "descrizione": "Web app per raccontare e organizzare itinerari in bicicletta: percorsi, tappe e dettagli di ogni giro.",
+      "dettagli": [
+        "Schede percorso con tutti i dettagli",
+        "Interfaccia leggera e veloce",
+        "Codice open source su GitHub"
+      ],
+      "tecnologie": ["HTML", "CSS", "JavaScript", "Netlify"],
+      "immagine": "Web_Site/Giri_in_Bici.jpg",
+      "immagine_placeholder": "https://picsum.photos/seed/giribici/600/400",
+      "anno": 2025,
+      "colore": "#c2470e",
+      "link": "https://giri-in-bici.netlify.app/",
+      "codice": "https://github.com/NicoMaker/Giri-in-bici"
     },
     {
       "id": 5,
-      "titolo": "TechStart Venezia",
-      "categoria": "Brand Identity + Web",
-      "descrizione": "Startup tech: naming, brand identity da zero, pitch deck e landing page ad alto tasso di conversione.",
-      "tecnologie": ["Figma", "HTML", "GSAP", "Analytics"],
-      "immagine": "img/progetti/progetto5.jpg",
-      "immagine_placeholder": "https://picsum.photos/seed/p5/600/400",
+      "titolo": "Bottadiculo",
+      "categoria": "Brand Identity",
+      "descrizione": "Identità visiva completa per il brand Bottadiculo: logo, palette colori, tono di voce e applicazioni coordinate.",
+      "dettagli": [
+        "Progettazione del logo e delle sue varianti",
+        "Palette colori e sistema tipografico",
+        "Applicazioni del brand su materiali reali"
+      ],
+      "tecnologie": ["Illustrator", "Photoshop", "Behance"],
+      "immagine": "Web_Site/Bottadiculo.jpg",
+      "immagine_placeholder": "https://picsum.photos/seed/bottadiculo/600/400",
       "anno": 2025,
-      "colore": "#023e8a"
+      "colore": "#e85d1f",
+      "link": "https://www.behance.net/gallery/236998711/Bottadiculo-Brand-Identity"
     },
     {
       "id": 6,
-      "titolo": "Officina Meccanica Rossi",
-      "categoria": "Sito Web + Social",
-      "descrizione": "Presenza digitale completa per officina storica: sito, Google Business Profile, gestione social mensile.",
-      "tecnologie": ["WordPress", "Meta Ads", "Google Business"],
-      "immagine": "img/progetti/progetto6.jpg",
-      "immagine_placeholder": "https://picsum.photos/seed/p6/600/400",
+      "titolo": "SPAZIO — Illuminamente Magazine",
+      "categoria": "Tipografia",
+      "descrizione": "Progetto editoriale e tipografico per il magazine Illuminamente: griglie, gerarchie di testo e impaginazione.",
+      "dettagli": [
+        "Studio della griglia editoriale",
+        "Gerarchie tipografiche e leggibilità",
+        "Impaginazione completa del magazine"
+      ],
+      "tecnologie": ["InDesign", "Illustrator", "Behance"],
+      "immagine": "Web_Site/SPAZIO_Illuminamente.jpg",
+      "immagine_placeholder": "https://picsum.photos/seed/spazio/600/400",
+      "anno": 2025,
+      "colore": "#c2470e",
+      "link": "https://www.behance.net/gallery/249467217/SPAZIO-Illuminamente_magazine-design"
+    },
+    {
+      "id": 7,
+      "titolo": "NOVUS — Calendario 2024",
+      "categoria": "Grafica e Illustrazione",
+      "descrizione": "Calendario illustrato NOVUS 2024: dodici tavole originali tra grafica e illustrazione, dal concept alla stampa.",
+      "dettagli": [
+        "Dodici illustrazioni originali",
+        "Concept grafico coordinato",
+        "File pronti per la stampa"
+      ],
+      "tecnologie": ["Illustrator", "Photoshop", "Behance"],
+      "immagine": "Web_Site/NOVUS_Calendar.jpg",
+      "immagine_placeholder": "https://picsum.photos/seed/novus/600/400",
       "anno": 2024,
-      "colore": "#1a6cff"
+      "colore": "#e85d1f",
+      "link": "https://www.behance.net/gallery/242424703/NOVUS-2024-Calendar"
     }
   ],
-  "_istruzioni": "Il campo \"link\" deve essere un URL completo (https://...) del progetto online. Se non c'è ancora un link, lascialo vuoto (\"\") o null: il bottone \"Apri\" non verrà mostrato."
+  "_istruzioni": "\"link\" = URL completo del progetto (sito online o galleria Behance). \"codice\" = repository GitHub (facoltativo). \"dettagli\" = elenco puntato mostrato aprendo la card col \"+\". Le immagini vanno nella cartella Web_Site/: se mancano viene usato il placeholder."
 }

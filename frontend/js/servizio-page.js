@@ -41,8 +41,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("sd-desc").textContent = servizio.descrizione;
 
     const lista = document.getElementById("sd-lista");
+    // La classe va sull'UL: è il CSS (li::before) a disegnare la ✓
+    // arancione dentro il cerchio, allineata al testo.
+    lista.classList.add("lista-check");
     lista.innerHTML = (servizio.dettagli || [])
-      .map((d) => `<li><span class="lista-check">✓</span>${d}</li>`)
+      .map((d) => `<li>${d}</li>`)
       .join("");
 
     const faqWrap = document.getElementById("sd-faq");
@@ -52,10 +55,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           (f, i) => `
         <div class="faq-item">
           <button class="faq-toggle" aria-expanded="false" aria-controls="faq-body-${i}">
-            <span>${f.domanda}</span>
-            <span class="faq-arrow">+</span>
+            <span class="faq-label">${f.domanda}</span>
+            <span class="faq-plus" aria-hidden="true">+</span>
           </button>
-          <div class="faq-body" id="faq-body-${i}" hidden>
+          <div class="faq-body" id="faq-body-${i}">
             <p>${f.risposta}</p>
           </div>
         </div>
@@ -63,20 +66,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         )
         .join("");
 
+      // Il CSS espande .faq-body SOLO quando .faq-item ha la classe
+      // "open": è quella che va attivata/disattivata (il vecchio codice
+      // toglieva solo l'attributo hidden e la risposta restava invisibile).
+      // Una sola FAQ aperta alla volta; il "+" ruota a "×" via CSS.
       faqWrap.querySelectorAll(".faq-toggle").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const expanded = btn.getAttribute("aria-expanded") === "true";
-          faqWrap.querySelectorAll(".faq-toggle").forEach((b) => {
-            b.setAttribute("aria-expanded", "false");
-            b.querySelector(".faq-arrow").textContent = "+";
-            document.getElementById(b.getAttribute("aria-controls")).hidden =
-              true;
+          const item = btn.closest(".faq-item");
+          const eraAperta = item.classList.contains("open");
+
+          faqWrap.querySelectorAll(".faq-item").forEach((el) => {
+            el.classList.remove("open");
+            el.querySelector(".faq-toggle").setAttribute(
+              "aria-expanded",
+              "false",
+            );
           });
-          if (!expanded) {
+
+          if (!eraAperta) {
+            item.classList.add("open");
             btn.setAttribute("aria-expanded", "true");
-            btn.querySelector(".faq-arrow").textContent = "−";
-            document.getElementById(btn.getAttribute("aria-controls")).hidden =
-              false;
           }
         });
       });
@@ -85,36 +94,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // ── Progetti correlati ──────────────────────────────────
+    // SOLO i progetti delle categorie del servizio corrente:
+    // niente riempitivi di altre categorie. Se il servizio non ha
+    // progetti, l'intera sezione viene nascosta.
     const correlatiWrap = document.getElementById("sd-correlati-wrap");
     const correlatiGrid = document.getElementById("sd-correlati-grid");
-    let correlati =
+    const correlati =
       servizio.categorie_correlate && servizio.categorie_correlate.length
         ? progettiData.progetti.filter((p) =>
             servizio.categorie_correlate.includes(p.categoria),
           )
         : [];
 
-    if (!correlati.length) {
-      correlati = [...progettiData.progetti]
-        .sort((a, b) => b.anno - a.anno)
-        .slice(0, 3);
-    }
-
     if (correlati.length) {
       correlatiGrid.innerHTML = correlati
-        .map((p) => {
+        .map((p, i) => {
           const isPresetCat =
             servizio.categorie_correlate &&
             servizio.categorie_correlate.includes(p.categoria);
-          const apribile = isUrlValida(p.link);
-          const tag = apribile ? "a" : "div";
-          const attrLink = apribile
-            ? ` href="${p.link}" target="_blank" rel="noopener" aria-label="Apri il progetto ${p.titolo}"`
-            : "";
+          const linkValido = isUrlValida(p.link);
+          const codiceValido = isUrlValida(p.codice);
+          const isBehance = linkValido && /behance\.net/i.test(p.link);
+          const labelLink = isBehance ? "Guarda su Behance" : "Apri il sito";
+
+          const testoRicerca =
+            `${p.titolo} ${p.categoria || ""} ${p.descrizione || ""} ` +
+            `${(p.dettagli || []).join(" ")} ${(p.tecnologie || []).join(" ")} ${p.anno || ""}`;
+
           return `
-        <${tag} class="project-card" data-cat="${p.categoria}" data-search="${`${p.titolo} ${p.descrizione} ${(p.tecnologie || []).join(" ")}`.toLowerCase()}"${attrLink}>
+        <div class="project-card" data-cat="${p.categoria}" data-search="${testoRicerca.replace(/"/g, "&quot;").toLowerCase()}">
           <div class="project-img-wrap">
-            <img src="${p.immagine_placeholder}" alt="${p.titolo}" loading="lazy">
+            <img src="${p.immagine || p.immagine_placeholder}" alt="${p.titolo}" loading="lazy" onerror="this.onerror=null;this.src='${p.immagine_placeholder || ""}'">
             <div class="project-overlay"></div>
             ${isPresetCat ? "" : `<span class="project-tag">${p.categoria}</span>`}
           </div>
@@ -122,17 +132,59 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p class="project-anno">${p.anno}</p>
             <h3 class="project-title">${p.titolo}</h3>
             <p class="project-desc">${p.descrizione}</p>
-            <div class="project-card-footer">
-              <div class="project-tech">${(p.tecnologie || []).map((t) => `<span class="tech-tag">${t}</span>`).join("")}</div>
-              <br>
-              ${apribile ? `<span class="project-link-btn">Apri ${SVG_EXTERNAL}</span>` : ""}
+
+            ${
+              linkValido || codiceValido
+                ? `<div class="progetto-actions">
+                    ${
+                      linkValido
+                        ? `<a class="project-link-btn primario" href="${p.link}" target="_blank" rel="noopener" aria-label="${labelLink}: ${p.titolo}">${labelLink} ${SVG_EXTERNAL}</a>`
+                        : ""
+                    }
+                    ${
+                      codiceValido
+                        ? `<a class="project-link-btn" href="${p.codice}" target="_blank" rel="noopener" aria-label="Codice sorgente di ${p.titolo} su GitHub">Codice su GitHub ${SVG_EXTERNAL}</a>`
+                        : ""
+                    }
+                  </div>`
+                : ""
+            }
+
+            <button
+              type="button"
+              class="progetto-toggle"
+              aria-expanded="false"
+              aria-controls="correlato-extra-${p.id || i}"
+            >
+              <span class="progetto-toggle-label">Più informazioni</span>
+              <span class="progetto-plus" aria-hidden="true">+</span>
+            </button>
+
+            <div class="progetto-extra" id="correlato-extra-${p.id || i}">
+              <div class="progetto-extra-inner">
+                ${
+                  p.dettagli && p.dettagli.length
+                    ? `<ul class="progetto-dettagli">
+                        ${p.dettagli.map((d) => `<li>${d}</li>`).join("")}
+                      </ul>`
+                    : ""
+                }
+                ${
+                  p.tecnologie && p.tecnologie.length
+                    ? `<div class="project-tech">${p.tecnologie.map((t) => `<span class="tech-tag">${t}</span>`).join("")}</div>`
+                    : ""
+                }
+              </div>
             </div>
           </div>
-        </${tag}>
+        </div>
       `;
         })
         .join("");
       correlatiWrap.style.display = "";
+
+      // Stesso comportamento del "+" della home (definito in render.js)
+      initProgettiToggle(correlatiGrid);
 
       initFilterGrid({
         grid: correlatiGrid,
