@@ -33,8 +33,14 @@
         }
       ],
       "colore": "#ef3e36",
-      "categorie_correlate": ["Sito Web"],
-      "correlati": ["marketing-digitale", "grafica-stampa", "consulenza-it"]
+      "categorie_correlate": [
+        "Sito Web"
+      ],
+      "correlati": [
+        "marketing-digitale",
+        "grafica-stampa",
+        "consulenza-it"
+      ]
     },
     {
       "id": 2,
@@ -67,8 +73,14 @@
         }
       ],
       "colore": "#0a0a0a",
-      "categorie_correlate": ["Brand Identity"],
-      "correlati": ["grafica-stampa", "siti-web", "marketing-digitale"]
+      "categorie_correlate": [
+        "Brand Identity"
+      ],
+      "correlati": [
+        "grafica-stampa",
+        "siti-web",
+        "marketing-digitale"
+      ]
     },
     {
       "id": 3,
@@ -101,7 +113,11 @@
       ],
       "colore": "#ef3e36",
       "categorie_correlate": [],
-      "correlati": ["siti-web", "consulenza-it", "marketing-digitale"]
+      "correlati": [
+        "siti-web",
+        "consulenza-it",
+        "marketing-digitale"
+      ]
     },
     {
       "id": 4,
@@ -135,7 +151,11 @@
       ],
       "colore": "#0a0a0a",
       "categorie_correlate": [],
-      "correlati": ["siti-web", "brand-identity", "grafica-stampa"]
+      "correlati": [
+        "siti-web",
+        "brand-identity",
+        "grafica-stampa"
+      ]
     },
     {
       "id": 5,
@@ -168,8 +188,15 @@
         }
       ],
       "colore": "#ef3e36",
-      "categorie_correlate": ["Grafica e Illustrazione", "Tipografia"],
-      "correlati": ["brand-identity", "siti-web", "marketing-digitale"]
+      "categorie_correlate": [
+        "Grafica e Illustrazione",
+        "Tipografia"
+      ],
+      "correlati": [
+        "brand-identity",
+        "siti-web",
+        "marketing-digitale"
+      ]
     },
     {
       "id": 6,
@@ -203,7 +230,11 @@
       ],
       "colore": "#0a0a0a",
       "categorie_correlate": [],
-      "correlati": ["app-software", "siti-web", "brand-identity"]
+      "correlati": [
+        "app-software",
+        "siti-web",
+        "brand-identity"
+      ]
     }
   ]
 }

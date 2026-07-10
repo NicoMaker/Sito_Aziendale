@@ -21,7 +21,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/style.css?v=6" />
+    <link rel="stylesheet" href="css/style.css?v=5" />
     <link rel="icon" type="image/png" href="img/Logo.png" />
   </head>
   <body>
@@ -103,31 +103,13 @@
 
           <!-- Contenuto servizio (popolato via JS) -->
           <div id="sd-content" style="display: none">
-            <!-- HERO: immagine a sinistra, testo a destra -->
-            <div class="servizio-hero reveal">
-              <div class="servizio-hero-image" id="sd-hero-image">
-                <img
-                  src=""
-                  alt=""
-                  id="sd-hero-img"
-                  loading="lazy"
-                  onerror="
-                    this.style.display = 'none';
-                    document.getElementById('sd-hero-fallback').style.display =
-                      'grid';
-                  "
-                />
-                <div class="servizio-hero-fallback" id="sd-hero-fallback">
-                  <span class="material-icons">business</span>
-                </div>
-              </div>
-              <div class="servizio-hero-content">
-                <h1 class="servizio-hero-title" id="sd-title"></h1>
-                <p class="servizio-hero-desc" id="sd-desc"></p>
+            <div class="servizio-detail-header reveal">
+              <div class="servizio-detail-icon" id="sd-icon"></div>
+              <div>
+                <h2 class="servizio-detail-title" id="sd-title"></h2>
+                <p class="servizio-detail-sub" id="sd-desc"></p>
               </div>
             </div>
-
-            <!-- Corpo: lista + FAQ affiancate -->
             <div class="servizio-detail-body">
               <div class="servizio-detail-lista reveal">
                 <h3>Cosa include</h3>
@@ -139,7 +121,6 @@
               </div>
             </div>
 
-            <!-- CTA -->
             <div class="servizio-detail-cta reveal">
               <p>Hai bisogno di questo servizio?</p>
               <a href="#contatti-form-servizio" class="btn btn-primary"
@@ -231,7 +212,166 @@
                   class="form-contatti reveal"
                   novalidate
                 >
-                  <!-- ... form fields ... -->
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label for="f-nome">Nome *</label>
+                      <input
+                        type="text"
+                        id="f-nome"
+                        name="nome"
+                        autocomplete="given-name"
+                        required
+                        placeholder="nome"
+                      />
+                      <span class="field-error" data-error-for="nome"></span>
+                    </div>
+                    <div class="form-field">
+                      <label for="f-cognome">Cognome *</label>
+                      <input
+                        type="text"
+                        id="f-cognome"
+                        name="cognome"
+                        autocomplete="family-name"
+                        required
+                        placeholder="cognome"
+                      />
+                      <span class="field-error" data-error-for="cognome"></span>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label for="f-email">Email *</label>
+                      <input
+                        type="email"
+                        id="f-email"
+                        name="email"
+                        autocomplete="email"
+                        inputmode="email"
+                        placeholder="nome@esempio.it"
+                        required
+                      />
+                      <span class="field-error" data-error-for="email"></span>
+                    </div>
+
+                    <div class="form-field">
+                      <div class="phone-label-row">
+                        <label for="f-telefono" id="phone-label"
+                          >Cellulare *</label
+                        >
+                        <button
+                          type="button"
+                          class="phone-type-link"
+                          id="phone-type-link"
+                          data-tipo="mobile"
+                        >
+                          Non hai un cellulare? Usa un fisso
+                        </button>
+                      </div>
+                      <div class="phone-field" id="phone-field">
+                        <button
+                          type="button"
+                          class="phone-country"
+                          id="phone-country-btn"
+                          aria-haspopup="listbox"
+                          aria-expanded="false"
+                          aria-label="Seleziona prefisso internazionale"
+                        >
+                          <span class="phone-flag" id="phone-flag"
+                            ><img
+                              src="https://flagcdn.com/it.svg"
+                              alt="IT"
+                              class="flag-icon"
+                              width="20"
+                              height="15"
+                          /></span>
+                          <span class="phone-dial" id="phone-dial">+39</span>
+                          <span class="phone-caret" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="phone-dropdown" id="phone-dropdown">
+                          <div class="phone-dropdown-search">
+                            <input
+                              type="text"
+                              id="phone-search"
+                              placeholder="Cerca nazione o prefisso…"
+                              autocomplete="off"
+                              aria-label="Cerca nazione o prefisso"
+                            />
+                          </div>
+                          <ul
+                            class="phone-dropdown-list"
+                            id="phone-dropdown-list"
+                            role="listbox"
+                            tabindex="-1"
+                          ></ul>
+                          <p
+                            class="phone-dropdown-empty"
+                            id="phone-dropdown-empty"
+                            style="display: none"
+                          >
+                            Nessuna nazione trovata.
+                          </p>
+                        </div>
+                        <input
+                          type="tel"
+                          id="f-telefono"
+                          name="telefono"
+                          autocomplete="tel-national"
+                          inputmode="numeric"
+                          placeholder="333 123 4567"
+                          required
+                        />
+                      </div>
+                      <span
+                        class="field-error"
+                        data-error-for="telefono"
+                      ></span>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="f-servizio">Servizio desiderato *</label>
+                    <select id="f-servizio" name="servizio" required>
+                      <option value="" disabled selected>
+                        Scegli un servizio…
+                      </option>
+                    </select>
+                    <span class="field-error" data-error-for="servizio"></span>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="f-messaggio">Messaggio *</label>
+                    <textarea
+                      id="f-messaggio"
+                      name="messaggio"
+                      rows="5"
+                      placeholder="Descrivi il progetto: obiettivi, tempistiche, budget indicativo…"
+                      required
+                    ></textarea>
+                    <span class="field-error" data-error-for="messaggio"></span>
+                  </div>
+
+                  <div class="form-footer">
+                    <p class="form-privacy">
+                      Inviando accetti che i tuoi dati vengano usati solo per
+                      risponderti. Nessuna newsletter, promesso.
+                    </p>
+                    <button
+                      type="submit"
+                      class="btn btn-primary btn-submit"
+                      id="btn-invia"
+                    >
+                      <span class="btn-label">Invia la richiesta</span>
+                      <span class="btn-spinner" aria-hidden="true"></span>
+                    </button>
+                  </div>
+
+                  <div
+                    class="form-esito"
+                    id="form-esito"
+                    role="status"
+                    aria-live="polite"
+                  ></div>
                 </form>
               </div>
             </section>
@@ -253,8 +393,7 @@
             <img src="img/Logo.png" alt="T‑DS Agency" class="nav-logo-img" />
           </a>
           <p class="footer-copy">
-            © <span id="current-year"></span> T‑DS Studio – Agenzia di
-            Comunicazione.
+            © <span id="current-year"></span> T‑DS Studio – Agenzia di Comunicazione.
           </p>
           <div class="footer-social" id="footer-social"></div>
         </div>
@@ -262,13 +401,13 @@
     </footer>
 
     <!-- ── Script frontend ── -->
-    <script src="js/data.js?v=6"></script>
-    <script src="js/nav.js?v=6"></script>
-    <script src="js/animations.js?v=6"></script>
-    <script src="js/render.js?v=6"></script>
-    <script src="js/progetti-filter.js?v=6"></script>
-    <script src="js/phone-input.js?v=6"></script>
-    <script src="js/form.js?v=6"></script>
-    <script src="js/servizio-page.js?v=6"></script>
+    <script src="js/data.js?v=5"></script>
+    <script src="js/nav.js?v=5"></script>
+    <script src="js/animations.js?v=5"></script>
+    <script src="js/render.js?v=5"></script>
+    <script src="js/progetti-filter.js?v=5"></script>
+    <script src="js/phone-input.js?v=5"></script>
+    <script src="js/form.js?v=5"></script>
+    <script src="js/servizio-page.js?v=5"></script>
   </body>
 </html>
