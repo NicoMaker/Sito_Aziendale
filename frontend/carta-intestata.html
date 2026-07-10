@@ -17,8 +17,7 @@
       /* ============================================================
          Carta intestata T-DS studio — stile brand
          Bianco · nero · rosso #EF3E36 (quadratini rossi a margine)
-         Il testo è modificabile direttamente: clicca e scrivi,
-         poi stampa (Ctrl/Cmd + P) o salva come PDF.
+         Tutto il contenuto testuale è modificabile cliccandoci sopra.
          ============================================================ */
       :root {
         --rosso: #ef3e36;
@@ -51,28 +50,24 @@
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
         display: flex;
         flex-direction: column;
+        outline: 2px dashed transparent;
+        transition: outline 0.2s;
+      }
+      .foglio:focus-within {
+        outline-color: var(--rosso);
       }
 
-      /* ── Intestazione: wordmark T-DS studio ── */
+      /* ── Intestazione: logo T-DS studio ── */
       .intestazione {
         display: flex;
-        align-items: baseline;
-        gap: 6px;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 18mm;
       }
-      .wordmark {
-        font-size: 54px;
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 1;
-        color: var(--nero);
-      }
-      .wordmark .studio {
-        font-size: 20px;
-        font-weight: 700;
-        letter-spacing: 0;
-        color: var(--rosso);
-        margin-left: 4px;
+      .intestazione .logo-img {
+        height: 52px;
+        width: auto;
+        display: block;
       }
 
       /* ── Meta documento (data, destinatario, oggetto) ── */
@@ -140,17 +135,10 @@
         color: var(--grigio);
         letter-spacing: 0.04em;
       }
-      .pie .brand-mini {
-        font-weight: 800;
-        color: var(--nero);
-        font-size: 12px;
-        letter-spacing: -0.02em;
-        white-space: nowrap;
-      }
-      .pie .brand-mini span {
-        color: var(--rosso);
-        font-size: 9px;
-        font-weight: 700;
+      .pie .logo-mini {
+        height: 28px;
+        width: auto;
+        display: block;
       }
       .pie .quadratino {
         width: 8px;
@@ -202,6 +190,7 @@
           box-shadow: none;
           width: auto;
           min-height: auto;
+          outline: none;
         }
         .toolbar {
           display: none;
@@ -217,27 +206,31 @@
           min-height: auto;
           padding: 28px 22px;
         }
-        .wordmark {
-          font-size: 40px;
+        .intestazione .logo-img {
+          height: 40px;
+        }
+        .pie .logo-mini {
+          height: 22px;
         }
       }
     </style>
   </head>
   <body>
     <div class="toolbar">
-      <p>✏️ Il testo è modificabile: clicca su un paragrafo e scrivi.</p>
+      <p>✏️ Clicca su qualsiasi testo per modificarlo.</p>
       <button class="secondario" onclick="location.reload()">Ripristina</button>
       <button onclick="window.print()">Stampa / Salva PDF</button>
     </div>
 
-    <div class="foglio">
-      <!-- Wordmark brand -->
+    <!-- RENDIAMO TUTTO IL FOGLIO MODIFICABILE -->
+    <div class="foglio" contenteditable="true">
+      <!-- Logo brand -->
       <header class="intestazione">
-        <div class="wordmark">T-DS<span class="studio">studio</span></div>
+        <img src="img/Logo.png" alt="T-DS studio" class="logo-img" />
       </header>
 
       <!-- Dati documento -->
-      <div class="meta" contenteditable="true" spellcheck="false">
+      <div class="meta">
         <div><strong>Data:</strong> Spinea, __ / __ / ____</div>
         <div><strong>Destinatario:</strong> Nome Cognome / Azienda</div>
         <div><strong>Oggetto:</strong> Oggetto del documento</div>
@@ -245,34 +238,34 @@
 
       <!-- Corpo -->
       <main class="corpo">
-        <p class="paragrafo" contenteditable="true">
+        <p class="paragrafo">
           Gentile Cliente, con la presente desideriamo fornirle tutte le
           informazioni relative al progetto in oggetto. Il nostro team ha
           analizzato le esigenze espresse durante il primo incontro e ha
           definito una proposta operativa completa, con tempistiche, fasi di
           lavoro e obiettivi misurabili.
         </p>
-        <p class="paragrafo" contenteditable="true">
+        <p class="paragrafo">
           Restiamo a disposizione per qualsiasi chiarimento e per fissare un
           appuntamento di approfondimento. Tutti i dettagli tecnici ed
           economici sono riportati nei documenti allegati, che la invitiamo a
           leggere con attenzione prima della firma.
         </p>
-        <p class="paragrafo" contenteditable="true">
+        <p class="paragrafo">
           La ringraziamo per la fiducia accordata a T-DS studio e le auguriamo
           una buona giornata.
         </p>
       </main>
 
       <!-- Firma -->
-      <div class="firma" contenteditable="true">
+      <div class="firma">
         Cordiali saluti,<br />
         <strong>T-DS studio</strong> — Informatica &amp; Grafica
       </div>
 
       <!-- Piè di pagina -->
       <footer class="pie">
-        <div class="brand-mini">T-DS <span>studio</span></div>
+        <img src="img/Logo.png" alt="T-DS studio" class="logo-mini" />
         <div>Informatica &amp; Grafica · Spinea (VE) · info@t-ds.it · www.t-ds.it</div>
         <div class="quadratino" aria-hidden="true"></div>
       </footer>
